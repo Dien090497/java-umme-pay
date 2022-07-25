@@ -10,4 +10,6 @@ public class InquiryCheckingResponse extends BaseResponseData {
 
     private String displayName;
 
+    private String actualAccount;
+
 }

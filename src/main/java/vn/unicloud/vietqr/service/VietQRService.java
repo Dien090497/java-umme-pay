@@ -18,6 +18,7 @@ import vn.unicloud.vietqr.model.TransactionCallback;
 import vn.unicloud.vietqr.repository.TransactionRepository;
 import vn.unicloud.vietqr.utils.CommonUtils;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
@@ -58,12 +59,14 @@ public class VietQRService {
             .isPrintReceipt(request.isPrintReceipt())
             .terminalLocation(normalizeTerminalLocation)
             .virtualAccount(virtualAccount)
+            .customerIdCardNo(request.getCustomerIdNumber())
+            .customerPhone(request.getCustomerPhone())
             .createDate(LocalDateTime.now())
             .timestamp(System.currentTimeMillis())
             .build();
         Transaction saved = transactionRepository.save(transaction);
 
-        return new CreateTransactionResponse(saved.getId(), timeout, qrCode, saved.getTerminalLocation());
+        return new CreateTransactionResponse(saved.getId(), timeout, qrCode, saved.getTerminalLocation(), saved.getVirtualAccount());
     }
 
     @SneakyThrows
@@ -79,6 +82,7 @@ public class VietQRService {
             transactionRepository.save(transaction);
             throw new InternalException(ResponseCode.VIETQR_TIMEOUT);
         }
+        long rest = timeout * 1000L - (Instant.now().getEpochSecond() * 1000 - transaction.getTimestamp());
         transaction.setStatus(TransactionStatus.WAITING);
         transactionRepository.save(transaction);
 
@@ -93,7 +97,7 @@ public class VietQRService {
         });
         callbackService.getHashMap().put(transaction.getId(), callback);
         log.info("Client waiting for payment...");
-        if (semaphore.tryAcquire(timeout * 1000L, TimeUnit.MILLISECONDS)) {
+        if (semaphore.tryAcquire(rest, TimeUnit.MILLISECONDS)) {
             log.warn("Callback signaled");
         }
         callback.deregisterEvent();
@@ -102,12 +106,18 @@ public class VietQRService {
             log.warn("Callback timeout");
             throw new InternalException(ResponseCode.VIETQR_TIMEOUT);
         }
-        if (message.getErrorCode() == ResponseCode.SUCCESS.getCode()) {
+        if (message.getStatus().equals(CallbackStatus.SUCCESS)) {
             log.info("Transaction successful: {}", message.getTraceId());
             return new CheckTransactionResponse(message.getTransactionId(), true, message.getTraceId());
+        } else if (message.getStatus().equals(CallbackStatus.CANCEL)) {
+            log.info("Transaction canceled");
+            throw new InternalException(ResponseCode.TRANSACTION_CANCELED);
+        } else if (message.getStatus().equals(CallbackStatus.INVALID_AMOUNT)) {
+            log.info("Invalid amount");
+            throw new InternalException(ResponseCode.INVALID_AMOUNT);
         }
         log.info("Transaction failed: {}", message.getTraceId());
-        return new CheckTransactionResponse(message.getTransactionId(), false, message.getTraceId());
+        throw new InternalException(ResponseCode.TRANSACTION_FAILED);
     }
 
     public Transaction findTransactionByVirtualAccount(String virtualAccount) {

@@ -14,9 +14,6 @@ public class CreateTransactionRequest extends BaseRequestData {
     private String terminalLocation;
 
     @NotEmpty
-    private String customerName;
-
-    @NotEmpty
     private String customerPhone;
 
     @NotEmpty

@@ -38,6 +38,12 @@ public class Transaction {
     @Field("virtual_account")
     private String virtualAccount;
 
+    @Field("customer_id_card_no")
+    private String customerIdCardNo;
+
+    @Field("customer_phone")
+    private String customerPhone;
+
     @Field("dispensed_notes")
     private DispensedNotes dispensedNotes;
 

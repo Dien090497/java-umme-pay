@@ -10,6 +10,8 @@ public class DepositCheckingResponse extends BaseResponseData {
 
     private String displayName;
 
+    private String actualAccount;
+
     private Long amount;
 
     private boolean isSuccess;

@@ -12,9 +12,21 @@ spring:
     exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
 
 vietqr:
-  prefix: 291098
+  prefix: 100001
   timeout: 120
   bin: 970452
+  actualAccount: 35474013
+
+soap:
+  uri:
+    inet: ${SOAP_URI_INET:https://api-core-staging.kienlongbank.com:8016/UATInetServiceV3/INetService.asmx}
+  part-one-hard-key: ${PART_ONE_HARD_KEY:39827c0591d8465fa0289992a5d12058}
+  part-two-access-key: ${PART_TWO_ACCESS_KEY:5E700084-D9C3-4817-8EFF-E557F8C03685}
+  access-key: ${ACCESS_KEY:5E700084-D9C3-4817-8EFF-E557F8C03685}
+  message-description: ${MESSAGE_QR_TRANSFER:Rut tien bang VietQR tai STM}
+  default-stm-id: 1514TM15
+  action:
+    stm-withdrawal: ${STM_WITHDRAWAL:http://tempuri.org/STM_WithDrawal}
 
 # ===============================
 # Keycloak Config

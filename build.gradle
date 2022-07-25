@@ -29,6 +29,30 @@ repositories {
     }
 }
 
+configurations {
+    jaxb
+}
+
+task generateJavaClasses {
+    System.setProperty('javax.xml.accessExternalSchema', 'all')
+    def jaxbTargetDir = file("src/main/java/")
+    doLast {
+        jaxbTargetDir.mkdirs()
+        ant.taskdef(
+                name: 'xjc',
+                classname: 'com.sun.tools.xjc.XJCTask',
+                classpath: configurations.jaxb.asPath
+        )
+        ant.jaxbTargetDir = jaxbTargetDir
+        ant.xjc(
+                destdir: '${jaxbTargetDir}',
+                package: 'vn.unicloud.vietqr.soap.inetservice.model',
+                schema: 'src/main/resources/INetService.wsdl',
+                language: 'WSDL'
+        )
+    }
+}
+
 dependencies {
     def springBootVersion = '2.1.8.RELEASE'
     def umeeCommonVersion = '1.0-SNAPSHOT'
@@ -81,6 +105,8 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation 'com.google.api-client:google-api-client:1.33.0'
 
+    implementation group: 'org.springframework.ws', name: 'spring-ws-core', version: '3.0.10.RELEASE'
+
     /**
      * Testing
      */
@@ -95,7 +121,17 @@ dependencies {
 
     implementation 'com.github.mvallim:emv-qrcode:0.1.2'
 
-//    implementation group: 'com.unicloud.umee', name: 'security', version: umeeCommonVersion, changing: true
+    implementation group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.1'
+    implementation group: 'org.glassfish.jaxb', name: 'jaxb-runtime', version: '2.3.1'
+
+    // https://mvnrepository.com/artifact/javax.xml.soap/javax.xml.soap-api
+    implementation group: 'javax.xml.soap', name: 'javax.xml.soap-api', version: '1.4.0'
+// https://mvnrepository.com/artifact/com.sun.xml.messaging.saaj/saaj-impl
+    implementation group: 'com.sun.xml.messaging.saaj', name: 'saaj-impl', version: '1.5.1'
+
+
+    jaxb "com.sun.xml.bind:jaxb-xjc:2.1.7"
+
 }
 
 tasks.named('test') {

@@ -29,6 +29,8 @@ public enum ResponseCode {
     INVALID_VIRTUAL_ACCOUNT(403, "Invalid virtual account"),
     INVALID_AMOUNT(404, "Invalid amount"),
     INVALID_TRANSACTION_STATE(405, "Invalid transaction state"),
+    TRANSACTION_CANCELED(406, "Canceled transaction"),
+    TRANSACTION_FAILED(407, "Transaction failed"),
     ;
 
     private final int code;
