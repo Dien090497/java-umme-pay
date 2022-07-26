@@ -8,7 +8,5 @@ import javax.validation.constraints.NotEmpty;
 @Data
 public class InquiryCheckingRequest extends BaseRequestData {
     @NotEmpty
-    private String cert;
-    @NotEmpty
     private String virtualAccount;
 }
