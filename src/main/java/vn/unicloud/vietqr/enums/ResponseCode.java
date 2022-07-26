@@ -31,6 +31,9 @@ public enum ResponseCode {
     INVALID_TRANSACTION_STATE(405, "Invalid transaction state"),
     TRANSACTION_CANCELED(406, "Canceled transaction"),
     TRANSACTION_FAILED(407, "Transaction failed"),
+
+    // Paygate
+    INVALID_CERTIFICATE(501, "Invalid certificate"),
     ;
 
     private final int code;

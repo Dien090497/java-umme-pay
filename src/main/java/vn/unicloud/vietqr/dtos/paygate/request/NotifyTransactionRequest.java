@@ -8,6 +8,9 @@ import javax.validation.constraints.NotEmpty;
 @Data
 public class NotifyTransactionRequest extends BaseRequestData {
     @NotEmpty
+    private String cert;
+
+    @NotEmpty
     private String virtualAccount;
 
     private boolean success = false;

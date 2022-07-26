@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
+import org.springframework.ws.transport.WebServiceMessageSender;
+import org.springframework.ws.transport.http.HttpComponentsMessageSender;
 import org.springframework.ws.transport.http.HttpUrlConnectionMessageSender;
 import vn.unicloud.vietqr.soap.client.StmSoapClient;
 
@@ -30,16 +32,19 @@ public class SoapConfig {
         client.setDefaultUri(soapUri + "?wsdl");
         client.setMarshaller(marshaller);
         client.setUnmarshaller(marshaller);
+        client.setMessageSender(webServiceMessageSender());
         return client;
     }
 
     @Bean
-    public HttpUrlConnectionMessageSender httpUrlConnectionMessageSender() {
-        HttpUrlConnectionMessageSender sender = new HttpUrlConnectionMessageSender();
-        Duration timeout = Duration.ofSeconds(60);
-        sender.setReadTimeout(timeout);
-        sender.setConnectionTimeout(timeout);
-        return sender;
+    public WebServiceMessageSender webServiceMessageSender() {
+        HttpComponentsMessageSender httpComponentsMessageSender = new HttpComponentsMessageSender();
+        // timeout for creating a connection
+        httpComponentsMessageSender.setConnectionTimeout(10000);
+        // when you have a connection, timeout the read blocks for
+        httpComponentsMessageSender.setReadTimeout(10000);
+
+        return httpComponentsMessageSender;
     }
 
     @Bean

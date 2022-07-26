@@ -11,6 +11,9 @@ import javax.validation.constraints.PositiveOrZero;
 public class DepositCheckingRequest extends BaseRequestData {
 
     @NotEmpty
+    private String cert;
+
+    @NotEmpty
     private String virtualAccount;
 
     @NotNull

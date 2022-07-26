@@ -99,14 +99,14 @@ public class PaygateService {
         Transaction transaction = this.getTransaction(request.getVirtualAccount());
         if (!Objects.equals(transaction.getAmount(), request.getAmount())) {
             log.error("Amount did not equal, required = {}, receive = {}", transaction.getAmount(), request.getAmount());
-            TransactionCallback callback = callbackService.getHashMap().get(transaction.getId());
+            TransactionCallback callback = callbackService.getHashMap().get(transaction.getId().toString());
             transaction.setStatus(TransactionStatus.INVALID_AMOUNT);
             transactionRepository.save(transaction);
             if (callback != null && callback.getEventListener() != null) {
                 log.debug("To be callback to listener");
                 callback.getEventListener().onEvent(
                     CallbackMessage.builder()
-                        .transactionId(transaction.getId())
+                        .transactionId(transaction.getId().toString())
                         .status(CallbackStatus.INVALID_AMOUNT)
                         .build()
                 );
@@ -140,7 +140,7 @@ public class PaygateService {
 
             @Override
             public void run() {
-                TransactionCallback callback = callbackService.getHashMap().get(transaction.getId());
+                TransactionCallback callback = callbackService.getHashMap().get(transaction.getId().toString());
                 if (callback == null) {
                     log.warn("Callback to client was null");
                     return;
@@ -155,7 +155,7 @@ public class PaygateService {
                         log.debug("To be callback to listener");
                         callback.getEventListener().onEvent(
                             CallbackMessage.builder()
-                                .transactionId(transaction.getId())
+                                .transactionId(transaction.getId().toString())
                                 .approvedCode(request.getApproveCode())
                                 .errorCode(Integer.parseInt(request.getStatusCode()))
                                 .status(CallbackStatus.ACCOUNTING_FAILED)
@@ -174,7 +174,7 @@ public class PaygateService {
                     log.debug("To be callback to listener");
                     callback.getEventListener().onEvent(
                         CallbackMessage.builder()
-                            .transactionId(transaction.getId())
+                            .transactionId(transaction.getId().toString())
                             .approvedCode(request.getApproveCode())
                             .errorCode(Integer.parseInt(request.getStatusCode()))
                             .status(CallbackStatus.SUCCESS)
@@ -191,7 +191,7 @@ public class PaygateService {
         return new NotifyTransactionResponse(true);
     }
 
-    private String callAccountingToTerminal(String terminalID, String accountNo, long amount) {
+    public String callAccountingToTerminal(String terminalID, String accountNo, long amount) {
         var stmWithDrawal = new STMWithDrawal();
         stmWithDrawal.setTerminalId(terminalID);
         stmWithDrawal.setAccountNo(accountNo);

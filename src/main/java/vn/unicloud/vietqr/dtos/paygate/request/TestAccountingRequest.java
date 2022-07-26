@@ -6,9 +6,12 @@ import vn.unicloud.vietqr.core.BaseRequestData;
 import javax.validation.constraints.NotEmpty;
 
 @Data
-public class InquiryCheckingRequest extends BaseRequestData {
-    @NotEmpty
-    private String cert;
-    @NotEmpty
-    private String virtualAccount;
+public class TestAccountingRequest extends BaseRequestData {
+
+    private String accountNo;
+
+    private Long amount;
+
+    private String terminalId;
+
 }

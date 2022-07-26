@@ -2,6 +2,7 @@ plugins {
     id 'org.springframework.boot' version '2.1.8.RELEASE'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
+    id "org.liquibase.gradle" version "2.0.4"
 }
 
 group = 'vn.unicloud'
@@ -56,16 +57,18 @@ task generateJavaClasses {
 dependencies {
     def springBootVersion = '2.1.8.RELEASE'
     def umeeCommonVersion = '1.0-SNAPSHOT'
+    def mysqlVersion = '8.0.27'
+    def hikariVersion = '5.0.0'
 
     /**
      * Spring boot
      */
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: springBootVersion
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-quartz', version: springBootVersion
-//    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: springBootVersion
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: springBootVersion
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: springBootVersion
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-aop', version: springBootVersion
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-mongodb', version: springBootVersion
+//    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-mongodb', version: springBootVersion
 //    implementation group: 'org.springframework.data', name: 'spring-data-redis', version: springBootVersion
 
     implementation 'org.springframework.boot:spring-boot-starter-security'
@@ -90,6 +93,13 @@ dependencies {
 
     // https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk
     implementation group: 'com.amazonaws', name: 'aws-java-sdk', version: '1.2.1'
+
+    /**
+     * Mysql
+     */
+    implementation group: 'mysql', name: 'mysql-connector-java', version: mysqlVersion
+    liquibaseRuntime group: 'mysql', name: 'mysql-connector-java', version: mysqlVersion
+    implementation group: 'com.zaxxer', name: 'HikariCP', version: hikariVersion
 
     /**
      * Open API

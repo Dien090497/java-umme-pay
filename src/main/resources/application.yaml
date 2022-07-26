@@ -3,19 +3,50 @@ server:
 
 #Local MongoDB Configuration
 spring:
-  data:
-    mongodb:
-      database: vietqr
-      host: 127.0.0.1
-      port: 27017
-  autoconfigure:
-    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+#  data:
+#    mongodb:
+#      database: ${MONGODB_DATABASE:vietqr}
+#      host: ${MONGODB_HOST:127.0.0.1}
+#      port: ${MONGODB_PORT:27017}
+#      username: ${
+#  autoconfigure:
+#    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+  liquibase:
+    enabled: true
+    drop-first: false
+    change-log: classpath:liquibase/master.xml
+    default-schema: ${LIQUIBASE_SCHEMA:vietqr}
+  datasource:
+    url: ${DATABASE_URL:jdbc:mysql://localhost:3306/vietqr}
+    username: ${DATABASE_USER:smarthome_dev}
+    password: ${DATABASE_PASSWORD:!Q2w3e4r5t@@@@!Q2w3e4r5t}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      pool-name: hikari-credit
+      auto-commit: true
+      data-source-properties:
+        cachePrepStmts: true
+        prepStmtCacheSize: 250
+        prepStmtCacheSqlLimit: 2048
+        useServerPrepStmts: true
+      minimum-idle: 3
+      maximum-pool-size: 20
+    type: com.zaxxer.hikari.HikariDataSource
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    properties:
+      hibernate.dialect: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: update
+      use-new-id-generator-mappings: false
 
 vietqr:
-  prefix: 100001
-  timeout: 120
-  bin: 970452
-  actualAccount: 35474013
+  prefix: ${VIETQR_PREFIX:100003}
+  timeout: ${VIETQR_TIMEOUT:120}
+  bin: ${VIETQR_BIN:970452}
+  actualAccount: ${VIETQR_ACTUAL_ACCOUNT:35474013}
+  paygate:
+    access: ${PAYGATE_BASIC_AUTHEN_RAW:unicloud:unicloud}
 
 soap:
   uri:

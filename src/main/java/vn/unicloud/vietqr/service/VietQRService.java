@@ -20,6 +20,7 @@ import vn.unicloud.vietqr.utils.CommonUtils;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.util.UUID;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
@@ -66,12 +67,12 @@ public class VietQRService {
             .build();
         Transaction saved = transactionRepository.save(transaction);
 
-        return new CreateTransactionResponse(saved.getId(), timeout, qrCode, saved.getTerminalLocation(), saved.getVirtualAccount());
+        return new CreateTransactionResponse(saved.getId().toString(), timeout, qrCode, saved.getTerminalLocation(), saved.getVirtualAccount());
     }
 
     @SneakyThrows
     public CheckTransactionResponse checkTransaction(CheckTransactionRequest request) {
-        Transaction transaction = transactionRepository.findById(request.getTransactionId()).orElse(null);
+        Transaction transaction = transactionRepository.findById(UUID.fromString(request.getTransactionId())).orElse(null);
         if (transaction == null) {
             log.error("Invalid Transaction Id");
             throw new InternalException(ResponseCode.INVALID_TRANSACTION_ID);
@@ -95,7 +96,7 @@ public class VietQRService {
             callbackMessageWrapper.set(message);
             semaphore.release();
         });
-        callbackService.getHashMap().put(transaction.getId(), callback);
+        callbackService.getHashMap().put(transaction.getId().toString(), callback);
         log.info("Client waiting for payment...");
         if (semaphore.tryAcquire(rest, TimeUnit.MILLISECONDS)) {
             log.warn("Callback signaled");
@@ -125,7 +126,7 @@ public class VietQRService {
     }
 
     public ConfirmTransactionResponse confirmTransaction(ConfirmTransactionRequest request) {
-        Transaction transaction = transactionRepository.findById(request.getTransactionId()).orElse(null);
+        Transaction transaction = transactionRepository.findById(UUID.fromString(request.getTransactionId())).orElse(null);
         if (transaction == null) {
             log.error("Invalid transaction");
             throw new InternalException(ResponseCode.INVALID_TRANSACTION_ID);
@@ -135,20 +136,16 @@ public class VietQRService {
             throw new InternalException(ResponseCode.INVALID_TRANSACTION_STATE);
         }
         transaction.setStatus(TransactionStatus.SUCCESS);
-        transaction.setDispensedNotes(
-            DispensedNotes.builder()
-                .note50(request.getNumNote50())
-                .note100(request.getNumNote100())
-                .note200(request.getNumNote200())
-                .note500(request.getNumNote500())
-                .build()
-        );
+        transaction.setDispensed50Notes(request.getNumNote50());
+        transaction.setDispensed100Notes(request.getNumNote100());
+        transaction.setDispensed200Notes(request.getNumNote200());
+        transaction.setDispensed500Notes(request.getNumNote500());
         transactionRepository.save(transaction);
         return new ConfirmTransactionResponse(true);
     }
 
     public RollbackTransactionResponse rollbackTransaction(RollbackTransactionRequest request) {
-        Transaction transaction = transactionRepository.findById(request.getTransactionId()).orElse(null);
+        Transaction transaction = transactionRepository.findById(UUID.fromString(request.getTransactionId())).orElse(null);
         if (transaction == null) {
             log.error("Invalid transaction");
             throw new InternalException(ResponseCode.INVALID_TRANSACTION_ID);
@@ -164,7 +161,7 @@ public class VietQRService {
     }
 
     public CancelTransactionResponse cancelTransaction(CancelTransactionRequest request) {
-        Transaction transaction = transactionRepository.findById(request.getTransactionId()).orElse(null);
+        Transaction transaction = transactionRepository.findById(UUID.fromString(request.getTransactionId())).orElse(null);
         if (transaction == null) {
             log.error("Invalid transaction");
             throw new InternalException(ResponseCode.INVALID_TRANSACTION_ID);
@@ -177,11 +174,11 @@ public class VietQRService {
         transaction.setStatus(TransactionStatus.CANCELED);
         transactionRepository.save(transaction);
 
-        TransactionCallback callback = callbackService.getHashMap().get(transaction.getId());
+        TransactionCallback callback = callbackService.getHashMap().get(transaction.getId().toString());
         if (callback != null && callback.getEventListener() != null) {
             callback.getEventListener().onEvent(
                 CallbackMessage.builder()
-                    .transactionId(transaction.getId())
+                    .transactionId(transaction.getId().toString())
                     .status(CallbackStatus.CANCEL)
                     .build()
             );

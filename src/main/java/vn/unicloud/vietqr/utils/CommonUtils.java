@@ -3,8 +3,11 @@ package vn.unicloud.vietqr.utils;
 import com.emv.qrcode.model.mpm.MerchantAccountInformationReservedAdditional;
 import com.emv.qrcode.model.mpm.MerchantAccountInformationTemplate;
 import com.emv.qrcode.model.mpm.MerchantPresentedMode;
+import org.keycloak.TokenVerifier;
+import org.keycloak.representations.AccessToken;
 
 import javax.crypto.spec.SecretKeySpec;
+import javax.servlet.http.HttpServletRequest;
 import java.security.Key;
 import java.security.SecureRandom;
 import java.time.Instant;
@@ -109,6 +112,31 @@ public class CommonUtils {
             return null;
         }
         return account.substring(0, 6);
+    }
+
+    public static AccessToken getAccessToken(HttpServletRequest request) {
+        try {
+            String authorization = request.getHeader("Authorization");
+            if (authorization != null) {
+                String accessToken = authorization.substring("Bearer ".length());
+                return TokenVerifier.create(accessToken, AccessToken.class).getToken();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String getBasicToken(HttpServletRequest request) {
+        try {
+            String authorization = request.getHeader("Authorization");
+            if (authorization != null) {
+                return authorization.substring("Basic ".length());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }
