@@ -134,59 +134,59 @@ public class PaygateService {
         transaction.setStatus(TransactionStatus.DEPOSITED);
         transactionRepository.save(transaction);
 
-        Thread thread = new Thread(new Runnable() {
-            @Autowired
-            private PaygateService paygateService;
+//        Thread thread = new Thread(new Runnable() {
+//            @Autowired
+//            private PaygateService paygateService;
+//
+//            @Override
+//            public void run() {
+        TransactionCallback callback = callbackService.getHashMap().get(transaction.getId().toString());
+        if (callback == null) {
+            log.warn("Callback to client was null");
+            return new NotifyTransactionResponse(false);
+        }
 
-            @Override
-            public void run() {
-                TransactionCallback callback = callbackService.getHashMap().get(transaction.getId().toString());
-                if (callback == null) {
-                    log.warn("Callback to client was null");
-                    return;
-                }
-
-                String rtxn = paygateService.callAccountingToTerminal(transaction.getTerminalId(), actualAccount, transaction.getAmount());
-                if (rtxn == null) {
-                    log.error("Call STM accounting error");
-                    transaction.setStatus(TransactionStatus.ACCOUNTING_FAILED);
-                    transactionRepository.save(transaction);
-                    if (callback.getEventListener() != null) {
-                        log.debug("To be callback to listener");
-                        callback.getEventListener().onEvent(
-                            CallbackMessage.builder()
-                                .transactionId(transaction.getId().toString())
-                                .approvedCode(request.getApproveCode())
-                                .errorCode(Integer.parseInt(request.getStatusCode()))
-                                .status(CallbackStatus.ACCOUNTING_FAILED)
-                                .errorDesc(request.getDesc())
-                                .traceId(request.getTraceId())
-                                .build()
-                        );
-                    }
-                    return;
-                }
-
-                transaction.setStatus(TransactionStatus.DISPENSE);
-                transactionRepository.save(transaction);
-
-                if (callback.getEventListener() != null) {
-                    log.debug("To be callback to listener");
-                    callback.getEventListener().onEvent(
-                        CallbackMessage.builder()
-                            .transactionId(transaction.getId().toString())
-                            .approvedCode(request.getApproveCode())
-                            .errorCode(Integer.parseInt(request.getStatusCode()))
-                            .status(CallbackStatus.SUCCESS)
-                            .errorDesc(request.getDesc())
-                            .traceId(request.getTraceId())
-                            .build()
-                    );
-                }
+        String rtxn = this.callAccountingToTerminal(transaction.getTerminalId(), actualAccount, transaction.getAmount());
+        if (rtxn == null) {
+            log.error("Call STM accounting error");
+            transaction.setStatus(TransactionStatus.ACCOUNTING_FAILED);
+            transactionRepository.save(transaction);
+            if (callback.getEventListener() != null) {
+                log.debug("To be callback to listener");
+                callback.getEventListener().onEvent(
+                    CallbackMessage.builder()
+                        .transactionId(transaction.getId().toString())
+                        .approvedCode(request.getApproveCode())
+                        .errorCode(Integer.parseInt(request.getStatusCode()))
+                        .status(CallbackStatus.ACCOUNTING_FAILED)
+                        .errorDesc(request.getDesc())
+                        .traceId(request.getTraceId())
+                        .build()
+                );
             }
-        });
+            return new NotifyTransactionResponse(false);
+        }
 
-        thread.start();
+        transaction.setStatus(TransactionStatus.DISPENSE);
+        transactionRepository.save(transaction);
+
+        if (callback.getEventListener() != null) {
+            log.debug("To be callback to listener");
+            callback.getEventListener().onEvent(
+                CallbackMessage.builder()
+                    .transactionId(transaction.getId().toString())
+                    .approvedCode(request.getApproveCode())
+                    .errorCode(Integer.parseInt(request.getStatusCode()))
+                    .status(CallbackStatus.SUCCESS)
+                    .errorDesc(request.getDesc())
+                    .traceId(request.getTraceId())
+                    .build()
+            );
+        }
+//            }
+//        });
+
+//        thread.start();
 
         return new NotifyTransactionResponse(true);
     }
