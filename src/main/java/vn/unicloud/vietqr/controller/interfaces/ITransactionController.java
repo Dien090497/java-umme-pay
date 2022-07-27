@@ -4,17 +4,11 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import vn.unicloud.vietqr.core.ResponseBase;
-import vn.unicloud.vietqr.dtos.request.ClientLoginRequest;
-import vn.unicloud.vietqr.dtos.request.LoginRequest;
-import vn.unicloud.vietqr.dtos.response.AccessTokenResponseCustom;
 import vn.unicloud.vietqr.dtos.transaction.response.GetTransactionsResponse;
-
-import javax.validation.Valid;
 
 @Tag(name = "Transaction Controller", description = "Thao tác với transaction")
 @RequestMapping(value = "/api/transaction")
@@ -32,9 +26,10 @@ public interface ITransactionController {
         @RequestParam(required = false, defaultValue = "0") Integer page,
         @RequestParam(required = false, defaultValue = "10") Integer size,
         @RequestParam(required = false) String keyword,
+        @RequestParam(required = false) String terminalId,
+        @RequestParam(required = false) String traceId,
         @RequestParam(required = false) String branch,
         @RequestParam(required = false) String status,
-        @RequestParam(required = false) String result,
         @RequestParam(required = false) String fromDate,
         @RequestParam(required = false) String toDate
     );
@@ -51,9 +46,10 @@ public interface ITransactionController {
         @RequestParam(required = false, defaultValue = "0") Integer page,
         @RequestParam(required = false, defaultValue = "10") Integer size,
         @RequestParam(required = false) String keyword,
+        @RequestParam(required = false) String terminalId,
+        @RequestParam(required = false) String traceId,
         @RequestParam(required = false) String branch,
         @RequestParam(required = false) String status,
-        @RequestParam(required = false) String result,
         @RequestParam(required = false) String fromDate,
         @RequestParam(required = false) String toDate
     );

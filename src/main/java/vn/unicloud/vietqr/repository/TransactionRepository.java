@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import vn.unicloud.vietqr.entity.Transaction;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,6 +22,35 @@ public interface TransactionRepository extends JpaRepository<Transaction, UUID> 
     @Query("select t from Transaction t where " +
         "(:keyword IS NULL OR (t.customerPhone LIKE %:keyword% OR t.customerIdCardNo LIKE %:keyword% OR t.terminalId LIKE %:keyword%))")
     List<Transaction> findAllByFilterKeyword(@Param("keyword") String keyword);
+
+    @Query("select t from Transaction t where " +
+        "(:keyword IS NULL OR (t.customerPhone LIKE %:keyword% OR t.customerIdCardNo LIKE %:keyword% OR t.terminalId LIKE %:keyword%)) AND " +
+        "(:traceId IS NULL OR (t.traceId = :traceId)) AND " +
+        "(:status IS NULL OR (t.status = :status)) AND " +
+        "(:terminalId IS NULL OR (t.terminalId = :terminalId)) AND " +
+        "((:fromDate IS NULL OR :toDate IS NULL) OR (t.createDate BETWEEN :fromDate AND :toDate))")
+    Page<Transaction> findAllByFilterKeyword(Pageable pageable,
+                                             @Param("keyword") String keyword,
+                                             @Param("traceId") String traceId,
+                                             @Param("terminalId") String terminalId,
+                                             @Param("status") String status,
+                                             @Param("fromDate") LocalDate fromDate,
+                                             @Param("toDate") LocalDate toDate
+    );
+
+    @Query("select t from Transaction t where " +
+        "(:keyword IS NULL OR (t.customerPhone LIKE %:keyword% OR t.customerIdCardNo LIKE %:keyword% OR t.terminalId LIKE %:keyword%)) AND " +
+        "(:traceId IS NULL OR (t.traceId = :traceId)) AND " +
+        "(:status IS NULL OR (t.status = :status)) AND " +
+        "(:terminalId IS NULL OR (t.terminalId = :terminalId)) AND " +
+        "((:fromDate IS NULL OR :toDate IS NULL) OR (t.createDate BETWEEN :fromDate AND :toDate))")
+    List<Transaction> findAllByFilterKeyword(@Param("keyword") String keyword,
+                                             @Param("traceId") String traceId,
+                                             @Param("terminalId") String terminalId,
+                                             @Param("status") String status,
+                                             @Param("fromDate") LocalDate fromDate,
+                                             @Param("toDate") LocalDate toDate
+    );
 
 //    @Query("select t from Transaction t where " +
 //        "(:keyword IS NULL OR (t.customerPhone LIKE %:keyword% OR t.customerIdCardNo LIKE %:keyword% OR t.terminalId LIKE %:keyword%)) AND " +

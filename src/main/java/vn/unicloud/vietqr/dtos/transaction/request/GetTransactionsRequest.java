@@ -15,4 +15,6 @@ public class GetTransactionsRequest extends BaseRequestData {
     private String result;
     private String fromDate;
     private String toDate;
+    private String traceId;
+    private String terminalId;
 }

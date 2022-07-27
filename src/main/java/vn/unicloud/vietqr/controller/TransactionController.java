@@ -8,21 +8,15 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import vn.unicloud.vietqr.controller.interfaces.IAuthController;
 import vn.unicloud.vietqr.controller.interfaces.ITransactionController;
 import vn.unicloud.vietqr.core.BaseController;
 import vn.unicloud.vietqr.core.ResponseBase;
-import vn.unicloud.vietqr.dtos.request.ClientLoginRequest;
-import vn.unicloud.vietqr.dtos.request.LoginRequest;
-import vn.unicloud.vietqr.dtos.response.AccessTokenResponseCustom;
 import vn.unicloud.vietqr.dtos.transaction.request.GetTransactionsRequest;
 import vn.unicloud.vietqr.dtos.transaction.response.GetTransactionsResponse;
 import vn.unicloud.vietqr.entity.Transaction;
 import vn.unicloud.vietqr.repository.TransactionRepository;
 
-import javax.validation.Valid;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.List;
@@ -34,13 +28,13 @@ public class TransactionController extends BaseController implements ITransactio
     private TransactionRepository transactionRepository;
 
     @Override
-    public ResponseEntity<ResponseBase<GetTransactionsResponse>> getAll(Integer page, Integer size, String keyword, String branch, String status, String result, String fromDate, String toDate) {
+    public ResponseEntity<ResponseBase<GetTransactionsResponse>> getAll(Integer page, Integer size, String keyword, String terminalId, String traceId, String branch, String status, String fromDate, String toDate) {
         GetTransactionsRequest request = GetTransactionsRequest.builder()
             .pageable(PageRequest.of(page, size))
             .keyword(keyword)
-            .branch(branch)
             .status(status)
-            .result(result)
+            .terminalId(terminalId)
+            .traceId(traceId)
             .fromDate(fromDate)
             .toDate(toDate)
             .build();
@@ -49,9 +43,16 @@ public class TransactionController extends BaseController implements ITransactio
     }
 
     @Override
-    public ResponseEntity<byte[]> download(Integer page, Integer size, String keyword, String branch, String status, String result, String fromDate, String toDate) {
+    public ResponseEntity<byte[]> download(Integer page, Integer size, String keyword, String terminalId, String traceId, String branch, String status, String fromDate, String toDate) {
         try {
-            List<Transaction> transactions = transactionRepository.findAllByFilterKeyword(keyword);
+            List<Transaction> transactions = transactionRepository.findAllByFilterKeyword(
+                keyword,
+                traceId,
+                terminalId,
+                status,
+                fromDate == null ? null : LocalDate.parse(fromDate),
+                toDate == null ? null : LocalDate.parse(toDate)
+            );
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
             headers.add("content-disposition","attachment;filename=" + "vietqr_transactions_" + LocalDate.now() + ".csv");
