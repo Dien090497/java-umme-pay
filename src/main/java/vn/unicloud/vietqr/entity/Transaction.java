@@ -6,6 +6,7 @@ import vn.unicloud.vietqr.dtos.model.DispensedNotes;
 import vn.unicloud.vietqr.enums.TransactionStatus;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -82,8 +83,11 @@ public class Transaction {
     @Column(name = "callback_error_desc")
     private String callbackErrorDesc;
 
+    @Column(name = "create_date_time")
+    private LocalDateTime createDateTime;
+
     @Column(name = "create_date")
-    private LocalDateTime createDate;
+    private LocalDate createDate;
 
     @Column(name = "timestamp")
     private long timestamp;

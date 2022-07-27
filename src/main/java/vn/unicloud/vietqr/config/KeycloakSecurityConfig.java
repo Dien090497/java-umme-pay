@@ -37,6 +37,7 @@ public class KeycloakSecurityConfig extends KeycloakWebSecurityConfigurerAdapter
         http
             .csrf().disable()
             .authorizeRequests()
+            .antMatchers("/api/transaction/**").authenticated()
             .anyRequest()
             .permitAll()
             .and()

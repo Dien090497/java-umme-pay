@@ -19,6 +19,7 @@ import vn.unicloud.vietqr.repository.TransactionRepository;
 import vn.unicloud.vietqr.utils.CommonUtils;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 import java.util.concurrent.Semaphore;
@@ -62,7 +63,8 @@ public class VietQRService {
             .virtualAccount(virtualAccount)
             .customerIdCardNo(request.getCustomerIdNumber())
             .customerPhone(request.getCustomerPhone())
-            .createDate(LocalDateTime.now())
+            .createDateTime(LocalDateTime.now())
+            .createDate(LocalDate.now())
             .timestamp(System.currentTimeMillis())
             .build();
         Transaction saved = transactionRepository.save(transaction);

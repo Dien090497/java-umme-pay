@@ -192,6 +192,7 @@ public class PaygateService {
     }
 
     public String callAccountingToTerminal(String terminalID, String accountNo, long amount) {
+        log.info("accountNo: {}", accountNo);
         var stmWithDrawal = new STMWithDrawal();
         stmWithDrawal.setTerminalId(terminalID);
         stmWithDrawal.setAccountNo(accountNo);

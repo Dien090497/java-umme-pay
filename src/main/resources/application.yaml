@@ -63,12 +63,12 @@ soap:
 # Keycloak Config
 # ===============================
 keycloak:
-  realm: ${KEYCLOAK_REALM:unicloud-id}
-  auth-server-url: ${KEYCLOAK_AUTH_SERVER_URL:https://unicloud-id.hcm.unicloud.ai/auth}
+  realm: ${KEYCLOAK_REALM:cms}
+  auth-server-url: ${KEYCLOAK_AUTH_SERVER_URL:https://idp-staging.kienlongbank.co/auth}
   ssl-required: ${KEYCLOAK_SSL_REQUIRED:external}
-  resource: ${KEYCLOAK_RESOURCE:unicloud-nickname}
+  resource: ${KEYCLOAK_RESOURCE:cms-backend-client}
   credentials:
-    secret: ${KEYCLOAK_CREDENTIALS_SECRET:u00JrAeQfeng6jzS2uERnl9pW9BJEcXy}
+    secret: ${KEYCLOAK_CREDENTIALS_SECRET:4ca5eca8-0c6e-41fc-a98b-148641f0008f}
   use-resource-role-mappings: true
   bearer-only: true
 
