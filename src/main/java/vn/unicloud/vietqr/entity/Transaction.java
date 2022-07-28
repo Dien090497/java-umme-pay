@@ -30,6 +30,8 @@ public class Transaction {
         columnDefinition = "BINARY(16)")
     private UUID id;
 
+    @Column(name = "status")
+//    @Enumerated(EnumType.STRING)
     private TransactionStatus status;
 
     @Column(name = "terminal_id")

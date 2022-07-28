@@ -22,6 +22,7 @@ public enum ResponseCode {
     // Client
     CREATE_CLIENT_FAIL(301, "Create client failed"),
     CLIENT_LOGIN_FAILED(302, "Client login failed"),
+    TRANSACTION_NOT_FOUND(303, "Transaction not found"),
 
     // VietQR
     VIETQR_TIMEOUT(401, "Scan QR code timeout"),

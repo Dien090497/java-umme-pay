@@ -5,6 +5,7 @@ import com.emv.qrcode.model.mpm.MerchantAccountInformationTemplate;
 import com.emv.qrcode.model.mpm.MerchantPresentedMode;
 import org.keycloak.TokenVerifier;
 import org.keycloak.representations.AccessToken;
+import vn.unicloud.vietqr.enums.TransactionStatus;
 
 import javax.crypto.spec.SecretKeySpec;
 import javax.servlet.http.HttpServletRequest;
@@ -112,6 +113,16 @@ public class CommonUtils {
             return null;
         }
         return account.substring(0, 6);
+    }
+
+    public static TransactionStatus reformatStatus(String input) {
+        if (input == null) {
+            return null;
+        }
+        if (input.equals("SUCCESS")) {
+            return TransactionStatus.SUCCESS;
+        }
+        return TransactionStatus.FAIL;
     }
 
     public static AccessToken getAccessToken(HttpServletRequest request) {

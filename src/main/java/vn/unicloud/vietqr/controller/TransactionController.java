@@ -15,7 +15,10 @@ import vn.unicloud.vietqr.core.ResponseBase;
 import vn.unicloud.vietqr.dtos.transaction.request.GetTransactionsRequest;
 import vn.unicloud.vietqr.dtos.transaction.response.GetTransactionsResponse;
 import vn.unicloud.vietqr.entity.Transaction;
+import vn.unicloud.vietqr.enums.ResponseCode;
+import vn.unicloud.vietqr.enums.TransactionStatus;
 import vn.unicloud.vietqr.repository.TransactionRepository;
+import vn.unicloud.vietqr.utils.CommonUtils;
 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
@@ -43,16 +46,34 @@ public class TransactionController extends BaseController implements ITransactio
     }
 
     @Override
-    public ResponseEntity<byte[]> download(Integer page, Integer size, String keyword, String terminalId, String traceId, String branch, String status, String fromDate, String toDate) {
+    public ResponseEntity<?> download(Integer page, Integer size, String keyword, String terminalId, String traceId, String branch, String status, String fromDate, String toDate) {
         try {
-            List<Transaction> transactions = transactionRepository.findAllByFilterKeyword(
-                keyword,
-                traceId,
-                terminalId,
-                status,
-                fromDate == null ? null : LocalDate.parse(fromDate),
-                toDate == null ? null : LocalDate.parse(toDate)
-            );
+            TransactionStatus statusCode = CommonUtils.reformatStatus(status);
+            List<Transaction> transactions = null;
+            if (TransactionStatus.SUCCESS.equals(statusCode)) {
+                transactions = transactionRepository.findAllBySuccess(
+                    keyword,
+                    traceId,
+                    terminalId,
+                    statusCode,
+                    fromDate == null ? null : LocalDate.parse(fromDate),
+                    toDate == null ? null : LocalDate.parse(toDate),
+                    TransactionStatus.SUCCESS
+                );
+            } else {
+                transactions = transactionRepository.findAllByFail(
+                    keyword,
+                    traceId,
+                    terminalId,
+                    statusCode,
+                    fromDate == null ? null : LocalDate.parse(fromDate),
+                    toDate == null ? null : LocalDate.parse(toDate),
+                    TransactionStatus.SUCCESS
+                );
+            }
+            if (transactions == null || transactions.size() == 0) {
+                return ResponseEntity.ok(new ResponseBase<>(ResponseCode.TRANSACTION_NOT_FOUND.getCode(), ResponseCode.TRANSACTION_NOT_FOUND.getMessage()));
+            }
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
             headers.add("content-disposition","attachment;filename=" + "vietqr_transactions_" + LocalDate.now() + ".csv");
@@ -64,6 +85,6 @@ public class TransactionController extends BaseController implements ITransactio
 
             return new ResponseEntity<>(csvString.getBytes(StandardCharsets.UTF_8), headers, HttpStatus.OK);
         } catch (Exception ignored) {}
-        return ResponseEntity.ok(null);
+        return ResponseEntity.ok(new ResponseBase<>(ResponseCode.TRANSACTION_NOT_FOUND.getCode(), ResponseCode.TRANSACTION_NOT_FOUND.getMessage()));
     }
 }

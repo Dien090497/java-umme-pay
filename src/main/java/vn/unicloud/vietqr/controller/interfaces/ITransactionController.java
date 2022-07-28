@@ -42,7 +42,7 @@ public interface ITransactionController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
         })
     @RequestMapping(value = "/v1/download", method = RequestMethod.GET)
-    ResponseEntity<byte[]> download(
+    ResponseEntity<?> download(
         @RequestParam(required = false, defaultValue = "0") Integer page,
         @RequestParam(required = false, defaultValue = "10") Integer size,
         @RequestParam(required = false) String keyword,
