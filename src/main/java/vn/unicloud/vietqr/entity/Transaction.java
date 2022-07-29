@@ -58,6 +58,9 @@ public class Transaction {
     @Column(name = "customer_phone")
     private String customerPhone;
 
+    @Column(name = "transfer_content")
+    private String transferContent;
+
     @Column(name = "dispensed_50_notes")
     private int dispensed50Notes;
 

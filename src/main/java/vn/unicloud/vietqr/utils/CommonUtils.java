@@ -98,7 +98,6 @@ public class CommonUtils {
         code.setTransactionAmount(String.valueOf(amount));
         code.setPointOfInitiationMethod("11");
         if (content != null) {
-            content = content.substring(0, Math.min(100, content.length()));
             AdditionalDataField additionalDataField = new AdditionalDataField();
             additionalDataField.setPurposeTransaction(content);
             AdditionalDataFieldTemplate additionalDataFieldTemplate = new AdditionalDataFieldTemplate();
@@ -110,7 +109,8 @@ public class CommonUtils {
     }
 
     public static String getContent(String terminalLocation, long amount) {
-        return String.format("Rut tien %s tai %s", amount, terminalLocation);
+        String res = String.format("Rut tien %s tai %s", amount, terminalLocation);
+        return res.substring(0, Math.min(100, res.length()));
     }
 
     public static boolean isExpired(Long since) {

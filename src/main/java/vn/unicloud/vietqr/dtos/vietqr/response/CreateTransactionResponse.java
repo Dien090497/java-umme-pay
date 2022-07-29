@@ -16,6 +16,8 @@ public class CreateTransactionResponse extends BaseResponseData {
 
     private String normalizedTerminalLocation;
 
+    private String content;
+
     private String virtualAccount;
 
 }

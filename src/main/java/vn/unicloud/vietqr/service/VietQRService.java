@@ -64,13 +64,14 @@ public class VietQRService {
             .virtualAccount(virtualAccount)
             .customerIdCardNo(request.getCustomerIdNumber())
             .customerPhone(request.getCustomerPhone())
+            .transferContent(content)
             .createDateTime(LocalDateTime.now())
             .createDate(LocalDate.now())
             .timestamp(System.currentTimeMillis())
             .build();
         Transaction saved = transactionRepository.save(transaction);
 
-        return new CreateTransactionResponse(saved.getId().toString(), timeout, qrCode, saved.getTerminalLocation(), saved.getVirtualAccount());
+        return new CreateTransactionResponse(saved.getId().toString(), timeout, qrCode, saved.getTerminalLocation(), content, saved.getVirtualAccount());
     }
 
     @SneakyThrows
