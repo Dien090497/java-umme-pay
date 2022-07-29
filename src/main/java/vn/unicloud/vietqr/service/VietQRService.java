@@ -39,6 +39,9 @@ public class VietQRService {
     @Value("${vietqr.bin}")
     private String bin;
 
+    @Value("${vietqr.actualAccount}")
+    private String actualAccount;
+
     @Autowired
     private TransactionRepository transactionRepository;
 
@@ -66,6 +69,7 @@ public class VietQRService {
             .customerPhone(request.getCustomerPhone())
             .transferContent(content)
             .createDateTime(LocalDateTime.now())
+            .actualAccount(actualAccount)
             .createDate(LocalDate.now())
             .timestamp(System.currentTimeMillis())
             .build();
