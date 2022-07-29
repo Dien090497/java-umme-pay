@@ -1,8 +1,6 @@
 package vn.unicloud.vietqr.utils;
 
-import com.emv.qrcode.model.mpm.MerchantAccountInformationReservedAdditional;
-import com.emv.qrcode.model.mpm.MerchantAccountInformationTemplate;
-import com.emv.qrcode.model.mpm.MerchantPresentedMode;
+import com.emv.qrcode.model.mpm.*;
 import org.keycloak.TokenVerifier;
 import org.keycloak.representations.AccessToken;
 import vn.unicloud.vietqr.enums.TransactionStatus;
@@ -92,15 +90,27 @@ public class CommonUtils {
         return input.substring(0, Math.min(input.length(), 70));
     }
 
-    public static String generateQRCode(String bin, String targetAccount, long amount) {
+    public static String generateQRCode(String bin, String targetAccount, long amount, String content) {
         MerchantPresentedMode code = new MerchantPresentedMode();
         code.setCountryCode("VN");
         code.setTransactionCurrency("704");
         code.setPayloadFormatIndicator("01");
         code.setTransactionAmount(String.valueOf(amount));
         code.setPointOfInitiationMethod("11");
+        if (content != null) {
+            content = content.substring(0, Math.min(100, content.length()));
+            AdditionalDataField additionalDataField = new AdditionalDataField();
+            additionalDataField.setPurposeTransaction(content);
+            AdditionalDataFieldTemplate additionalDataFieldTemplate = new AdditionalDataFieldTemplate();
+            additionalDataFieldTemplate.setValue(additionalDataField);
+            code.setAdditionalDataField(additionalDataFieldTemplate);
+        }
         code.addMerchantAccountInformation(getMerchanAccountInformationReservedAdditional(bin, targetAccount));
         return code.toString();
+    }
+
+    public static String getContent(String terminalLocation, long amount) {
+        return String.format("Rut tien %s tai %s", amount, terminalLocation);
     }
 
     public static boolean isExpired(Long since) {

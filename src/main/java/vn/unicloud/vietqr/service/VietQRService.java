@@ -50,7 +50,8 @@ public class VietQRService {
         log.debug("Virtual account: {}", virtualAccount);
         String normalizeTerminalLocation = CommonUtils.normalizeTerminalLocation(request.getTerminalLocation());
         log.debug("Normalize terminal location to: {}", normalizeTerminalLocation);
-        String qrCode = CommonUtils.generateQRCode(bin, virtualAccount, request.getAmount());
+        String content = CommonUtils.getContent(normalizeTerminalLocation, request.getAmount());
+        String qrCode = CommonUtils.generateQRCode(bin, virtualAccount, request.getAmount(), content);
         log.debug("qrCode: {}", qrCode);
 
         Transaction transaction = Transaction.builder()

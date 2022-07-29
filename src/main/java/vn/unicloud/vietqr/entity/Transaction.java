@@ -49,6 +49,9 @@ public class Transaction {
     @Column(name = "virtual_account")
     private String virtualAccount;
 
+    @Column(name = "actual_account")
+    private String actualAccount;
+
     @Column(name = "customer_id_card_no")
     private String customerIdCardNo;
 
