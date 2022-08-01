@@ -1,6 +1,5 @@
 package vn.unicloud.vietqr.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import vn.unicloud.vietqr.controller.interfaces.IPaygateController;
@@ -9,11 +8,9 @@ import vn.unicloud.vietqr.core.ResponseBase;
 import vn.unicloud.vietqr.dtos.paygate.request.DepositCheckingRequest;
 import vn.unicloud.vietqr.dtos.paygate.request.InquiryCheckingRequest;
 import vn.unicloud.vietqr.dtos.paygate.request.NotifyTransactionRequest;
-import vn.unicloud.vietqr.dtos.paygate.request.TestAccountingRequest;
 import vn.unicloud.vietqr.dtos.paygate.response.DepositCheckingResponse;
 import vn.unicloud.vietqr.dtos.paygate.response.InquiryCheckingResponse;
 import vn.unicloud.vietqr.dtos.paygate.response.NotifyTransactionResponse;
-import vn.unicloud.vietqr.dtos.paygate.response.TestAccountingResponse;
 
 @RestController
 public class PaygateController extends BaseController implements IPaygateController {
@@ -36,10 +33,5 @@ public class PaygateController extends BaseController implements IPaygateControl
     @Override
     public ResponseEntity<ResponseBase<NotifyTransactionResponse>> notifyTransaction(NotifyTransactionRequest request) {
         return this.execute(request, NotifyTransactionResponse.class);
-    }
-
-    @Override
-    public ResponseEntity<ResponseBase<TestAccountingResponse>> testAccounting(TestAccountingRequest request) {
-        return this.execute(request, TestAccountingResponse.class);
     }
 }

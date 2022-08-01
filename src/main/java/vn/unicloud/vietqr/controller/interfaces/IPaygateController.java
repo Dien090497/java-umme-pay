@@ -5,13 +5,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vn.unicloud.vietqr.core.ResponseBase;
-import vn.unicloud.vietqr.dtos.paygate.request.DepositCheckingRequest;
 import vn.unicloud.vietqr.dtos.paygate.request.NotifyTransactionRequest;
-import vn.unicloud.vietqr.dtos.paygate.request.TestAccountingRequest;
 import vn.unicloud.vietqr.dtos.paygate.response.DepositCheckingResponse;
 import vn.unicloud.vietqr.dtos.paygate.response.InquiryCheckingResponse;
 import vn.unicloud.vietqr.dtos.paygate.response.NotifyTransactionResponse;
-import vn.unicloud.vietqr.dtos.paygate.response.TestAccountingResponse;
 
 import javax.validation.Valid;
 
@@ -40,11 +37,4 @@ public interface IPaygateController {
     @PostMapping("/v1/notifyTransaction")
     ResponseEntity<ResponseBase<NotifyTransactionResponse>> notifyTransaction(@Valid @RequestBody NotifyTransactionRequest request);
 
-
-    @Operation(
-        summary = "Cập nhật trạng thái giao dịch",
-        description = "- Cập nhật trạng thái giao dịch"
-    )
-    @PostMapping("/v1/testAccounting")
-    ResponseEntity<ResponseBase<TestAccountingResponse>> testAccounting(@Valid @RequestBody TestAccountingRequest request);
 }
