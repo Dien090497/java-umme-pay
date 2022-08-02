@@ -96,7 +96,7 @@ public class CommonUtils {
         code.setTransactionCurrency("704");
         code.setPayloadFormatIndicator("01");
         code.setTransactionAmount(String.valueOf(amount));
-        code.setPointOfInitiationMethod("11");
+        code.setPointOfInitiationMethod("12");
         if (content != null) {
             AdditionalDataField additionalDataField = new AdditionalDataField();
             additionalDataField.setPurposeTransaction(content);
