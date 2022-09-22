@@ -30,30 +30,6 @@ repositories {
     }
 }
 
-configurations {
-    jaxb
-}
-
-task generateJavaClasses {
-    System.setProperty('javax.xml.accessExternalSchema', 'all')
-    def jaxbTargetDir = file("src/main/java/")
-    doLast {
-        jaxbTargetDir.mkdirs()
-        ant.taskdef(
-                name: 'xjc',
-                classname: 'com.sun.tools.xjc.XJCTask',
-                classpath: configurations.jaxb.asPath
-        )
-        ant.jaxbTargetDir = jaxbTargetDir
-        ant.xjc(
-                destdir: '${jaxbTargetDir}',
-                package: 'vn.unicloud.vietqr.soap.inetservice.model',
-                schema: 'src/main/resources/INetService.wsdl',
-                language: 'WSDL'
-        )
-    }
-}
-
 dependencies {
     def springBootVersion = '2.1.8.RELEASE'
     def umeeCommonVersion = '1.0-SNAPSHOT'
@@ -68,8 +44,6 @@ dependencies {
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: springBootVersion
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: springBootVersion
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-aop', version: springBootVersion
-//    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-mongodb', version: springBootVersion
-//    implementation group: 'org.springframework.data', name: 'spring-data-redis', version: springBootVersion
 
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation group: 'org.keycloak', name: 'keycloak-spring-boot-starter', version: '13.0.1'
@@ -84,10 +58,6 @@ dependencies {
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.13.1'
     // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.13.1'
-//    implementation group: 'org.springframework', name: 'spring-websocket', version: springBootVersion
-//    implementation group: 'org.springframework', name: 'spring-messaging', version: springBootVersion
-//    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-websocket', version: springBootVersion
-//    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-redis', version: springBootVersion
 
     implementation 'org.json:json:20171018'
 
@@ -130,17 +100,6 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
     implementation 'com.github.mvallim:emv-qrcode:0.1.2'
-
-    implementation group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.1'
-    implementation group: 'org.glassfish.jaxb', name: 'jaxb-runtime', version: '2.3.1'
-
-    // https://mvnrepository.com/artifact/javax.xml.soap/javax.xml.soap-api
-    implementation group: 'javax.xml.soap', name: 'javax.xml.soap-api', version: '1.4.0'
-// https://mvnrepository.com/artifact/com.sun.xml.messaging.saaj/saaj-impl
-    implementation group: 'com.sun.xml.messaging.saaj', name: 'saaj-impl', version: '1.5.1'
-
-
-    jaxb "com.sun.xml.bind:jaxb-xjc:2.1.7"
 
 }
 

@@ -3,14 +3,6 @@ server:
 
 #Local MongoDB Configuration
 spring:
-#  data:
-#    mongodb:
-#      database: ${MONGODB_DATABASE:vietqr}
-#      host: ${MONGODB_HOST:127.0.0.1}
-#      port: ${MONGODB_PORT:27017}
-#      username: ${
-#  autoconfigure:
-#    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
   liquibase:
     enabled: true
     drop-first: false

@@ -1,0 +1,23 @@
+package vn.unicloud.umeepay.dtos.vietqr.response;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import vn.unicloud.umeepay.core.BaseResponseData;
+
+@Data
+@AllArgsConstructor
+public class CreateTransactionResponse extends BaseResponseData {
+
+    private String transactionId;
+
+    private int timeout;
+
+    private String qrCode;
+
+    private String normalizedTerminalLocation;
+
+    private String content;
+
+    private String virtualAccount;
+
+}
