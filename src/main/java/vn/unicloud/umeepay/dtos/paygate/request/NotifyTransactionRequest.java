@@ -4,6 +4,7 @@ import lombok.Data;
 import vn.unicloud.umeepay.core.BaseRequestData;
 
 import javax.validation.constraints.NotEmpty;
+import java.time.LocalDateTime;
 
 @Data
 public class NotifyTransactionRequest extends BaseRequestData {
@@ -11,15 +12,24 @@ public class NotifyTransactionRequest extends BaseRequestData {
     @NotEmpty
     private String virtualAccount;
 
-    private boolean success = false;
+    private String transactionId;
 
-    private String amount;
+    private String actualAccount;
 
-    private String traceId;
+    private String fromBin;
+
+    private String fromAccount;
+
+    private boolean success;
+
+    private Long amount;
 
     private String statusCode;
 
-    private String approveCode;
+    private String txnNumber;
 
-    private String desc;
+    private String transferDesc;
+
+    private LocalDateTime time;
+
 }

@@ -72,6 +72,8 @@ public class PaymentService {
             .accountNo(merchant.getAccountNo())
             .description(content)
             .merchant(merchant)
+            .timestamp(System.currentTimeMillis())
+            .timeout(request.getTimeout() == null ? 0 : request.getTimeout())
             .build();
         Transaction saved = transactionRepository.save(transaction);
 
@@ -85,10 +87,6 @@ public class PaymentService {
             .url("/" + saved.getId())
             .virtualAccount(virtualAccount)
             .build();
-    }
-
-    public Transaction findTransactionByVirtualAccount(String virtualAccount) {
-        return transactionRepository.findFirstByVirtualAccount(virtualAccount);
     }
 
     public QueryTransactionResponse queryTransaction(QueryTransactionRequest request) {

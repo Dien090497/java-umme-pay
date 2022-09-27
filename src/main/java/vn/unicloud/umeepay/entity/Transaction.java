@@ -48,6 +48,8 @@ public class Transaction {
 
     private LocalDateTime createDateTime;
 
+    private LocalDateTime depositTime;
+
     private String description;
 
     private String accountNo;
@@ -59,5 +61,9 @@ public class Transaction {
     private String fromAccount;
 
     private String txnNumber;
+
+    private long timestamp;
+
+    private long timeout;
 
 }
