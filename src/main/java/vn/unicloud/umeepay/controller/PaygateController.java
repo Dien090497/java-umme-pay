@@ -1,6 +1,7 @@
 package vn.unicloud.umeepay.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import vn.unicloud.umeepay.controller.interfaces.IPaygateController;
 import vn.unicloud.umeepay.core.BaseController;
@@ -12,11 +13,13 @@ import vn.unicloud.umeepay.dtos.paygate.response.DepositCheckingResponse;
 import vn.unicloud.umeepay.dtos.paygate.response.InquiryCheckingResponse;
 import vn.unicloud.umeepay.dtos.paygate.response.NotifyTransactionResponse;
 
+import javax.validation.Valid;
+
 @RestController
 public class PaygateController extends BaseController implements IPaygateController {
 
     @Override
-    public ResponseEntity<ResponseBase<InquiryCheckingResponse>> callback(String virtualAccount) {
+    public ResponseEntity<ResponseBase<InquiryCheckingResponse>> inquiryChecking(String virtualAccount) {
         InquiryCheckingRequest request = new InquiryCheckingRequest();
         request.setVirtualAccount(virtualAccount);
         return this.execute(request, InquiryCheckingResponse.class);
@@ -31,7 +34,7 @@ public class PaygateController extends BaseController implements IPaygateControl
     }
 
     @Override
-    public ResponseEntity<ResponseBase<NotifyTransactionResponse>> notifyTransaction(NotifyTransactionRequest request) {
+    public ResponseEntity<ResponseBase<NotifyTransactionResponse>> notifyTransaction(@Valid @RequestBody NotifyTransactionRequest request) {
         return this.execute(request, NotifyTransactionResponse.class);
     }
 }

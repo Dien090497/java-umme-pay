@@ -15,7 +15,7 @@ import java.util.UUID;
 
 public interface TransactionRepository extends JpaRepository<Transaction, String> {
 
-    Transaction findFirstByVirtualAccount(String virtualAccount);
+    Transaction findByVirtualAccount(String virtualAccount);
 
     Transaction findByRefTransactionId(String refTransactionId);
 
