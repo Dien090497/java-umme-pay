@@ -16,7 +16,7 @@ import vn.unicloud.umeepay.dtos.paygate.response.NotifyTransactionResponse;
 public class PaygateController extends BaseController implements IPaygateController {
 
     @Override
-    public ResponseEntity<ResponseBase<InquiryCheckingResponse>> inquiryChecking(String virtualAccount) {
+    public ResponseEntity<ResponseBase<InquiryCheckingResponse>> callback(String virtualAccount) {
         InquiryCheckingRequest request = new InquiryCheckingRequest();
         request.setVirtualAccount(virtualAccount);
         return this.execute(request, InquiryCheckingResponse.class);

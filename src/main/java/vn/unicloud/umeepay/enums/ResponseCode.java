@@ -15,6 +15,8 @@ public enum ResponseCode {
     OTP_WAS_EXPIRED(102, "OTP was expired"),
     ACCOUNT_DID_NOT_LINK(103, "Account did not link"),
     USER_NOT_FOUND(104, "User not found"),
+    INVALID_USERNAME_OR_PASSWORD(105, "Invalid username or password"),
+    CREATE_USER_FAILED(106, "Create user failed"),
 
     // Nickname
     EXISTED_NICKNAME(201, "Existed Nickname"),
@@ -23,15 +25,21 @@ public enum ResponseCode {
     CREATE_CLIENT_FAIL(301, "Create client failed"),
     CLIENT_LOGIN_FAILED(302, "Client login failed"),
     TRANSACTION_NOT_FOUND(303, "Transaction not found"),
+    INVALID_KEY_ID(304, "Invalid key id"),
+    AUTHORIZATION_FAILED(306, "Authorization failed"),
 
-    // VietQR
-    VIETQR_TIMEOUT(401, "Scan QR code timeout"),
+    // Merchant
+    TRANSACTION_TIMEOUT(401, "Scan QR code timeout"),
     INVALID_TRANSACTION_ID(402, "Invalid transactionId"),
     INVALID_VIRTUAL_ACCOUNT(403, "Invalid virtual account"),
     INVALID_AMOUNT(404, "Invalid amount"),
     INVALID_TRANSACTION_STATE(405, "Invalid transaction state"),
     TRANSACTION_CANCELED(406, "Canceled transaction"),
     TRANSACTION_FAILED(407, "Transaction failed"),
+    MERCHANT_ALREADY_CREATED(408, "Merchant already created"),
+    MERCHANT_NOT_FOUND(409, "Merchant not found"),
+    INVALID_DATA(410, "Invalid data"),
+    DUPLICATE_REFERENCE_TRANSACTION_ID(411, "Duplicate ref transaction id"),
 
     // Paygate
     INVALID_CERTIFICATE(501, "Invalid certificate"),

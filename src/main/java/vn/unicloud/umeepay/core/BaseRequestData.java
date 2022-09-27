@@ -1,6 +1,7 @@
 package vn.unicloud.umeepay.core;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import vn.unicloud.umeepay.entity.Credential;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -13,6 +14,20 @@ public class BaseRequestData extends RequestData {
     private HttpServletRequest context;
     @JsonIgnore
     private String clientId;
+    @JsonIgnore
+    private String keyId;
+    @JsonIgnore
+    private String secretKey;
+    @JsonIgnore
+    private String userId;
+    @JsonIgnore
+    private Long timestamp;
+    @JsonIgnore
+    private String encryptedData;
+    @JsonIgnore
+    private String signature;
+    @JsonIgnore
+    private Credential credential;
 
     protected BaseRequestData(BaseRequestDataBuilder<?, ?> b) {
         super(b);
@@ -38,6 +53,62 @@ public class BaseRequestData extends RequestData {
 
     public void setCifNo(String cifNo) {
         this.cifNo = cifNo;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public Credential getCredential() {
+        return credential;
+    }
+
+    public void setCredential(Credential credential) {
+        this.credential = credential;
+    }
+
+    public String getSecretKey() {
+        return secretKey;
+    }
+
+    public void setSecretKey(String secretKey) {
+        this.secretKey = secretKey;
+    }
+
+    public Long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Long timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public String getEncryptedData() {
+        return encryptedData;
+    }
+
+    public void setEncryptedData(String encryptedData) {
+        this.encryptedData = encryptedData;
+    }
+
+    public String getSignature() {
+        return signature;
+    }
+
+    public void setSignature(String signature) {
+        this.signature = signature;
+    }
+
+    public String getKeyId() {
+        return keyId;
+    }
+
+    public void setKeyId(String keyId) {
+        this.keyId = keyId;
     }
 
     public HttpServletRequest getContext() {

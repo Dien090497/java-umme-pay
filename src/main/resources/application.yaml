@@ -7,9 +7,9 @@ spring:
     enabled: true
     drop-first: false
     change-log: classpath:liquibase/master.xml
-    default-schema: ${LIQUIBASE_SCHEMA:vietqr}
+    default-schema: ${LIQUIBASE_SCHEMA:umeepay}
   datasource:
-    url: ${DATABASE_URL:jdbc:mysql://localhost:3306/vietqr}
+    url: ${DATABASE_URL:jdbc:mysql://localhost:3306/umeepay}
     username: ${DATABASE_USER:smarthome_dev}
     password: ${DATABASE_PASSWORD:!Q2w3e4r5t@@@@!Q2w3e4r5t}
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -32,7 +32,9 @@ spring:
       ddl-auto: update
       use-new-id-generator-mappings: false
 
-vietqr:
+umeepay:
+  public-key: ${UMEE_PAY_PUBLIC_KEY:MIGeMA0GCSqGSIb3DQEBAQUAA4GMADCBiAKBgG2ex/aa8Km4Oy8rU5ARHkV7lGfWDGJnB1HHpU8mPaZTr8adCyM1hmXSil7r5S6GCnpChfECr1GdSckQXvgXoVVCkKXw1AGPPf9dc8XBFTho+j+YMC1Gz5xn7O7MMuof/9U+/6BbZXLVDcykMNcq3Bh4iem+J0kwpt/H36Z02VqhAgMBAAE=}
+  private-key: ${UMEE_PAY_PRIVATE_KEY:MIICXQIBAAKBgG2ex/aa8Km4Oy8rU5ARHkV7lGfWDGJnB1HHpU8mPaZTr8adCyM1hmXSil7r5S6GCnpChfECr1GdSckQXvgXoVVCkKXw1AGPPf9dc8XBFTho+j+YMC1Gz5xn7O7MMuof/9U+/6BbZXLVDcykMNcq3Bh4iem+J0kwpt/H36Z02VqhAgMBAAECgYAApUjEORFlzoH6uySY2qD1A89R9T7JbZXrc2OT3cPLMP7+CnrAUFZkTyMlf/ovlfaF1dJ4Iu3payW+G2yTxX/bwLiT1INEf95hYmMH0r9TxAnMB5BOlRUiVG+RroGUCFihZiCGAbr8YvsS7aorH+XNT6xTSQhvSwxFbUgaXmTZKQJBALGXd6OhEoQiXnA69SyNWxxZ8WVd6LDs7PEwTUYjePt9SwRpMbInigdWRrFWf6lqOyZ4vAwwoAOSdjDrZQvZ7HsCQQCeBMDPyXmQfkeMHiWeYQ7MQMIFf+7F0yh0JqrCPYJvrSeSLuHkRcpRZATLqL2YtLXgPFCbmZhGkhugjQa3xrCTAkEAhfxWGlD67FAV2izRLzTS6bf+RVEtrtaCCZI8qs82ht9HyuMmyFfGbrSsDz3IgWQRjnwGvFevUiKdI1ll2iQnowJBAIkQOmaBre5Feq3xIFRGf91vdlvq4iO5yuck+wzM6a0QlrhX7hxg5OLATOCSlxIz/WZpKsos6kacSVZzvRX/Q/0CQQCB3OXoPqq18Pl8LKc61X/fzYwYfangW6m/Sw442qQepQPdfE/LJhihIH50VgtOdKFp9cp2O1s9hxU+u60OAmQk}
   prefix: ${VIETQR_PREFIX:100003}
   timeout: ${VIETQR_TIMEOUT:120}
   bin: ${VIETQR_BIN:970452}
@@ -40,33 +42,22 @@ vietqr:
   paygate:
     access: ${PAYGATE_BASIC_AUTHEN_RAW:unicloud:unicloud}
 
-soap:
-  uri:
-    inet: ${SOAP_URI_INET:https://api-core-staging.kienlongbank.com:8016/UATInetServiceV3/INetService.asmx}
-  part-one-hard-key: ${PART_ONE_HARD_KEY:39827c0591d8465fa0289992a5d12058}
-  part-two-access-key: ${PART_TWO_ACCESS_KEY:5E700084-D9C3-4817-8EFF-E557F8C03685}
-  access-key: ${ACCESS_KEY:5E700084-D9C3-4817-8EFF-E557F8C03685}
-  message-description: ${MESSAGE_QR_TRANSFER:Rut tien bang VietQR tai STM}
-  default-stm-id: 1514TM15
-  action:
-    stm-withdrawal: ${STM_WITHDRAWAL:http://tempuri.org/STM_WithDrawal}
-
 # ===============================
 # Keycloak Config
 # ===============================
 keycloak:
-  realm: ${KEYCLOAK_REALM:cms}
-  auth-server-url: ${KEYCLOAK_AUTH_SERVER_URL:https://idp-staging.kienlongbank.co/auth}
+  realm: ${KEYCLOAK_REALM:umeepay}
+  auth-server-url: ${KEYCLOAK_AUTH_SERVER_URL:https://idp-ca-dev.hcm.unicloud.ai/auth}
   ssl-required: ${KEYCLOAK_SSL_REQUIRED:external}
-  resource: ${KEYCLOAK_RESOURCE:cms-backend-client}
+  resource: ${KEYCLOAK_RESOURCE:umee-pay}
   credentials:
-    secret: ${KEYCLOAK_CREDENTIALS_SECRET:4ca5eca8-0c6e-41fc-a98b-148641f0008f}
+    secret: ${KEYCLOAK_CREDENTIALS_SECRET:KCCed5XMyObFlJPu7xWlg59mLiYThWzI}
   use-resource-role-mappings: true
   bearer-only: true
 
 keycloak-client:
   username: ${KEYCLOAK_CLIENT_USERNAME:admin}
-  password: ${KEYCLOAK_CLIENT_PASSWORD:admin}
+  password: ${KEYCLOAK_CLIENT_PASSWORD:Aqswde123@}
 
 #Sunshine
 sunshine:

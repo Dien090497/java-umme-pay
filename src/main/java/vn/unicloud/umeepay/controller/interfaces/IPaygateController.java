@@ -13,15 +13,15 @@ import vn.unicloud.umeepay.dtos.paygate.response.NotifyTransactionResponse;
 import javax.validation.Valid;
 
 @Tag(name = "Paygate Callback Controller", description = "Handle callback từ paygate")
-@RequestMapping(value = "/api/paygate/callback")
+@RequestMapping(value = "/api/paygate")
 public interface IPaygateController {
 
     @Operation(
         summary = "Kiểm tra tài khoản ảo",
         description = "- Kiểm tra tài khoản ảo"
     )
-    @GetMapping("/v1/inquiryChecking")
-    ResponseEntity<ResponseBase<InquiryCheckingResponse>> inquiryChecking(@RequestParam String virtualAccount);
+    @GetMapping("/v1/callback")
+    ResponseEntity<ResponseBase<InquiryCheckingResponse>> callback(@RequestParam String virtualAccount);
 
     @Operation(
         summary = "Kiểm tra trước khi gọi hoạch toán",

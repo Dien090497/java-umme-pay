@@ -47,44 +47,44 @@ public class TransactionController extends BaseController implements ITransactio
 
     @Override
     public ResponseEntity<?> download(Integer page, Integer size, String keyword, String terminalId, String traceId, String branch, String status, String fromDate, String toDate) {
-        try {
-            TransactionStatus statusCode = CommonUtils.reformatStatus(status);
-            List<Transaction> transactions = null;
-            if (TransactionStatus.SUCCESS.equals(statusCode)) {
-                transactions = transactionRepository.findAllBySuccess(
-                    keyword,
-                    traceId,
-                    terminalId,
-                    statusCode,
-                    fromDate == null ? null : LocalDate.parse(fromDate),
-                    toDate == null ? null : LocalDate.parse(toDate),
-                    TransactionStatus.SUCCESS
-                );
-            } else {
-                transactions = transactionRepository.findAllByFail(
-                    keyword,
-                    traceId,
-                    terminalId,
-                    statusCode,
-                    fromDate == null ? null : LocalDate.parse(fromDate),
-                    toDate == null ? null : LocalDate.parse(toDate),
-                    TransactionStatus.SUCCESS
-                );
-            }
-            if (transactions == null || transactions.size() == 0) {
-                return ResponseEntity.ok(new ResponseBase<>(ResponseCode.TRANSACTION_NOT_FOUND.getCode(), ResponseCode.TRANSACTION_NOT_FOUND.getMessage()));
-            }
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-            headers.add("content-disposition","attachment;filename=" + "vietqr_transactions_" + LocalDate.now() + ".csv");
-            headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
-
-            JSONArray jsonArray = new JSONArray(transactions);
-
-            String csvString = CDL.toString(jsonArray);
-
-            return new ResponseEntity<>(csvString.getBytes(StandardCharsets.UTF_8), headers, HttpStatus.OK);
-        } catch (Exception ignored) {}
+//        try {
+//            TransactionStatus statusCode = CommonUtils.reformatStatus(status);
+//            List<Transaction> transactions = null;
+//            if (TransactionStatus.SUCCESS.equals(statusCode)) {
+//                transactions = transactionRepository.findAllBySuccess(
+//                    keyword,
+//                    traceId,
+//                    terminalId,
+//                    statusCode,
+//                    fromDate == null ? null : LocalDate.parse(fromDate),
+//                    toDate == null ? null : LocalDate.parse(toDate),
+//                    TransactionStatus.SUCCESS
+//                );
+//            } else {
+//                transactions = transactionRepository.findAllByFail(
+//                    keyword,
+//                    traceId,
+//                    terminalId,
+//                    statusCode,
+//                    fromDate == null ? null : LocalDate.parse(fromDate),
+//                    toDate == null ? null : LocalDate.parse(toDate),
+//                    TransactionStatus.SUCCESS
+//                );
+//            }
+//            if (transactions == null || transactions.size() == 0) {
+//                return ResponseEntity.ok(new ResponseBase<>(ResponseCode.TRANSACTION_NOT_FOUND.getCode(), ResponseCode.TRANSACTION_NOT_FOUND.getMessage()));
+//            }
+//            HttpHeaders headers = new HttpHeaders();
+//            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+//            headers.add("content-disposition","attachment;filename=" + "vietqr_transactions_" + LocalDate.now() + ".csv");
+//            headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+//
+//            JSONArray jsonArray = new JSONArray(transactions);
+//
+//            String csvString = CDL.toString(jsonArray);
+//
+//            return new ResponseEntity<>(csvString.getBytes(StandardCharsets.UTF_8), headers, HttpStatus.OK);
+//        } catch (Exception ignored) {}
         return ResponseEntity.ok(new ResponseBase<>(ResponseCode.TRANSACTION_NOT_FOUND.getCode(), ResponseCode.TRANSACTION_NOT_FOUND.getMessage()));
     }
 }

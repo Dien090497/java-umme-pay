@@ -23,29 +23,30 @@ public class GetTransactionsHandler extends RequestHandler<GetTransactionsReques
 
     @Override
     public GetTransactionsResponse handle(GetTransactionsRequest request) {
-        TransactionStatus status = CommonUtils.reformatStatus(request.getStatus());
-        if (TransactionStatus.SUCCESS.equals(status)) {
-            return new GetTransactionsResponse(transactionRepository.findAllBySuccess(
-                request.getPageable(),
-                request.getKeyword(),
-                request.getTraceId(),
-                request.getTerminalId(),
-                status,
-                request.getFromDate() == null ? null : LocalDate.parse(request.getFromDate()),
-                request.getToDate() == null ? null : LocalDate.parse(request.getToDate()),
-                TransactionStatus.SUCCESS
-            ));
-        } else {
-            return new GetTransactionsResponse(transactionRepository.findAllByFail(
-                request.getPageable(),
-                request.getKeyword(),
-                request.getTraceId(),
-                request.getTerminalId(),
-                status,
-                request.getFromDate() == null ? null : LocalDate.parse(request.getFromDate()),
-                request.getToDate() == null ? null : LocalDate.parse(request.getToDate()),
-                TransactionStatus.SUCCESS
-            ));
-        }
+//        TransactionStatus status = CommonUtils.reformatStatus(request.getStatus());
+//        if (TransactionStatus.SUCCESS.equals(status)) {
+//            return new GetTransactionsResponse(transactionRepository.findAllBySuccess(
+//                request.getPageable(),
+//                request.getKeyword(),
+//                request.getTraceId(),
+//                request.getTerminalId(),
+//                status,
+//                request.getFromDate() == null ? null : LocalDate.parse(request.getFromDate()),
+//                request.getToDate() == null ? null : LocalDate.parse(request.getToDate()),
+//                TransactionStatus.SUCCESS
+//            ));
+//        } else {
+//            return new GetTransactionsResponse(transactionRepository.findAllByFail(
+//                request.getPageable(),
+//                request.getKeyword(),
+//                request.getTraceId(),
+//                request.getTerminalId(),
+//                status,
+//                request.getFromDate() == null ? null : LocalDate.parse(request.getFromDate()),
+//                request.getToDate() == null ? null : LocalDate.parse(request.getToDate()),
+//                TransactionStatus.SUCCESS
+//            ));
+//        }
+        return null;
     }
 }

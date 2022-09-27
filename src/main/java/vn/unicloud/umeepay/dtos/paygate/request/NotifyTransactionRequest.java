@@ -22,6 +22,4 @@ public class NotifyTransactionRequest extends BaseRequestData {
     private String approveCode;
 
     private String desc;
-
-    private long timestamp;
 }

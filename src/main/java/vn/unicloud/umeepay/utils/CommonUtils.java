@@ -1,13 +1,18 @@
 package vn.unicloud.umeepay.utils;
 
 import com.emv.qrcode.model.mpm.*;
+import org.apache.commons.codec.binary.Hex;
 import org.keycloak.TokenVerifier;
 import org.keycloak.representations.AccessToken;
 import vn.unicloud.umeepay.enums.TransactionStatus;
 
+import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 import javax.servlet.http.HttpServletRequest;
+import java.nio.charset.StandardCharsets;
 import java.security.Key;
+import java.security.MessageDigest;
+import java.security.PrivateKey;
 import java.security.SecureRandom;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -25,20 +30,53 @@ public class CommonUtils {
         return Base64.getEncoder().encodeToString(key.getEncoded());
     }
 
-    public static int getCheckDigit(String number) {
+    public static String getEncryptKey(int keySize) {
+        byte[] secureRandomKeyBytes = new byte[keySize / 8];
+        SecureRandom secureRandom = new SecureRandom();
+        secureRandom.nextBytes(secureRandomKeyBytes);
+        Key key = new SecretKeySpec(secureRandomKeyBytes, "AES");
+        return Hex.encodeHexString(key.getEncoded()).toUpperCase();
+    }
 
-        // Get the sum of all the digits, however we need to replace the value
-        // of the first digit, and every other digit, with the same digit
-        // multiplied by 2. If this multiplication yields a number greater
-        // than 9, then add the two digits together to get a single digit
-        // number.
-        //
-        // The digits we need to replace will be those in an even position for
-        // card numbers whose length is an even number, or those is an odd
-        // position for card numbers whose length is an odd number. This is
-        // because the Luhn algorithm reverses the card number, and doubles
-        // every other number starting from the second number from the last
-        // position.
+    public static String md5(String input) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(input.getBytes(StandardCharsets.UTF_8));
+            byte[] digest = md.digest();
+            return Hex.encodeHexString(digest);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String encryptAES(String data, String key) {
+        try {
+            Cipher cipher = Cipher.getInstance("AES");
+            Key priKey = new SecretKeySpec(Hex.decodeHex(key), "AES");
+            cipher.init(Cipher.ENCRYPT_MODE, priKey);
+            byte[] plainText = cipher.doFinal(data.getBytes(StandardCharsets.UTF_8));
+            return Base64.getEncoder().encodeToString(plainText);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String decryptAES(String data, String key) {
+        try {
+            Cipher cipher = Cipher.getInstance("AES");
+            Key priKey = new SecretKeySpec(Hex.decodeHex(key), "AES");
+            cipher.init(Cipher.DECRYPT_MODE, priKey);
+            byte[] plainText = cipher.doFinal(Base64.getDecoder().decode(data));
+            return new String(plainText);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static int getCheckDigit(String number) {
         int sum = 0;
         for (int i = 0; i < number.length(); i++) {
 
@@ -108,8 +146,8 @@ public class CommonUtils {
         return code.toString();
     }
 
-    public static String getContent(String terminalLocation, long amount) {
-        String res = String.format("Rut tien %s tai %s", amount, terminalLocation);
+    public static String getContent(String billId) {
+        String res = String.format("TT Don hang %s", billId);
         return res.substring(0, Math.min(100, res.length()));
     }
 

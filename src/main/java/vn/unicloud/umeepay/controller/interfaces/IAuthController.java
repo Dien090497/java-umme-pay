@@ -19,21 +19,15 @@ public interface IAuthController {
 
     @Operation(
         summary = "login",
-        description = "- login với username là email hoặc số điện thoại",
-        responses = {
-            @ApiResponse(responseCode = "200", description = "Success"),
-            @ApiResponse(responseCode = "500", description = "Internal Server Error")
-        })
+        description = "- login với username là email hoặc số điện thoại"
+    )
     @RequestMapping(value = "/v1/user", method = RequestMethod.POST)
     ResponseEntity<ResponseBase<AccessTokenResponseCustom>> userLogin(@Valid @RequestBody LoginRequest request);
 
     @Operation(
         summary = "Client login",
-        description = "- Client login oauth",
-        responses = {
-            @ApiResponse(responseCode = "200", description = "Success"),
-            @ApiResponse(responseCode = "500", description = "Internal Server Error")
-        })
+        description = "- Client login oauth"
+    )
     @RequestMapping(value = "/v1/client", method = RequestMethod.POST)
     ResponseEntity<ResponseBase<AccessTokenResponseCustom>> clientLogin(@Valid @RequestBody ClientLoginRequest request);
 }

@@ -3,6 +3,7 @@ package vn.unicloud.umeepay;
 import com.emv.qrcode.core.model.mpm.TagLengthString;
 import com.emv.qrcode.decoder.mpm.MerchantPresentedModeDecoder;
 import com.emv.qrcode.model.mpm.*;
+import vn.unicloud.umeepay.utils.CommonUtils;
 
 public class TestMain {
 
@@ -48,32 +49,37 @@ public class TestMain {
 
 
     public static void main(String[] args) {
+        String key = CommonUtils.getEncryptKey(256);
+        String data = "hello";
+        String encrypted = CommonUtils.encryptAES(data, key);
+        System.out.println("encrypt: " + encrypted);
+        System.out.println("decrypted: " + CommonUtils.decryptAES(encrypted, key));
         //               00020101021138530010A0000007270123000697043201091790526790208QRIBFTTA53037045802VN63049D67
 //        String source = "00020101021138530010A0000007270123000697043201091790526790208QRIBFTTA53037045802VN63049D67";
-        String source = "00020101021238630010A00000072701330006970452011910000322072901078400208QRIBFTTA53037045405500005802VN62240820dong qop quy vac xin63043A65";
-        System.out.println("source: " + source);
-        MerchantPresentedMode res = MerchantPresentedModeDecoder.decode(source, MerchantPresentedMode.class);
-        System.out.println("country code: " + res.getCountryCode());
-        System.out.println("getTransactionCurrency: " + res.getTransactionCurrency());
-        System.out.println("getAdditionalDataField: " + res.getAdditionalDataField());
-        System.out.println("getPayloadFormatIndicator: " + res.getPayloadFormatIndicator());
-        System.out.println("getPointOfInitiationMethod: " + res.getPointOfInitiationMethod());
-        System.out.println("getMerchantAccountInformation: " + res.getMerchantAccountInformation());
-        int amount = 10000;
-        MerchantPresentedMode code = new MerchantPresentedMode();
-        code.setCountryCode("VN");
-        code.setTransactionCurrency("704");
-        AdditionalDataField additionalDataField = new AdditionalDataField();
-        additionalDataField.setPurposeTransaction("dong qop quy vac xin nek");
-        AdditionalDataFieldTemplate additionalDataFieldTemplate = new AdditionalDataFieldTemplate();
-        additionalDataFieldTemplate.setValue(additionalDataField);
-        code.setAdditionalDataField(additionalDataFieldTemplate);
-        code.setPayloadFormatIndicator("01");
-        code.setTransactionAmount(String.valueOf(amount));
-        code.setPointOfInitiationMethod("11");
-        code.addMerchantAccountInformation(getMerchanAccountInformationReservedAdditional("970432", "179052679"));
-
-        System.out.println("data: " + code);
-        System.out.println("info: " + code.getMerchantAccountInformation());
+//        String source = "00020101021238630010A00000072701330006970452011910000322072901078400208QRIBFTTA53037045405500005802VN62240820dong qop quy vac xin63043A65";
+//        System.out.println("source: " + source);
+//        MerchantPresentedMode res = MerchantPresentedModeDecoder.decode(source, MerchantPresentedMode.class);
+//        System.out.println("country code: " + res.getCountryCode());
+//        System.out.println("getTransactionCurrency: " + res.getTransactionCurrency());
+//        System.out.println("getAdditionalDataField: " + res.getAdditionalDataField());
+//        System.out.println("getPayloadFormatIndicator: " + res.getPayloadFormatIndicator());
+//        System.out.println("getPointOfInitiationMethod: " + res.getPointOfInitiationMethod());
+//        System.out.println("getMerchantAccountInformation: " + res.getMerchantAccountInformation());
+//        int amount = 10000;
+//        MerchantPresentedMode code = new MerchantPresentedMode();
+//        code.setCountryCode("VN");
+//        code.setTransactionCurrency("704");
+//        AdditionalDataField additionalDataField = new AdditionalDataField();
+//        additionalDataField.setPurposeTransaction("dong qop quy vac xin nek");
+//        AdditionalDataFieldTemplate additionalDataFieldTemplate = new AdditionalDataFieldTemplate();
+//        additionalDataFieldTemplate.setValue(additionalDataField);
+//        code.setAdditionalDataField(additionalDataFieldTemplate);
+//        code.setPayloadFormatIndicator("01");
+//        code.setTransactionAmount(String.valueOf(amount));
+//        code.setPointOfInitiationMethod("11");
+//        code.addMerchantAccountInformation(getMerchanAccountInformationReservedAdditional("970432", "179052679"));
+//
+//        System.out.println("data: " + code);
+//        System.out.println("info: " + code.getMerchantAccountInformation());
     }
 }

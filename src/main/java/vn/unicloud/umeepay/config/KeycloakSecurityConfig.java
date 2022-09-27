@@ -26,7 +26,7 @@ import java.util.Base64;
 @EnableGlobalMethodSecurity(jsr250Enabled = true)
 public class KeycloakSecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
 
-    @Value("${vietqr.paygate.access}")
+    @Value("${umeepay.paygate.access}")
     private String basicAuth;
 
     @Override

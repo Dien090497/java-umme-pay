@@ -19,6 +19,4 @@ public class NotifyTransactionRequest extends BaseRequestData {
     private String statusCode;
 
     private String desc;
-
-    private long timestamp;
 }
