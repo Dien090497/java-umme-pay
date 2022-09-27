@@ -68,11 +68,6 @@ build-umee-app-uat:
     entrypoint: [""]
   before_script:
     - export $(xargs < $ENV_UAT)
-  rules:
-    - if: $CI_COMMIT_MESSAGE =~ /skip build/ && $CI_COMMIT_BRANCH == 'umee-uat'
-      when: manual
-      allow_failure: true
-    - when: always
   script:
     - echo $ECR_REGISTRY
     - mkdir -p /kaniko/.docker
@@ -82,6 +77,8 @@ build-umee-app-uat:
       --context "${CI_PROJECT_DIR}"
       --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
       --destination "${ECR_REGISTRY}/${IMAGE_NAME}:${TAG}"
+  only:
+    - umee-uat
   tags:
     - shared-docker-runner-2
 
