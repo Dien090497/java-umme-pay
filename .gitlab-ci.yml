@@ -1,0 +1,61 @@
+stages:
+  - build
+  - deploy
+
+variables:
+  NAME: pay
+  SERVICE_NAME: umee-${NAME}
+  IMAGE_NAME: "umee/${NAME}"
+  CHART_DIR: charts/umee-pay
+  TAG: stg-latest
+  ECR_REGISTRY: 840811229216.dkr.ecr.ap-northeast-1.amazonaws.com
+
+build-umee-app-uat:
+  stage: build
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  before_script:
+    - export $(xargs < $ENV_UAT)
+  rules:
+    - if: $CI_COMMIT_MESSAGE =~ /skip build/ && $CI_COMMIT_BRANCH == 'umee-uat'
+      when: manual
+      allow_failure: true
+    - when: always
+  script:
+    - echo $ECR_REGISTRY
+    - mkdir -p /kaniko/.docker
+    - echo "{\"credsStore\":\"ecr-login\"}" > /kaniko/.docker/config.json
+    - >-
+      /kaniko/executor
+      --context "${CI_PROJECT_DIR}"
+      --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
+      --destination "${ECR_REGISTRY}/${IMAGE_NAME}:${TAG}"
+  tags:
+    - shared-docker-runner-2
+
+deploy-umee-app-uat:
+  stage: deploy
+  image:
+    name: public.ecr.aws/i8h0s4d4/auto-eks:latest
+    entrypoint: [""]
+  before_script:
+    - export $(xargs < $ENV_UAT)
+  script:
+    - echo -e "$GIT_SSH_KEY"|base64 --decode  > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+    - echo -e "[default]\naws_access_key_id = $AWS_ACCESS_KEY_ID \naws_secret_access_key = $AWS_SECRET_ACCESS_KEY\n" > ~/.aws/credentials
+    - aws eks --region $AWS_DEFAULT_REGION --profile default update-kubeconfig --name $AWS_EKS_NAME
+
+    - git clone $CHART_GIT_SSH_URL /workspace
+    - cd /workspace
+    - git checkout $CHART_BRANCH
+
+    - chmod +x scripts/umee-app-uat-ci.sh && ./scripts/umee-app-uat-ci.sh
+    - kubectl apply -f kubernetes-uat/$SERVICE_NAME-app-config.yaml -n $NAME_SPACE
+
+    - helm upgrade --install --recreate-pods $SERVICE_NAME $CHART_DIR -n $NAME_SPACE -f $CHART_DIR/values-app-uat.yaml
+  only:
+    - umee-uat
+  tags:
+    - shared-docker-runner-2
