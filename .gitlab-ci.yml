@@ -18,7 +18,7 @@ build-umee-app-dev:
   before_script:
     - export $(xargs < $ENV_DEV)
   rules:
-    - if: $CI_COMMIT_MESSAGE =~ /skip build/ && $CI_COMMIT_BRANCH == 'develop'
+    - if: $CI_COMMIT_MESSAGE =~ /skip build/ && $CI_COMMIT_BRANCH == 'umee-dev'
       when: manual
       allow_failure: true
     - when: always
