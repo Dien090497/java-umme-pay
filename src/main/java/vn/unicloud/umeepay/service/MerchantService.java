@@ -1,6 +1,7 @@
 package vn.unicloud.umeepay.service;
 
 import lombok.extern.log4j.Log4j2;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -82,7 +83,18 @@ public class MerchantService {
     }
 
     public UpdateMerchantResponse updateMerchant(UpdateMerchantRequest request) {
-        return null;
+        Merchant merchant = merchantRepository.findByUserId(request.getUserId());
+        if (merchant == null) {
+            throw new InternalException(ResponseCode.MERCHANT_NOT_FOUND);
+        }
+        if (StringUtils.isNoneBlank(request.getMerchantName())) {
+            merchant.setName(request.getMerchantName());
+        }
+        if (StringUtils.isNoneBlank(request.getAccountNo())) {
+            merchant.setAccountNo(request.getAccountNo());
+        }
+        merchantRepository.save(merchant);
+        return new UpdateMerchantResponse(true);
     }
 
     public GetMerchantCredentialResponse getMerchantCredential(GetMerchantCredentialRequest request) {

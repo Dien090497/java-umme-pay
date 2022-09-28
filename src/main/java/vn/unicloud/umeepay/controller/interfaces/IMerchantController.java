@@ -41,7 +41,7 @@ public interface IMerchantController {
         description = "- Cập nhật thông tin merchant"
     )
     @PutMapping("/v1/update")
-    ResponseEntity<ResponseBase<UpdateMerchantResponse>> update(@Valid @RequestBody UpdateMerchantRequest request);
+    ResponseEntity<ResponseBase<UpdateMerchantResponse>> update(Principal principal, @Valid @RequestBody UpdateMerchantRequest request);
 
     @Operation(
         summary = "Cập nhật thông tin merchant",
