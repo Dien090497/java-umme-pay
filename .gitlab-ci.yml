@@ -104,7 +104,7 @@ deploy-umee-app-uat:
     - chmod +x scripts/umee-app-uat-ci.sh && ./scripts/umee-app-uat-ci.sh
     - kubectl apply -f kubernetes-uat/$SERVICE_NAME-app-config.yaml -n $NAME_SPACE
 
-    - helm upgrade --install --recreate-pods $SERVICE_NAME $CHART_DIR -n $NAME_SPACE -f $CHART_DIR/values-app-uat.yaml
+    - helm upgrade --install --recreate-pods $SERVICE_NAME $CHART_DIR -n $NAME_SPACE -f $CHART_DIR/values-app-uat.yaml --set image.pullPolicy=Always
   only:
     - umee-uat
   tags:
