@@ -152,7 +152,7 @@ public class CommonUtils {
     }
 
     public static boolean isExpired(Long since) {
-        Long iNow = Instant.now().getEpochSecond() * 1000;
+        Long iNow = Instant.now().getEpochSecond();
         return iNow - since > 0;
     }
 

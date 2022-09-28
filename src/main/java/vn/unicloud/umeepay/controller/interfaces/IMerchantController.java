@@ -9,10 +9,8 @@ import vn.unicloud.umeepay.core.ResponseBase;
 import vn.unicloud.umeepay.dtos.merchant.request.CreateMerchantRequest;
 import vn.unicloud.umeepay.dtos.merchant.request.GetMerchantCredentialRequest;
 import vn.unicloud.umeepay.dtos.merchant.request.UpdateMerchantRequest;
-import vn.unicloud.umeepay.dtos.merchant.response.CreateMerchantResponse;
-import vn.unicloud.umeepay.dtos.merchant.response.GetMerchantCredentialResponse;
-import vn.unicloud.umeepay.dtos.merchant.response.GetMerchantResponse;
-import vn.unicloud.umeepay.dtos.merchant.response.UpdateMerchantResponse;
+import vn.unicloud.umeepay.dtos.merchant.request.UpdateWebhookRequest;
+import vn.unicloud.umeepay.dtos.merchant.response.*;
 import vn.unicloud.umeepay.dtos.request.ClientLoginRequest;
 import vn.unicloud.umeepay.dtos.request.LoginRequest;
 import vn.unicloud.umeepay.dtos.response.AccessTokenResponseCustom;
@@ -51,4 +49,11 @@ public interface IMerchantController {
     )
     @PutMapping("/v1/getCredential")
     ResponseEntity<ResponseBase<GetMerchantCredentialResponse>> getCredential(@Valid @RequestBody GetMerchantCredentialRequest request);
+
+    @Operation(
+        summary = "Cập nhật thông tin merchant",
+        description = "- Cập nhật thông tin merchant"
+    )
+    @PutMapping("/v1/updateWebhook")
+    ResponseEntity<ResponseBase<UpdateWebhookResponse>> updateWebhook(Principal principal, @Valid @RequestBody UpdateWebhookRequest request);
 }
