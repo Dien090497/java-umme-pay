@@ -27,7 +27,8 @@ public class MerchantController extends BaseController implements IMerchantContr
     }
 
     @Override
-    public ResponseEntity<ResponseBase<UpdateMerchantResponse>> update(UpdateMerchantRequest request) {
+    public ResponseEntity<ResponseBase<UpdateMerchantResponse>> update(Principal principal, UpdateMerchantRequest request) {
+        request.setUserId(principal.getName());
         return this.execute(request, UpdateMerchantResponse.class);
     }
 
