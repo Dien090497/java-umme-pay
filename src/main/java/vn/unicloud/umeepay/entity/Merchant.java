@@ -48,6 +48,10 @@ public class Merchant {
     @Column(name = "name", nullable = false)
     private String name;
 
+    private String webhookUrl;
+
+    private String webhookApiKey;
+
     @Override
     public String toString() {
         return "Merchant{" +

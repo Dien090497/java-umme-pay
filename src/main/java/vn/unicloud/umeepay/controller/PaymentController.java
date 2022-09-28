@@ -26,7 +26,7 @@ public class PaymentController extends BaseController implements IPaymentControl
         request.setSignature(signature);
         request.setTimestamp(timestamp);
         request.setKeyId(keyId);
-//        CreateTransactionRequest createTransactionRequest = securityService.authenticate(request);
+//        securityService.authenticate(request);
         return null;
     }
 

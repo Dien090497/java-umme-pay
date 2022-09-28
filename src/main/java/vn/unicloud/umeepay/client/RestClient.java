@@ -11,14 +11,20 @@ import org.springframework.web.client.RestTemplate;
 import vn.unicloud.umeepay.enums.ResponseCode;
 import vn.unicloud.umeepay.exception.InternalException;
 
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
+
 @Slf4j
 @Component
-public class RestClient implements IRestClient{
+public class RestClient implements IRestClient {
 
     private final RestTemplate restTemplate;
 
     public RestClient(RestTemplateBuilder restTemplateBuilder) {
-        this.restTemplate = restTemplateBuilder.build();
+        this.restTemplate = restTemplateBuilder
+            .setReadTimeout(Duration.of(3, ChronoUnit.SECONDS))
+            .setConnectTimeout(Duration.of(3, ChronoUnit.SECONDS))
+            .build();
     }
 
     @Override
