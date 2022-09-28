@@ -33,14 +33,14 @@ public interface IMerchantController {
         summary = "Tạo mới merchant",
         description = "- Tạo mới merchant, yêu cầu từ user"
     )
-    @PostMapping("/v1/create")
+    @PostMapping("/v1/createMerchant")
     ResponseEntity<ResponseBase<CreateMerchantResponse>> create(Principal principal, @Valid @RequestBody CreateMerchantRequest request);
 
     @Operation(
         summary = "Cập nhật thông tin merchant",
         description = "- Cập nhật thông tin merchant"
     )
-    @PutMapping("/v1/update")
+    @PutMapping("/v1/updateMerchant")
     ResponseEntity<ResponseBase<UpdateMerchantResponse>> update(Principal principal, @Valid @RequestBody UpdateMerchantRequest request);
 
     @Operation(
