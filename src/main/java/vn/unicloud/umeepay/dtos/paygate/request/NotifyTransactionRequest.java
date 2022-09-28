@@ -23,7 +23,7 @@ public class NotifyTransactionRequest extends BaseRequestData {
 
     private String statusCode;
 
-    @NotBlank
+//    @NotBlank
     private String txnNumber;
 
     private String transferDesc;
