@@ -49,12 +49,11 @@ public class TestMain {
 
 
     public static void main(String[] args) {
-//        System.out.println("diff: " + );
-//        String key = CommonUtils.getEncryptKey(256);
-//        String data = "hello";
-//        String encrypted = CommonUtils.encryptAES(data, key);
-//        System.out.println("encrypt: " + encrypted);
-//        System.out.println("decrypted: " + CommonUtils.decryptAES(encrypted, key));
+        String key = CommonUtils.getEncryptKey(256);
+        String data = "hello";
+        String encrypted = CommonUtils.encryptAES(data, key);
+        System.out.println("encrypt: " + encrypted);
+        System.out.println("decrypted: " + CommonUtils.decryptAES(encrypted, key));
         //               00020101021138530010A0000007270123000697043201091790526790208QRIBFTTA53037045802VN63049D67
 //        String source = "00020101021138530010A0000007270123000697043201091790526790208QRIBFTTA53037045802VN63049D67";
 //        String source = "00020101021238630010A00000072701330006970452011910000322072901078400208QRIBFTTA53037045405500005802VN62240820dong qop quy vac xin63043A65";

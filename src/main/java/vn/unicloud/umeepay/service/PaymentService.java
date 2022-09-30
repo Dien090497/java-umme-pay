@@ -94,7 +94,11 @@ public class PaymentService {
         Transaction transaction = transactionRepository.findById(request.getTransactionId()).orElseThrow(
             () -> {throw new InternalException(ResponseCode.INVALID_TRANSACTION_ID);}
         );
-        return new QueryTransactionResponse(transaction.getStatus());
+        return QueryTransactionResponse.builder()
+            .refTransactionId(transaction.getRefTransactionId())
+            .amount(transaction.getAmount())
+            .status(transaction.getStatus())
+            .build();
     }
 
     public CancelTransactionResponse cancelTransaction(CancelTransactionRequest request) {
