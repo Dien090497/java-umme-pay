@@ -94,7 +94,7 @@ public class PaygateService {
     }
 
     @SneakyThrows
-    @Transactional
+//    @Transactional
     public NotifyTransactionResponse notifyTransaction(NotifyTransactionRequest request) {
         Transaction transaction = this.getTransaction(request.getVirtualAccount());
 
