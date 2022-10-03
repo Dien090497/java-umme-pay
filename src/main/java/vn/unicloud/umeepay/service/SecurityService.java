@@ -28,7 +28,7 @@ import static org.keycloak.util.JsonSerialization.mapper;
 @Log4j2
 public class SecurityService {
 
-    @Value("${umeepay.timestamp}")
+    @Value("${umeepay.max-timestamp-diff-ms}")
     private Long timeStamp;
 
     @Autowired
