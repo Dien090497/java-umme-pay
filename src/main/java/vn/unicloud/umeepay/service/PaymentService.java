@@ -21,6 +21,7 @@ import vn.unicloud.umeepay.repository.MerchantRepository;
 import vn.unicloud.umeepay.repository.TransactionRepository;
 import vn.unicloud.umeepay.utils.CommonUtils;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 
 @Service
@@ -72,7 +73,7 @@ public class PaymentService {
             .accountNo(merchant.getAccountNo())
             .description(content)
             .merchant(merchant)
-            .timestamp(System.currentTimeMillis())
+            .timestamp(Instant.now().getEpochSecond())
             .timeout(request.getTimeout() == null ? 0 : request.getTimeout())
             .build();
         Transaction saved = transactionRepository.save(transaction);
@@ -93,7 +94,11 @@ public class PaymentService {
         Transaction transaction = transactionRepository.findById(request.getTransactionId()).orElseThrow(
             () -> {throw new InternalException(ResponseCode.INVALID_TRANSACTION_ID);}
         );
-        return new QueryTransactionResponse(transaction.getStatus());
+        return QueryTransactionResponse.builder()
+            .refTransactionId(transaction.getRefTransactionId())
+            .amount(transaction.getAmount())
+            .status(transaction.getStatus())
+            .build();
     }
 
     public CancelTransactionResponse cancelTransaction(CancelTransactionRequest request) {

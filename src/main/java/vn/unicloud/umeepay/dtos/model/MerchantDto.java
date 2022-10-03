@@ -24,4 +24,8 @@ public class MerchantDto {
 
     private LocalDateTime createDateTime;
 
+    private String name;
+
+    private String accountNo;
+
 }

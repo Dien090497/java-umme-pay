@@ -41,8 +41,8 @@ public enum ResponseCode {
     MERCHANT_NOT_FOUND(409, "Merchant not found"),
     INVALID_DATA(410, "Invalid data"),
     DUPLICATE_REFERENCE_TRANSACTION_ID(411, "Duplicate ref transaction id"),
+    CALL_WEBHOOK_ERROR(412, "Call webhook error"),
     TRANSACTION_EXPIRED(413, "Transaction expired"),
-
 
     // Paygate
     INVALID_CERTIFICATE(501, "Invalid certificate"),

@@ -1,18 +1,13 @@
 package vn.unicloud.umeepay.service;
 
 import lombok.extern.log4j.Log4j2;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import vn.unicloud.umeepay.dtos.merchant.request.CreateMerchantRequest;
-import vn.unicloud.umeepay.dtos.merchant.request.GetMerchantCredentialRequest;
-import vn.unicloud.umeepay.dtos.merchant.request.GetMerchantRequest;
-import vn.unicloud.umeepay.dtos.merchant.request.UpdateMerchantRequest;
-import vn.unicloud.umeepay.dtos.merchant.response.CreateMerchantResponse;
-import vn.unicloud.umeepay.dtos.merchant.response.GetMerchantCredentialResponse;
-import vn.unicloud.umeepay.dtos.merchant.response.GetMerchantResponse;
-import vn.unicloud.umeepay.dtos.merchant.response.UpdateMerchantResponse;
+import vn.unicloud.umeepay.dtos.merchant.request.*;
+import vn.unicloud.umeepay.dtos.merchant.response.*;
 import vn.unicloud.umeepay.dtos.model.MerchantDto;
 import vn.unicloud.umeepay.dtos.request.ClientLoginRequest;
 import vn.unicloud.umeepay.dtos.response.AccessTokenResponseCustom;
@@ -88,10 +83,32 @@ public class MerchantService {
     }
 
     public UpdateMerchantResponse updateMerchant(UpdateMerchantRequest request) {
-        return null;
+        Merchant merchant = merchantRepository.findByUserId(request.getUserId());
+        if (merchant == null) {
+            throw new InternalException(ResponseCode.MERCHANT_NOT_FOUND);
+        }
+        if (StringUtils.isNoneBlank(request.getMerchantName())) {
+            merchant.setName(request.getMerchantName());
+        }
+        if (StringUtils.isNoneBlank(request.getAccountNo())) {
+            merchant.setAccountNo(request.getAccountNo());
+        }
+        merchantRepository.save(merchant);
+        return new UpdateMerchantResponse(true);
     }
 
     public GetMerchantCredentialResponse getMerchantCredential(GetMerchantCredentialRequest request) {
         return null;
+    }
+
+    public UpdateWebhookResponse updateWebhook(UpdateWebhookRequest request) {
+        Merchant merchant = merchantRepository.findByUserId(request.getUserId());
+        if (merchant == null) {
+            throw new InternalException(ResponseCode.MERCHANT_NOT_FOUND);
+        }
+        merchant.setWebhookUrl(request.getUrl());
+        merchant.setWebhookApiKey(request.getApiKey());
+        merchantRepository.save(merchant);
+        return new UpdateWebhookResponse(true);
     }
 }
