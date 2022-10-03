@@ -29,7 +29,7 @@ public class TestApiTransaction {
     private CredentialRepository credentialRepository;
 
 
-    public <T extends BaseRequestData, I extends BaseResponseData> I testTransactionClient(String url, T request, Class<I> iClass) {
+    public <T extends BaseRequestData, U extends BaseRequestData, I extends BaseResponseData> I testTransactionClient(String url, T request, Class<U> uClass,Class<I> iClass) {
         // get secretkey
         Credential credential = credentialRepository.findById(request.getClientId()).orElseThrow(
                 () -> {
@@ -41,7 +41,7 @@ public class TestApiTransaction {
         ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
         String jsonString = null;
         try {
-            jsonString = objectMapper.writeValueAsString(request);
+            jsonString = objectMapper.writeValueAsString(ModelMapperUtils.mapper(request, uClass));
             log.info(jsonString);
 
         } catch (JsonProcessingException e) {

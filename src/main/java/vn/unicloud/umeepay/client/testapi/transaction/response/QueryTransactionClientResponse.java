@@ -12,4 +12,8 @@ import vn.unicloud.umeepay.enums.TransactionStatus;
 public class QueryTransactionClientResponse extends BaseResponseData {
     private TransactionStatus status;
 
+    private String refTransactionId;
+
+    private Long amount;
+
 }

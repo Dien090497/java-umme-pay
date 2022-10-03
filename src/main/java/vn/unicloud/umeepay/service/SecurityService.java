@@ -6,6 +6,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -27,12 +28,15 @@ import static org.keycloak.util.JsonSerialization.mapper;
 @Log4j2
 public class SecurityService {
 
+    @Value("${umeepay.timestamp}")
+    private Long timeStamp;
+
     @Autowired
     private CredentialRepository credentialRepository;
 
     public <T extends BaseRequestData> T authenticate(EncryptedBodyRequest requestData, Class<T> tClass) {
         // check timestamp
-        if (System.currentTimeMillis() - requestData.getTimestamp() > 6000000) {
+        if (System.currentTimeMillis() - requestData.getTimestamp() > timeStamp) {
             throw new InternalException(ResponseCode.TRANSACTION_EXPIRED);
         }
         // check signature
