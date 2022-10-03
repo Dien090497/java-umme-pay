@@ -17,6 +17,11 @@ build-umee-app-dev:
     entrypoint: [""]
   before_script:
     - export $(xargs < $ENV_DEV)
+  # rules:
+  #   - if: $CI_COMMIT_MESSAGE =~ /skip build/ && $CI_COMMIT_BRANCH == 'umee-dev'
+  #     when: manual
+  #     allow_failure: true
+  #   - when: always
   script:
     - echo $ECR_REGISTRY
     - mkdir -p /kaniko/.docker
@@ -27,7 +32,7 @@ build-umee-app-dev:
       --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
       --destination "${ECR_REGISTRY}/${IMAGE_NAME}:${TAG}"
   only:
-    - umee-dev
+    - develop
   tags:
     - shared-docker-runner-2
 
@@ -99,7 +104,7 @@ deploy-umee-app-uat:
     - chmod +x scripts/umee-app-uat-ci.sh && ./scripts/umee-app-uat-ci.sh
     - kubectl apply -f kubernetes-uat/$SERVICE_NAME-app-config.yaml -n $NAME_SPACE
 
-    - helm upgrade --install --recreate-pods $SERVICE_NAME $CHART_DIR -n $NAME_SPACE -f $CHART_DIR/values-app-uat.yaml
+    - helm upgrade --install --recreate-pods $SERVICE_NAME $CHART_DIR -n $NAME_SPACE -f $CHART_DIR/values-app-uat.yaml --set image.pullPolicy=Always
   only:
     - umee-uat
   tags:
