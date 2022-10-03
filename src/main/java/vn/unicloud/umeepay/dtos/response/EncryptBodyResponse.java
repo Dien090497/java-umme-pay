@@ -1,4 +1,4 @@
-package vn.unicloud.umeepay.dtos.payment.response;
+package vn.unicloud.umeepay.dtos.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,4 +1,4 @@
-package vn.unicloud.umeepay.client.testapi.transaction;
+package vn.unicloud.umeepay.client.testapi;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -11,8 +11,8 @@ import vn.unicloud.umeepay.client.RestClient;
 import vn.unicloud.umeepay.core.BaseRequestData;
 import vn.unicloud.umeepay.core.BaseResponseData;
 import vn.unicloud.umeepay.core.ResponseBase;
-import vn.unicloud.umeepay.dtos.payment.request.EncryptedBodyRequest;
-import vn.unicloud.umeepay.dtos.payment.response.EncryptBodyResponse;
+import vn.unicloud.umeepay.dtos.request.EncryptedBodyRequest;
+import vn.unicloud.umeepay.dtos.response.EncryptBodyResponse;
 import vn.unicloud.umeepay.entity.Credential;
 import vn.unicloud.umeepay.enums.ResponseCode;
 import vn.unicloud.umeepay.exception.InternalException;
@@ -42,7 +42,7 @@ public class TestApiTransaction {
         String jsonString = null;
         try {
             jsonString = objectMapper.writeValueAsString(ModelMapperUtils.mapper(request, uClass));
-            log.info(jsonString);
+            log.debug("Json string: " + jsonString);
 
         } catch (JsonProcessingException e) {
             e.printStackTrace();
@@ -50,7 +50,6 @@ public class TestApiTransaction {
         }
 
         String data = CommonUtils.encryptAES(jsonString, credential.getSecretKey());
-
         // encrypt Header
         String clientHeader = request.getClientId();
         Long timeHeader = System.currentTimeMillis();
@@ -83,10 +82,10 @@ public class TestApiTransaction {
 
 
         if (response.getStatusCode() != HttpStatus.OK) {
-            throw new InternalException(ResponseCode.FAILED);
+            throw new InternalException(ResponseCode.HTTP_STATUS_FAILED);
         }
         if (response.getBody() == null) {
-            throw new InternalException(ResponseCode.FAILED);
+            throw new InternalException(ResponseCode.RESPONSE_BODY_NULL);
         }
 
         if (response.getBody().getData() == null) {
@@ -104,6 +103,7 @@ public class TestApiTransaction {
         try {
             testTransactionClientResponse = objectMapper.readValue(data, iClass);
         } catch (JsonProcessingException e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
 

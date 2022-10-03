@@ -41,7 +41,7 @@ public class KeycloakSecurityConfig extends KeycloakWebSecurityConfigurerAdapter
             .anyRequest()
             .permitAll()
             .and()
-            .addFilterBefore(new BasicTokenFilter("/api/paygate/callback", Base64.getEncoder().encodeToString(basicAuth.getBytes(StandardCharsets.UTF_8))), WebAsyncManagerIntegrationFilter.class)
+            .addFilterBefore(new BasicTokenFilter("/api/paygate/callback/v1", Base64.getEncoder().encodeToString(basicAuth.getBytes(StandardCharsets.UTF_8))), WebAsyncManagerIntegrationFilter.class)
 //            .addFilterBefore(new SimpleCORSFilter(), WebAsyncManagerIntegrationFilter.class)
             .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint())
             .and()

@@ -3,7 +3,6 @@ package vn.unicloud.umeepay.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,9 +12,8 @@ import org.springframework.stereotype.Service;
 import vn.unicloud.umeepay.core.BaseRequestData;
 import vn.unicloud.umeepay.core.ResponseBase;
 import vn.unicloud.umeepay.core.ResponseData;
-import vn.unicloud.umeepay.dtos.payment.request.CancelTransactionRequest;
-import vn.unicloud.umeepay.dtos.payment.request.EncryptedBodyRequest;
-import vn.unicloud.umeepay.dtos.payment.response.EncryptBodyResponse;
+import vn.unicloud.umeepay.dtos.request.EncryptedBodyRequest;
+import vn.unicloud.umeepay.dtos.response.EncryptBodyResponse;
 import vn.unicloud.umeepay.entity.Credential;
 import vn.unicloud.umeepay.enums.ResponseCode;
 import vn.unicloud.umeepay.exception.InternalException;
@@ -52,7 +50,8 @@ public class SecurityService {
                 credential.getSecretKey());
             if (signature != null && signature.equals(requestData.getSignature())) {
                 // Decrypt Data
-                T requesResult =  mapper.readValue(CommonUtils.decryptAES(requestData.getData(), credential.getSecretKey()),tClass);
+                ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
+                T requesResult =  objectMapper.readValue(CommonUtils.decryptAES(requestData.getData(), credential.getSecretKey()),tClass);
                 requesResult.setTimestamp(requesResult.getTimestamp());
                 requesResult.setClientId(requesResult.getClientId());
                 requesResult.setCredential(credential);
