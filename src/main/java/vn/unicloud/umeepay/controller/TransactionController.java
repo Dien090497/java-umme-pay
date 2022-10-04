@@ -1,49 +1,45 @@
 package vn.unicloud.umeepay.controller;
 
-import org.json.CDL;
-import org.json.JSONArray;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import vn.unicloud.umeepay.controller.interfaces.ITransactionController;
 import vn.unicloud.umeepay.core.BaseController;
 import vn.unicloud.umeepay.core.ResponseBase;
+import vn.unicloud.umeepay.dtos.request.PaginationAndSortingRequest;
 import vn.unicloud.umeepay.dtos.transaction.request.GetTransactionsRequest;
 import vn.unicloud.umeepay.dtos.transaction.response.GetTransactionsResponse;
 import vn.unicloud.umeepay.entity.Transaction;
 import vn.unicloud.umeepay.enums.ResponseCode;
 import vn.unicloud.umeepay.enums.TransactionStatus;
-import vn.unicloud.umeepay.repository.TransactionRepository;
-import vn.unicloud.umeepay.utils.CommonUtils;
+import vn.unicloud.umeepay.utils.PageUtils;
 
-import java.nio.charset.StandardCharsets;
-import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 public class TransactionController extends BaseController implements ITransactionController {
 
-    @Autowired
-    private TransactionRepository transactionRepository;
+@Override
+public ResponseEntity<ResponseBase<GetTransactionsResponse>> getAll(Integer page, Integer size, String keyword, String transactionId, String status, String fromDate, String toDate) {
+    try{
+            TransactionStatus enumStatus = status != null ? TransactionStatus.valueOf(status) : null;
+            GetTransactionsRequest request = GetTransactionsRequest.builder()
+                    .pageable(PageUtils.createPageable(new PaginationAndSortingRequest(page, size)))
+                    .keyword(keyword)
+                    .status(enumStatus)
+                    .transactionId(transactionId)
+                    .fromDate(fromDate)
+                    .toDate(toDate)
+                    .build();
+            return this.execute(request, GetTransactionsResponse.class);
 
-    @Override
-    public ResponseEntity<ResponseBase<GetTransactionsResponse>> getAll(Integer page, Integer size, String keyword, String terminalId, String traceId, String branch, String status, String fromDate, String toDate) {
-        GetTransactionsRequest request = GetTransactionsRequest.builder()
-            .pageable(PageRequest.of(page, size))
-            .keyword(keyword)
-            .status(status)
-            .terminalId(terminalId)
-            .traceId(traceId)
-            .fromDate(fromDate)
-            .toDate(toDate)
-            .build();
-
-        return this.execute(request, GetTransactionsResponse.class);
+    } catch (IllegalArgumentException e){
+        List<Transaction> list = new ArrayList<>();
+        return ResponseEntity.ok(new ResponseBase<>(new GetTransactionsResponse(PageUtils.convertListToPage(list, PageUtils.createPageable(new PaginationAndSortingRequest(0, size))))));
     }
+
+
+}
 
     @Override
     public ResponseEntity<?> download(Integer page, Integer size, String keyword, String terminalId, String traceId, String branch, String status, String fromDate, String toDate) {
