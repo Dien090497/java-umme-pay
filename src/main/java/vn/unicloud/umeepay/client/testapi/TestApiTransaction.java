@@ -17,6 +17,7 @@ import vn.unicloud.umeepay.entity.Credential;
 import vn.unicloud.umeepay.enums.ResponseCode;
 import vn.unicloud.umeepay.exception.InternalException;
 import vn.unicloud.umeepay.repository.CredentialRepository;
+import vn.unicloud.umeepay.service.CredentialService;
 import vn.unicloud.umeepay.utils.CommonUtils;
 import vn.unicloud.umeepay.utils.ModelMapperUtils;
 
@@ -26,16 +27,15 @@ public class TestApiTransaction {
     @Autowired
     private RestClient restClient;
     @Autowired
-    private CredentialRepository credentialRepository;
+    private CredentialService credentialService;
 
 
     public <T extends BaseRequestData, U extends BaseRequestData, I extends BaseResponseData> I testTransactionClient(String url, T request, Class<U> uClass,Class<I> iClass) {
         // get secretkey
-        Credential credential = credentialRepository.findById(request.getClientId()).orElseThrow(
-                () -> {
-                    throw new InternalException(ResponseCode.INVALID_KEY_ID);
-                }
-        );
+        Credential credential = credentialService.getCredentialCacheById(request.getClientId());
+        if (credential == null) {
+            throw new InternalException(ResponseCode.INVALID_KEY_ID);
+        }
 
         // encrypt data
         ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());

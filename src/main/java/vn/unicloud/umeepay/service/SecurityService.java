@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import vn.unicloud.umeepay.cache.CredentialCache;
 import vn.unicloud.umeepay.core.BaseRequestData;
 import vn.unicloud.umeepay.core.ResponseBase;
 import vn.unicloud.umeepay.core.ResponseData;
@@ -32,6 +33,9 @@ public class SecurityService {
     @Autowired
     private CredentialRepository credentialRepository;
 
+    @Autowired
+    private CredentialService credentialService;
+
     public <T extends BaseRequestData> T authenticate(EncryptedBodyRequest requestData, Class<T> tClass) {
         // check timestamp
         if (System.currentTimeMillis() - requestData.getTimestamp() > timeStamp) {
@@ -39,22 +43,21 @@ public class SecurityService {
         }
         // check signature
         try {
-            Credential credential = credentialRepository.findById(requestData.getClientId()).orElseThrow(
-                () -> {
-                    throw new InternalException(ResponseCode.INVALID_KEY_ID);
-                }
-            );
+            Credential credentialCache = credentialService.getCredentialCacheById(requestData.getClientId());
+            if (credentialCache == null) {
+                throw new InternalException(ResponseCode.INVALID_KEY_ID);
+            }
             String signature = CommonUtils.md5(requestData.getClientId() +
                 requestData.getTimestamp() +
                 requestData.getData() +
-                credential.getSecretKey());
+                credentialCache.getSecretKey());
             if (signature != null && signature.equals(requestData.getSignature())) {
                 // Decrypt Data
                 ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
-                T requesResult =  objectMapper.readValue(CommonUtils.decryptAES(requestData.getData(), credential.getSecretKey()),tClass);
+                T requesResult =  objectMapper.readValue(CommonUtils.decryptAES(requestData.getData(), credentialCache.getSecretKey()),tClass);
                 requesResult.setTimestamp(requesResult.getTimestamp());
                 requesResult.setClientId(requesResult.getClientId());
-                requesResult.setCredential(credential);
+                requesResult.setCredential(credentialCache);
                 return requesResult;
             }
         } catch (Exception e) {
