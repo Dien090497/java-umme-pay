@@ -2,6 +2,7 @@ package vn.unicloud.umeepay.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import lombok.experimental.FieldNameConstants;
 import org.hibernate.annotations.GenericGenerator;
 import vn.unicloud.umeepay.enums.TransactionStatus;
 
@@ -16,6 +17,7 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@FieldNameConstants
 public class Transaction {
 
     public static final String COLLECTION_NAME = "transaction";

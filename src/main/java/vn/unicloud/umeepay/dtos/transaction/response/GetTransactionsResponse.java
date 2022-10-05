@@ -12,7 +12,6 @@ import javax.validation.constraints.NotEmpty;
 @AllArgsConstructor
 public class GetTransactionsResponse extends BaseResponseData {
 
-    @NotEmpty
     private Page<Transaction> transactions;
 
 }
