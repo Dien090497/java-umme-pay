@@ -32,10 +32,8 @@ public class SecurityService {
 
     @Autowired
     private CredentialRepository credentialRepository;
-
     @Autowired
     private CredentialService credentialService;
-
     public <T extends BaseRequestData> T authenticate(EncryptedBodyRequest requestData, Class<T> tClass) {
         // check timestamp
         if (System.currentTimeMillis() - requestData.getTimestamp() > timeStamp) {
