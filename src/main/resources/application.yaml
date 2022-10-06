@@ -52,77 +52,10 @@ keycloak:
   ssl-required: ${KEYCLOAK_SSL_REQUIRED:external}
   resource: ${KEYCLOAK_RESOURCE:umee-pay}
   credentials:
-    secret: ${KEYCLOAK_CREDENTIALS_SECRET:KCCed5XMyObFlJPu7xWlg59mLiYThWzI}
+    secret: ${KEYCLOAK_CREDENTIALS_SECRET:iHWZS8rcsMmSGyewHAYY1KvwQUr07V6I}
   use-resource-role-mappings: true
   bearer-only: true
 
 keycloak-client:
   username: ${KEYCLOAK_CLIENT_USERNAME:admin}
   password: ${KEYCLOAK_CLIENT_PASSWORD:Aqswde123@}
-
-#Sunshine
-#sunshine:
-#  domain: ${DOMAIN:http://media:8080}
-#  security:
-#    use-webflux: ${USE_WEBFLUX:false}
-#    path-matcher:
-#      permit-all-path-patterns:
-#        - /webjars/swagger-ui/**
-#        - /v3/api-docs/**
-#        - /swagger-resources/**
-#        - /webjars/**
-#        - /swagger-ui/**
-#        - /swagger-ui.html
-#        - /null/swagger-resources/**
-#        - /actuator/**
-#        - /error404
-#        - /static/**
-#        - /css/**
-#        - /assets/**
-#        - /config/**
-#        - /request-transfer/**
-#        - /share-bills/**
-#    cors:
-#      allowed-origins: ${CORS_ORIGINS:https://cms-web-staging.kienlongbank.co,http://cms-frontend}
-#      allowed-methods: ${CORS_METHODS:*}
-#      allowed-headers: ${CORS_HEADERS:*}
-#    keycloak-realms:
-#      umee-backend:
-#        realm-name: ${PROFILE_REALM:umee-backend}
-#        auth-server-url: ${KEYCLOAK_URI:http://umee-keycloak}/auth
-#        client-id: ${PROFILE_CLIENT_ID:umee-backend-client}
-#        client-secret: ${PROFILE_CLIENT_SECRET:CM5uEyPuZLwC1uxPGxopPCmJiv5Vf5b8}
-#        token-uri: ${KEYCLOAK_URI:http://umee-keycloak}/auth/realms/${PROFILE_REALM:umee-backend}/protocol/openid-connect/token
-#        user-info-uri: ${KEYCLOAK_URI:http://umee-keycloak}/auth/realms/${PROFILE_REALM:umee-backend}/protocol/openid-connect/userinfo
-#        credentials:
-#          secret: ${PROFILE_CLIENT_SECRET:CM5uEyPuZLwC1uxPGxopPCmJiv5Vf5b8}
-#  clients:
-#    connection:
-#      maxIdleConnection: 10
-#      keepAliveDuration: 120
-#      connectionTimeout: 180
-#    internal:
-#      ekyc:
-#        uri: ${EKYC_API_URI:http://10.50.99.50:32000/ekyc}
-#      profile:
-#        uri: ${PROFILE_URI:http://10.50.99.50:32000/profile}
-#      smartbank:
-#        uri: ${SMART_BANK_URI:http://10.50.99.50:32000/smartbank}
-#      schedule:
-#        uri: ${SCHEDULE_URI:http://10.50.99.50:32000/schedule}
-#        properties:
-#          transaction_schedule_access_key: ${TRANSACTION_SCHEDULE_ACCESS_KEY:5rv5gebnmz2uhfhps939sm7wsdgse9ne}
-#    external:
-#      corebank:
-#        uri: ${KIENLONG_URI:https://ksbapitest.kienlongbank.com:2302/KsMobiApiDev}
-#        properties:
-#          access-key-bank: ${KIENLONG_AUTH:Basic S1NNT0JJOjFjZDlkZTM4YmM0YjI5NDM2MTg4MjAyNzNmYjU1OTk0OWQwYmJjMjk5ZTZjOTg0YmI1MTM4N2U2OTQ2NTYxYzc=}
-#
-#  otp:
-#    timePeriod: ${OTP_PERIOD:30}
-#    allowedPeriodDiscrepancy: ${OTP_ALLOWED_PERIOD_DISCREPANCY:5}
-#    lockDuration: ${OTP_LOCK_DURATION:900}
-#    expiredTime: ${OTP_EXPIRED_TIME:4}
-#
-#  card:
-#    generate-card-id-key: ${GENERATE_CARD_ID_KEY:KlbCreditCard20202020}
