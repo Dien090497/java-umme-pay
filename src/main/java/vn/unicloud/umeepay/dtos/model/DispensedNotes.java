@@ -1,9 +1,10 @@
 package vn.unicloud.umeepay.dtos.model;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
+@ToString
 @Builder
 public class DispensedNotes {
 

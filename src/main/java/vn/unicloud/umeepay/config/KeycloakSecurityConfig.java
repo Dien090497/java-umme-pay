@@ -37,12 +37,18 @@ public class KeycloakSecurityConfig extends KeycloakWebSecurityConfigurerAdapter
         http
             .csrf().disable()
             .authorizeRequests()
-            .antMatchers("/api/transaction/**").authenticated()
-            .anyRequest()
+            .antMatchers("/",
+                "/*",
+                "/webjars/**",
+                "/swagger-ui/**",
+                "/v3/api-docs/**",
+                "/swagger-resources/**",
+                "/api/paygate/callback/**")
             .permitAll()
+            .anyRequest().authenticated()
             .and()
-            .addFilterBefore(new BasicTokenFilter("/api/paygate/callback", Base64.getEncoder().encodeToString(basicAuth.getBytes(StandardCharsets.UTF_8))), WebAsyncManagerIntegrationFilter.class)
-//            .addFilterBefore(new SimpleCORSFilter(), WebAsyncManagerIntegrationFilter.class)
+//            .addFilterBefore(new BasicTokenFilter("/api/paygate/callback", Base64.getEncoder().encodeToString(basicAuth.getBytes(StandardCharsets.UTF_8))), WebAsyncManagerIntegrationFilter.class)
+            .addFilterBefore(new SimpleCORSFilter(), WebAsyncManagerIntegrationFilter.class)
             .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint())
             .and()
             .logout()
@@ -57,10 +63,9 @@ public class KeycloakSecurityConfig extends KeycloakWebSecurityConfigurerAdapter
      * Registers the KeycloakAuthenticationProvider with the authentication manager
      */
     @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+    public void configureGlobal(AuthenticationManagerBuilder auth) {
         KeycloakAuthenticationProvider keycloakAuthenticationProvider = keycloakAuthenticationProvider();
         SimpleAuthorityMapper simpleAuthorityMapper = new SimpleAuthorityMapper();
-//        simpleAuthorityMapper.setPrefix("");
         keycloakAuthenticationProvider.setGrantedAuthoritiesMapper(simpleAuthorityMapper);
         auth.authenticationProvider(keycloakAuthenticationProvider);
 
@@ -82,6 +87,7 @@ public class KeycloakSecurityConfig extends KeycloakWebSecurityConfigurerAdapter
         return new KeycloakSpringBootConfigResolver();
     }
 
+    @Override
     protected AuthenticationEntryPoint authenticationEntryPoint() throws Exception {
         return new RestAuthenticationEntryPoint(adapterDeploymentContext());
     }

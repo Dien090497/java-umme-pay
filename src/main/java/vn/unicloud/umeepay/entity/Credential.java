@@ -3,7 +3,9 @@ package vn.unicloud.umeepay.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 import vn.unicloud.umeepay.enums.KeyStatus;
@@ -14,8 +16,10 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "credential")
-@Data
+@Table(name = Credential.COLLECTION_NAME)
+@Getter
+@Setter
+@ToString
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -34,7 +38,7 @@ public class Credential {
     @Enumerated(EnumType.STRING)
     private KeyStatus status;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "merchant_id", referencedColumnName = "id")
     @JsonIgnore
     private Merchant merchant;

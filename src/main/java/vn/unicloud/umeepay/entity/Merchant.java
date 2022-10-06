@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "merchant")
+@Table(name = Merchant.COLLECTION_NAME)
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -33,12 +33,12 @@ public class Merchant {
     @Enumerated(EnumType.STRING)
     private MerchantStatus status;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @JsonIgnore
     private User user;
 
-    @OneToOne(mappedBy = "merchant")
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "merchant")
     private Credential credential;
 
     private LocalDateTime createDateTime;

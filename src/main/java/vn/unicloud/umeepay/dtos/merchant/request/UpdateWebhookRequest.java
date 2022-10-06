@@ -1,12 +1,19 @@
 package vn.unicloud.umeepay.dtos.merchant.request;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import vn.unicloud.umeepay.core.BaseRequestData;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 
-@Data
+@Getter
+@Setter
+@ToString
 public class UpdateWebhookRequest extends BaseRequestData {
 
     @NotBlank

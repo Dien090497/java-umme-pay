@@ -3,6 +3,7 @@ package vn.unicloud.umeepay.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,13 +27,13 @@ import static org.keycloak.util.JsonSerialization.mapper;
 
 @Service
 @Log4j2
+@RequiredArgsConstructor
 public class SecurityService {
 
     @Value("${umeepay.max-timestamp-diff-ms}")
     private Long timeStamp;
 
-    @Autowired
-    private CredentialRepository credentialRepository;
+    private final CredentialRepository credentialRepository;
 
     public <T extends BaseRequestData> T authenticate(EncryptedBodyRequest requestData, Class<T> tClass) {
         // check timestamp
@@ -86,7 +87,7 @@ public class SecurityService {
 
         //encrypt data body
         T dataBody = response.getBody().getData();
-        log.info("Data body: {}", dataBody);
+        log.debug("Data body: {}", dataBody);
         String jsonString = null;
         try {
             jsonString = objectMapper.writeValueAsString(dataBody);

@@ -1,10 +1,11 @@
 package vn.unicloud.umeepay.dtos.merchant.response;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.*;
 import vn.unicloud.umeepay.core.BaseResponseData;
 
-@Data
+@Getter
+@Setter
+@ToString
 @AllArgsConstructor
 public class GetMerchantCredentialResponse extends BaseResponseData {
 

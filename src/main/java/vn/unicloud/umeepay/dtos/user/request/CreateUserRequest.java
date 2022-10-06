@@ -6,9 +6,10 @@ import vn.unicloud.umeepay.core.BaseRequestData;
 import javax.validation.constraints.NotEmpty;
 
 
-@Data
-@EqualsAndHashCode(callSuper = true)
+@Getter
+@Setter
 @ToString
+@EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreateUserRequest extends BaseRequestData {

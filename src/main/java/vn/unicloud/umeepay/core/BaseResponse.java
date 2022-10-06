@@ -1,9 +1,10 @@
 package vn.unicloud.umeepay.core;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
+@ToString
 @AllArgsConstructor
 public class BaseResponse {
 
