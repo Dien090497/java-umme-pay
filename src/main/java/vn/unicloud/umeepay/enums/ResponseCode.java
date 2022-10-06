@@ -54,7 +54,10 @@ public enum ResponseCode {
     // Test API
     HTTP_STATUS_FAILED(701, "Http Status failed"),
     RESPONSE_BODY_NULL(702, "Response body null")
-;
+
+
+
+    ;
 
     private final int code;
     private final String message;

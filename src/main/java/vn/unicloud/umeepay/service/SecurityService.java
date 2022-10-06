@@ -21,8 +21,6 @@ import vn.unicloud.umeepay.exception.InternalException;
 import vn.unicloud.umeepay.repository.CredentialRepository;
 import vn.unicloud.umeepay.utils.CommonUtils;
 
-import static org.keycloak.util.JsonSerialization.mapper;
-
 @Service
 @Log4j2
 public class SecurityService {
