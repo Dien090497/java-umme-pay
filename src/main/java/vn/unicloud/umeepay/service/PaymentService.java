@@ -1,5 +1,6 @@
 package vn.unicloud.umeepay.service;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,6 +27,7 @@ import java.time.LocalDateTime;
 
 @Service
 @Log4j2
+@RequiredArgsConstructor
 public class PaymentService {
 
     @Value("${umeepay.prefix}")
@@ -40,24 +42,21 @@ public class PaymentService {
     @Value("${umeepay.actualAccount}")
     private String actualAccount;
 
-    @Autowired
-    private TransactionRepository transactionRepository;
+    private final TransactionRepository transactionRepository;
 
-    @Autowired
-    private MerchantRepository merchantRepository;
+    private final MerchantRepository merchantRepository;
 
-    @Autowired
-    private CallbackService callbackService;
+    private final CallbackService callbackService;
 
     public CreateTransactionResponse createTransaction(CreateTransactionRequest request) {
-        if (request.getCredential() == null || request.getCredential().getMerchant() == null) {
+        Merchant merchant = merchantRepository.findByCredentialId(request.getCredential().getId());
+        if (merchant == null) {
             throw new InternalException(ResponseCode.MERCHANT_NOT_FOUND);
         }
         Transaction testTransaction = transactionRepository.findByRefTransactionId(request.getRefTransactionId());
         if (testTransaction != null) {
             throw new InternalException(ResponseCode.DUPLICATE_REFERENCE_TRANSACTION_ID);
         }
-        Merchant merchant = request.getCredential().getMerchant();
         String virtualAccount = CommonUtils.generateVirtualAccount(prefix);
         log.debug("Virtual account: {}", virtualAccount);
         String content = CommonUtils.getContent(request.getRefTransactionId());

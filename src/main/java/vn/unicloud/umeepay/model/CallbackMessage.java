@@ -1,10 +1,14 @@
 package vn.unicloud.umeepay.model;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;;
 import vn.unicloud.umeepay.enums.CallbackStatus;
 
-@Data
+@Getter
+@Setter
+@ToString
 @Builder
 public class CallbackMessage {
 

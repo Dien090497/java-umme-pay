@@ -1,11 +1,15 @@
 package vn.unicloud.umeepay.model;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
-@Data
+@Getter
+@Setter
+@ToString
 public class CustomerInfo {
 
     @NotEmpty

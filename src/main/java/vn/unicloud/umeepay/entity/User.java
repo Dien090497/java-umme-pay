@@ -3,7 +3,9 @@ package vn.unicloud.umeepay.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 import vn.unicloud.umeepay.enums.KeyStatus;
@@ -15,7 +17,9 @@ import java.util.UUID;
 
 @Entity
 @Table(name = User.COLLECTION_NAME)
-@Data
+@Getter
+@Setter
+@ToString
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor

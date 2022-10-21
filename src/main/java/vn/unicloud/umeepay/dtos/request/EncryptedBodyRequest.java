@@ -1,12 +1,16 @@
-package vn.unicloud.umeepay.dtos.payment.request;
+package vn.unicloud.umeepay.dtos.request;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;;
 import vn.unicloud.umeepay.core.BaseRequestData;
 import vn.unicloud.umeepay.model.CustomerInfo;
 
 import javax.validation.constraints.*;
 
-@Data
+@Getter
+@Setter
+@ToString
 public class EncryptedBodyRequest extends BaseRequestData {
 
     @NotBlank

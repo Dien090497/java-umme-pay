@@ -1,11 +1,12 @@
 package vn.unicloud.umeepay.client.request;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
-@Data
+@Getter
+@Setter
+@ToString
 @Builder
 public class NotifyRequest {
 

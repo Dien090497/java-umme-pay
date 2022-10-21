@@ -63,6 +63,12 @@ dependencies {
 
     // https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk
     implementation group: 'com.amazonaws', name: 'aws-java-sdk', version: '1.2.1'
+    /**
+     * redis
+     */
+
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-redis'
+    implementation 'redis.clients:jedis'
 
     /**
      * Mysql

@@ -26,9 +26,7 @@ public interface ITransactionController {
         @RequestParam(required = false, defaultValue = "0") Integer page,
         @RequestParam(required = false, defaultValue = "10") Integer size,
         @RequestParam(required = false) String keyword,
-        @RequestParam(required = false) String terminalId,
-        @RequestParam(required = false) String traceId,
-        @RequestParam(required = false) String branch,
+        @RequestParam(required = false) String transactionId,
         @RequestParam(required = false) String status,
         @RequestParam(required = false) String fromDate,
         @RequestParam(required = false) String toDate
