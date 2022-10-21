@@ -1,5 +1,6 @@
 package vn.unicloud.umeepay.service;
 
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.keycloak.representations.AccessToken;
@@ -19,13 +20,12 @@ import vn.unicloud.umeepay.repository.UserRepository;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class UserService {
 
-    @Autowired
-    private KeycloakService keycloakService;
+    private final KeycloakService keycloakService;
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @SneakyThrows
     public CreateUserResponse createUser(CreateUserRequest request) {

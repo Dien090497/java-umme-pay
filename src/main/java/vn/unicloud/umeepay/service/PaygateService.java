@@ -1,5 +1,6 @@
 package vn.unicloud.umeepay.service;
 
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
@@ -28,6 +29,7 @@ import java.util.Objects;
 
 @Service
 @Log4j2
+@RequiredArgsConstructor
 public class PaygateService {
 
     @Value("${umeepay.prefix}")
@@ -39,17 +41,13 @@ public class PaygateService {
     @Value("${umeepay.actualAccount}")
     private String actualAccount;
 
-    @Autowired
-    private PaymentService vietQRService;
+    private final PaymentService vietQRService;
 
-    @Autowired
-    private CallbackService callbackService;
+    private final CallbackService callbackService;
 
-    @Autowired
-    private TransactionRepository transactionRepository;
+    private final TransactionRepository transactionRepository;
 
-    @Autowired
-    private ThirdPartyClient thirdPartyClient;
+    private final ThirdPartyClient thirdPartyClient;
 
     @SneakyThrows
     private Transaction getTransaction(String virtualAccount) {

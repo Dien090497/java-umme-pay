@@ -4,8 +4,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import vn.unicloud.umeepay.client.testapi.transaction.request.*;
-import vn.unicloud.umeepay.client.testapi.transaction.response.*;
 import vn.unicloud.umeepay.core.ResponseBase;
 import vn.unicloud.umeepay.dtos.payment.request.CancelTransactionRequest;
 import vn.unicloud.umeepay.dtos.payment.request.CreateTransactionRequest;
@@ -21,8 +19,6 @@ import javax.validation.Valid;
 @Tag(name = "Payment Controller", description = "Thao tác với Payment")
 @RequestMapping(value = "/api/payment")
 public interface IPaymentController {
-
-
 
     /**
      *
@@ -108,42 +104,5 @@ public interface IPaymentController {
             @RequestHeader("x-api-key") String secretKey,
             @Valid @RequestBody CancelTransactionRequest request
     );
-
-
-    /** Clien
-     * @param clientId
-     * @param request
-     * @return
-     */
-
-
-    @Operation(
-            summary = "Test API tạo một giao dịch mới",
-            description =   "- Đã login với tài khoản client" +
-                    "- Gửi thông tin chưa mã hóa" +
-                    "- merchant tiến hành mã hóa data và header và gửi xuống service" +
-                    "- Service tiến hành giải mã data và header và xử lý" +
-                    "- Sau khi xử lý, service mã hóa kết quả trả về và gửi lại merchant" +
-                    "- Merchant nhận kết quả trả về và tiến hành giải mã" +
-                    "- Merchant gửi thông tin kết quả trả về cho người dùng"
-    )
-    @PostMapping("/client/create")
-    ResponseEntity<ResponseBase<CreateTransactionClientResponse>> createTransactionClient(
-            @RequestHeader("x-api-client") String clientId,
-            @Valid @RequestBody CreateTransactionClientRequest request
-    );
-
-    @PostMapping("/client/check")
-    ResponseEntity<ResponseBase<QueryTransactionClientResponse>> checkTransactionClient(
-            @RequestHeader("x-api-client") String clientId,
-            @Valid @RequestBody QueryTransactionClientRequest request
-    );
-
-    @PostMapping("/client/cancel")
-    ResponseEntity<ResponseBase<CancelTransactionClientResponse>> cancelTransactionClient(
-            @RequestHeader("x-api-client") String clientId,
-            @Valid @RequestBody CancelTransactionClientRequest request
-    );
-
 
 }

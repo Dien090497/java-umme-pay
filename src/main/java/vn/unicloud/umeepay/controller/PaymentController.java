@@ -4,8 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import vn.unicloud.umeepay.controller.interfaces.IPaymentController;
-import vn.unicloud.umeepay.client.testapi.transaction.request.*;
-import vn.unicloud.umeepay.client.testapi.transaction.response.*;
 import vn.unicloud.umeepay.core.BaseController;
 import vn.unicloud.umeepay.core.ResponseBase;
 import vn.unicloud.umeepay.dtos.payment.request.CancelTransactionRequest;
@@ -23,7 +21,6 @@ public class PaymentController extends BaseController implements IPaymentControl
 
     @Autowired
     private SecurityService securityService;
-
 
     @Override
     public ResponseEntity<ResponseBase<EncryptBodyResponse>> createTransaction(String clientId, String signature, Long timestamp, EncryptedBodyRequest request) {
@@ -60,35 +57,6 @@ public class PaymentController extends BaseController implements IPaymentControl
 
     }
 
-
-
-
-    /**
-     * @Client
-     */
-
-
-
-    @Override
-    public ResponseEntity<ResponseBase<CreateTransactionClientResponse>> createTransactionClient(String clientId, CreateTransactionClientRequest request) {
-        request.setClientId(clientId);
-        return this.execute(request, CreateTransactionClientResponse.class);
-    }
-
-    @Override
-    public ResponseEntity<ResponseBase<QueryTransactionClientResponse>> checkTransactionClient(String clientId, QueryTransactionClientRequest request) {
-        request.setClientId(clientId);
-        return this.execute(request, QueryTransactionClientResponse.class);
-    }
-
-    @Override
-    public ResponseEntity<ResponseBase<CancelTransactionClientResponse>> cancelTransactionClient(String clientId, CancelTransactionClientRequest request) {
-        request.setClientId(clientId);
-        return this.execute(request, CancelTransactionClientResponse.class);
-    }
-
-
-
     @Override
     public ResponseEntity<ResponseBase<CreateTransactionResponse>> createTransactionSimple(String keyId, String secretKey, CreateTransactionRequest request) {
         request.setKeyId(keyId);
@@ -112,7 +80,5 @@ public class PaymentController extends BaseController implements IPaymentControl
         securityService.simpleAuthenticate(request);
         return this.execute(request, CancelTransactionResponse.class);
     }
-
-
 
 }

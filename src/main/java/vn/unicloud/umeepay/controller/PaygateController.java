@@ -61,35 +61,31 @@ public class PaygateController extends BaseController implements IPaygateControl
      */
 
     @Override
-    public ResponseEntity<ResponseBase<EncryptBodyResponse>> inquiryChecking(String clientId, String signature, Long timestamp, EncryptedBodyRequest request) {
+    public ResponseEntity<ResponseBase<String>> inquiryChecking(String clientId, String signature, Long timestamp, EncryptedBodyRequest request) {
         request.setSignature(signature);
         request.setTimestamp(timestamp);
         request.setClientId(clientId);
-        InquiryCheckingRequest inquiryCheckingRequest = securityService.authenticate(request, InquiryCheckingRequest.class);
-        request.setCredential(inquiryCheckingRequest.getCredential());
-        return securityService.encryptResponse(request, this.execute(inquiryCheckingRequest, InquiryCheckingResponse.class));
+        InquiryCheckingRequest inquiryCheckingRequest = securityService.paygateAuthenticate(request, InquiryCheckingRequest.class);
+        return securityService.encryptPaygateResponse(this.execute(inquiryCheckingRequest, InquiryCheckingResponse.class));
     }
 
     @Override
-    public ResponseEntity<ResponseBase<EncryptBodyResponse>> depositChecking(String clientId, String signature, Long timestamp, EncryptedBodyRequest request) {
+    public ResponseEntity<ResponseBase<String>> depositChecking(String clientId, String signature, Long timestamp, EncryptedBodyRequest request) {
         request.setSignature(signature);
         request.setTimestamp(timestamp);
         request.setClientId(clientId);
-        DepositCheckingRequest depositCheckingRequest = securityService.authenticate(request, DepositCheckingRequest.class);
-        request.setCredential(depositCheckingRequest.getCredential());
-        return securityService.encryptResponse(request, this.execute(depositCheckingRequest, InquiryCheckingResponse.class));
+        DepositCheckingRequest depositCheckingRequest = securityService.paygateAuthenticate(request, DepositCheckingRequest.class);
+        return securityService.encryptPaygateResponse(this.execute(depositCheckingRequest, InquiryCheckingResponse.class));
     }
 
     @Override
-    public ResponseEntity<ResponseBase<EncryptBodyResponse>> notifyTransaction(String clientId, String signature, Long timestamp, EncryptedBodyRequest request) {
+    public ResponseEntity<ResponseBase<String>> notifyTransaction(String clientId, String signature, Long timestamp, EncryptedBodyRequest request) {
         request.setSignature(signature);
         request.setTimestamp(timestamp);
         request.setClientId(clientId);
-        NotifyTransactionRequest notifyTransactionRequest = securityService.authenticate(request, NotifyTransactionRequest.class);
-        request.setCredential(notifyTransactionRequest.getCredential());
-        return securityService.encryptResponse(request, this.execute(notifyTransactionRequest, NotifyTransactionResponse.class));
+        NotifyTransactionRequest notifyTransactionRequest = securityService.paygateAuthenticate(request, NotifyTransactionRequest.class);
+        return securityService.encryptPaygateResponse(this.execute(notifyTransactionRequest, NotifyTransactionResponse.class));
     }
-
 
     /**
      *

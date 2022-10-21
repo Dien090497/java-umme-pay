@@ -100,8 +100,8 @@ public class CommonUtils {
 
     public static String generateVirtualAccount(String prefix) {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyMMdd");
-        long number = ThreadLocalRandom.current().nextInt(100000);
-        String numberFormat = String.format("%06d", number);
+        long number = ThreadLocalRandom.current().nextInt(1000);
+        String numberFormat = String.format("%04d", number);
         StringBuilder res = new StringBuilder();
         res.append(prefix);
         res.append(LocalDate.now().format(dateTimeFormatter));
@@ -157,10 +157,10 @@ public class CommonUtils {
     }
 
     public static String getPrefixByAccount(String account) {
-        if (account == null || account.length() < 6) {
+        if (account == null || account.length() < 4) {
             return null;
         }
-        return account.substring(0, 6);
+        return account.substring(0, 4);
     }
 
     public static TransactionStatus reformatStatus(String input) {

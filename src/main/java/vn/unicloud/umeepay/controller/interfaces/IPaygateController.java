@@ -69,7 +69,7 @@ public interface IPaygateController {
         description = "- Kiểm tra tài khoản ảo"
     )
     @PostMapping("/v2/inquiryChecking")
-    ResponseEntity<ResponseBase<EncryptBodyResponse>> inquiryChecking(
+    ResponseEntity<ResponseBase<String>> inquiryChecking(
         @RequestHeader("x-api-client") String clientId,
         @RequestHeader("x-api-validate") String signature,
         @RequestHeader("x-api-time") Long timestamp,
@@ -80,7 +80,7 @@ public interface IPaygateController {
         description = "- Kiểm tra trước khi gọi hoạch toán"
     )
     @PostMapping("/v2/depositChecking")
-    ResponseEntity<ResponseBase<EncryptBodyResponse>> depositChecking(
+    ResponseEntity<ResponseBase<String>> depositChecking(
         @RequestHeader("x-api-client") String clientId,
         @RequestHeader("x-api-validate") String signature,
         @RequestHeader("x-api-time") Long timestamp,
@@ -91,7 +91,7 @@ public interface IPaygateController {
         description = "- Cập nhật trạng thái giao dịch"
     )
     @PostMapping("/v2/notifyTransaction")
-    ResponseEntity<ResponseBase<EncryptBodyResponse>> notifyTransaction(
+    ResponseEntity<ResponseBase<String>> notifyTransaction(
         @RequestHeader("x-api-client") String clientId,
         @RequestHeader("x-api-validate") String signature,
         @RequestHeader("x-api-time") Long timestamp,

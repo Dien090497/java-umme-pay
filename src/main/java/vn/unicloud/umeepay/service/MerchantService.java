@@ -1,5 +1,6 @@
 package vn.unicloud.umeepay.service;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,19 +30,17 @@ import java.util.UUID;
 
 @Service
 @Log4j2
+@RequiredArgsConstructor
 public class MerchantService {
 
     @Value("${umeepay.public-key}")
     private String umeePayPublicKey;
 
-    @Autowired
-    private MerchantRepository merchantRepository;
+    private final MerchantRepository merchantRepository;
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private CredentialRepository credentialRepository;
+    private final CredentialRepository credentialRepository;
 
     @Transactional
     public CreateMerchantResponse createMerchant(CreateMerchantRequest request) {
