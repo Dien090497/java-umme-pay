@@ -49,6 +49,14 @@ public enum ResponseCode {
 
     // Json
     CANT_MAPPING_JSON_OBJECT(601, "Can't mapping json object"),
+
+
+    // Test API
+    HTTP_STATUS_FAILED(701, "Http Status failed"),
+    RESPONSE_BODY_NULL(702, "Response body null")
+
+
+
     ;
 
     private final int code;
