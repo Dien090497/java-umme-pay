@@ -46,8 +46,8 @@ umeepay:
   actualAccount: ${VIETQR_ACTUAL_ACCOUNT:35474013}
   paygate:
     access: ${PAYGATE_BASIC_AUTHEN_RAW:unicloud:unicloud}
-    client-id: c95e68e4-4f7c-464b-9a6c-aa6a4a320149
-    encrypt-key: 084F9E4A926D48FB17AB91CB105077F824EDDB6456477585D5505EF094DAFECD
+    client-id: ${PAYGATE_CLIENT_ID:c95e68e4-4f7c-464b-9a6c-aa6a4a320149}
+    encrypt-key: ${PAYGATE_ENCRYPT_KEY:084F9E4A926D48FB17AB91CB105077F824EDDB6456477585D5505EF094DAFECD}
 
 # ===============================
 # Keycloak Config
