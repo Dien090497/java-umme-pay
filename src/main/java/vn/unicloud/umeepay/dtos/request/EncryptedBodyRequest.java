@@ -1,4 +1,4 @@
-package vn.unicloud.umeepay.dtos.payment.request;
+package vn.unicloud.umeepay.dtos.request;
 
 import lombok.Getter;
 import lombok.Setter;
