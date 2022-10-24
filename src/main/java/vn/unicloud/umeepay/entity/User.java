@@ -1,18 +1,15 @@
 package vn.unicloud.umeepay.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import vn.unicloud.umeepay.enums.UserRole;
 import vn.unicloud.umeepay.enums.UserStatus;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+
+;
 
 @Entity
 @Table(name = User.COLLECTION_NAME)
@@ -59,7 +56,4 @@ public class User extends Auditable<String> {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
-    private String blockedBy;
-
-    private LocalDateTime blockedAt;
 }

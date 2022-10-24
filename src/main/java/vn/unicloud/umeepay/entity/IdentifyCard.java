@@ -5,8 +5,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import vn.unicloud.umeepay.enums.Gender;
+import vn.unicloud.umeepay.enums.IdentifyType;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -26,5 +29,22 @@ public class IdentifyCard {
     private String frontUrl;
 
     private String backUrl;
+
+    private String name;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "gender", length = 6)
+    private Gender gender;
+
+    private String idNumber;
+
+    @Enumerated(EnumType.STRING)
+    private IdentifyType type;
+
+    private LocalDate issueDate;
+
+    private String issueBy;
+
+    private String nation;
 
  }

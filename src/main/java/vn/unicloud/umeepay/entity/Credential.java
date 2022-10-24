@@ -1,17 +1,14 @@
 package vn.unicloud.umeepay.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import vn.unicloud.umeepay.enums.KeyStatus;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+
+;
 
 @Entity
 @Table(name = Credential.COLLECTION_NAME)
@@ -21,7 +18,7 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Credential {
+public class   Credential {
 
     public static final String COLLECTION_NAME = "credential";
 

@@ -28,8 +28,8 @@ public class Document {
     private DocumentType type;
 
     @ManyToOne
-    @JoinColumn(name = "merchant_id", referencedColumnName = "id")
-    private Merchant merchant;
+    @JoinColumn(name = "profile_id", referencedColumnName = "id")
+    private Profile profile;
 
     private String url;
 

@@ -48,7 +48,7 @@ public class MerchantService {
             throw new InternalException(ResponseCode.MERCHANT_ALREADY_CREATED);
         }
         merchant = Merchant.builder()
-            .accountNo(request.getAccountId())
+            .accountId(request.getAccountId())
             .status(MerchantStatus.CREATED)
 //            .user(user)
             .build();
@@ -83,7 +83,7 @@ public class MerchantService {
         if (StringUtils.isNoneBlank(request.getMerchantName())) {
         }
         if (StringUtils.isNoneBlank(request.getAccountNo())) {
-            merchant.setAccountNo(request.getAccountNo());
+            merchant.setAccountId(request.getAccountNo());
         }
         merchantRepository.save(merchant);
         return new UpdateMerchantResponse(true);

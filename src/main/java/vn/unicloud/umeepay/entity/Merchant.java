@@ -33,8 +33,8 @@ public class Merchant extends Auditable<String> {
     @Enumerated(EnumType.STRING)
     private MerchantStatus status;
 
-    @Column(name = "account_no", nullable = false)
-    private String accountNo;
+    @Column(name = "account_id", nullable = false)
+    private String accountId;
 
     private String webhookUrl;
 
@@ -66,22 +66,14 @@ public class Merchant extends Auditable<String> {
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "merchant")
     @JsonIgnore
-    private Representative representative;
-
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "merchant")
-    @JsonIgnore
     private BankAccount bankAccount;
-
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "merchant")
-    @JsonIgnore
-    private List<Document> documents;
 
     @Override
     public String toString() {
         return "Merchant{" +
                 "id='" + id + '\'' +
                 ", status=" + status +
-                ", accountNo='" + accountNo + '\'' +
+                ", accountId='" + id + '\'' +
                 ", webhookUrl='" + webhookUrl + '\'' +
                 ", webhookApiKey='" + webhookApiKey + '\'' +
                 '}';

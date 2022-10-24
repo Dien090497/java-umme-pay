@@ -1,5 +1,6 @@
 package vn.unicloud.umeepay.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,6 +11,7 @@ import vn.unicloud.umeepay.enums.BusinessType;
 import vn.unicloud.umeepay.enums.RevenueType;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -63,6 +65,10 @@ public class Profile {
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private IdentifyCard ownerId;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "profile")
+    @JsonIgnore
+    private List<Document> documents;
 
     @Override
     public String toString() {

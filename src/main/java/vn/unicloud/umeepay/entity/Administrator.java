@@ -6,9 +6,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.GenericGenerator;
+import vn.unicloud.umeepay.enums.OfficeType;
 import vn.unicloud.umeepay.enums.UserStatus;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -41,6 +43,9 @@ public class Administrator extends Auditable<String> {
     private String name;
 
     @Enumerated(EnumType.STRING)
+    private OfficeType office;
+
+    @Enumerated(EnumType.STRING)
     private UserStatus status;
 
     private String description;
@@ -52,4 +57,8 @@ public class Administrator extends Auditable<String> {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     List<Role> roles;
+
+    private LocalDateTime blockedAt;
+
+    private String blockedBy;
 }
