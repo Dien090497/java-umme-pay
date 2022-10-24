@@ -1,11 +1,10 @@
-package vn.unicloud.umeepay.entity.admin;
+package vn.unicloud.umeepay.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import vn.unicloud.umeepay.entity.Auditable;
 import vn.unicloud.umeepay.enums.RoleStatus;
 
 import javax.persistence.*;

@@ -1,4 +1,4 @@
-package vn.unicloud.umeepay.entity.admin;
+package vn.unicloud.umeepay.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.GenericGenerator;
-import vn.unicloud.umeepay.entity.Auditable;
 import vn.unicloud.umeepay.enums.UserStatus;
 
 import javax.persistence.*;

@@ -1,10 +1,9 @@
-package vn.unicloud.umeepay.entity.merchant;
+package vn.unicloud.umeepay.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.GenericGenerator;
-import vn.unicloud.umeepay.entity.Auditable;
 import vn.unicloud.umeepay.enums.MerchantStatus;
 
 import javax.persistence.*;
@@ -41,9 +40,13 @@ public class Merchant extends Auditable<String> {
 
     private String webhookApiKey;
 
-    private LocalDateTime requestDate;
+    private LocalDateTime requestAt;
 
-    private LocalDateTime approvedDate;
+    private LocalDateTime approvedAt;
+
+    @ManyToOne
+    @JoinColumn(name = "approved_by_id", referencedColumnName = "id")
+    private Administrator approvedBy;
 
     @OneToMany(
             fetch = FetchType.LAZY,

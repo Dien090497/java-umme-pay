@@ -1,4 +1,4 @@
-package vn.unicloud.umeepay.entity.admin;
+package vn.unicloud.umeepay.entity;
 
 
 import lombok.AllArgsConstructor;

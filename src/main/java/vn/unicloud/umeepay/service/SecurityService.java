@@ -13,7 +13,7 @@ import vn.unicloud.umeepay.core.BaseRequestData;
 import vn.unicloud.umeepay.core.ResponseBase;
 import vn.unicloud.umeepay.core.ResponseData;
 import vn.unicloud.umeepay.dtos.response.EncryptBodyResponse;
-import vn.unicloud.umeepay.entity.merchant.Credential;
+import vn.unicloud.umeepay.entity.Credential;
 import vn.unicloud.umeepay.dtos.request.EncryptedBodyRequest;
 import vn.unicloud.umeepay.enums.ResponseCode;
 import vn.unicloud.umeepay.exception.InternalException;

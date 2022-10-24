@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;;
 import lombok.NoArgsConstructor;
-import vn.unicloud.umeepay.entity.merchant.Credential;
+import vn.unicloud.umeepay.entity.Credential;
 import vn.unicloud.umeepay.enums.MerchantStatus;
 
 import java.time.LocalDateTime;

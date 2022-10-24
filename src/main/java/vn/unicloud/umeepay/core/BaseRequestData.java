@@ -1,7 +1,7 @@
 package vn.unicloud.umeepay.core;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import vn.unicloud.umeepay.entity.merchant.Credential;
+import vn.unicloud.umeepay.entity.Credential;
 
 import javax.servlet.http.HttpServletRequest;
 
