@@ -7,11 +7,11 @@ import org.springframework.web.bind.annotation.*;
 import vn.unicloud.umeepay.core.ResponseBase;
 import vn.unicloud.umeepay.dtos.payment.request.CancelTransactionRequest;
 import vn.unicloud.umeepay.dtos.payment.request.CreateTransactionRequest;
-import vn.unicloud.umeepay.dtos.payment.request.EncryptedBodyRequest;
+import vn.unicloud.umeepay.dtos.request.EncryptedBodyRequest;
 import vn.unicloud.umeepay.dtos.payment.request.QueryTransactionRequest;
 import vn.unicloud.umeepay.dtos.payment.response.CancelTransactionResponse;
 import vn.unicloud.umeepay.dtos.payment.response.CreateTransactionResponse;
-import vn.unicloud.umeepay.dtos.payment.response.EncryptBodyResponse;
+import vn.unicloud.umeepay.dtos.response.EncryptBodyResponse;
 import vn.unicloud.umeepay.dtos.payment.response.QueryTransactionResponse;
 
 import javax.validation.Valid;

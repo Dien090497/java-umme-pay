@@ -31,17 +31,23 @@ spring:
     hibernate:
       ddl-auto: update
       use-new-id-generator-mappings: false
+  redis:
+    host: ${REDIS_HOST:localhost}
+    port: ${REDIS_PORT:6379}
+#    password: ${REDIS_PASSWORD:123}
 
 umeepay:
-  max-timestamp-diff-ms: ${MAX_TIMESTAMP_DIFF_MS:120000}
+  max-timestamp-diff-ms: ${MAX_TIMESTAMP_DIFF_MS:180000}
   public-key: ${UMEE_PAY_PUBLIC_KEY:MIGeMA0GCSqGSIb3DQEBAQUAA4GMADCBiAKBgG2ex/aa8Km4Oy8rU5ARHkV7lGfWDGJnB1HHpU8mPaZTr8adCyM1hmXSil7r5S6GCnpChfECr1GdSckQXvgXoVVCkKXw1AGPPf9dc8XBFTho+j+YMC1Gz5xn7O7MMuof/9U+/6BbZXLVDcykMNcq3Bh4iem+J0kwpt/H36Z02VqhAgMBAAE=}
   private-key: ${UMEE_PAY_PRIVATE_KEY:MIICXQIBAAKBgG2ex/aa8Km4Oy8rU5ARHkV7lGfWDGJnB1HHpU8mPaZTr8adCyM1hmXSil7r5S6GCnpChfECr1GdSckQXvgXoVVCkKXw1AGPPf9dc8XBFTho+j+YMC1Gz5xn7O7MMuof/9U+/6BbZXLVDcykMNcq3Bh4iem+J0kwpt/H36Z02VqhAgMBAAECgYAApUjEORFlzoH6uySY2qD1A89R9T7JbZXrc2OT3cPLMP7+CnrAUFZkTyMlf/ovlfaF1dJ4Iu3payW+G2yTxX/bwLiT1INEf95hYmMH0r9TxAnMB5BOlRUiVG+RroGUCFihZiCGAbr8YvsS7aorH+XNT6xTSQhvSwxFbUgaXmTZKQJBALGXd6OhEoQiXnA69SyNWxxZ8WVd6LDs7PEwTUYjePt9SwRpMbInigdWRrFWf6lqOyZ4vAwwoAOSdjDrZQvZ7HsCQQCeBMDPyXmQfkeMHiWeYQ7MQMIFf+7F0yh0JqrCPYJvrSeSLuHkRcpRZATLqL2YtLXgPFCbmZhGkhugjQa3xrCTAkEAhfxWGlD67FAV2izRLzTS6bf+RVEtrtaCCZI8qs82ht9HyuMmyFfGbrSsDz3IgWQRjnwGvFevUiKdI1ll2iQnowJBAIkQOmaBre5Feq3xIFRGf91vdlvq4iO5yuck+wzM6a0QlrhX7hxg5OLATOCSlxIz/WZpKsos6kacSVZzvRX/Q/0CQQCB3OXoPqq18Pl8LKc61X/fzYwYfangW6m/Sw442qQepQPdfE/LJhihIH50VgtOdKFp9cp2O1s9hxU+u60OAmQk}
-  prefix: ${VIETQR_PREFIX:100003}
+  prefix: ${VIETQR_PREFIX:1009}
   timeout: ${VIETQR_TIMEOUT:120}
   bin: ${VIETQR_BIN:970452}
   actualAccount: ${VIETQR_ACTUAL_ACCOUNT:35474013}
   paygate:
     access: ${PAYGATE_BASIC_AUTHEN_RAW:unicloud:unicloud}
+    client-id: ${PAYGATE_CLIENT_ID:c95e68e4-4f7c-464b-9a6c-aa6a4a320149}
+    encrypt-key: ${PAYGATE_ENCRYPT_KEY:084F9E4A926D48FB17AB91CB105077F824EDDB6456477585D5505EF094DAFECD}
 
 # ===============================
 # Keycloak Config

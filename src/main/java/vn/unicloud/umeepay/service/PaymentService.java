@@ -48,14 +48,14 @@ public class PaymentService {
     private final CallbackService callbackService;
 
     public CreateTransactionResponse createTransaction(CreateTransactionRequest request) {
-        if (request.getCredential() == null || request.getCredential().getMerchant() == null) {
+        Merchant merchant = merchantRepository.findByCredentialId(request.getCredential().getId());
+        if (merchant == null) {
             throw new InternalException(ResponseCode.MERCHANT_NOT_FOUND);
         }
         Transaction testTransaction = transactionRepository.findByRefTransactionId(request.getRefTransactionId());
         if (testTransaction != null) {
             throw new InternalException(ResponseCode.DUPLICATE_REFERENCE_TRANSACTION_ID);
         }
-        Merchant merchant = request.getCredential().getMerchant();
         String virtualAccount = CommonUtils.generateVirtualAccount(prefix);
         log.debug("Virtual account: {}", virtualAccount);
         String content = CommonUtils.getContent(request.getRefTransactionId());

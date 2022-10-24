@@ -1,15 +1,11 @@
-package vn.unicloud.umeepay.dtos.payment.response;
+package vn.unicloud.umeepay.dtos.response;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import vn.unicloud.umeepay.core.BaseResponseData;
 
-@Getter
-@Setter
-@ToString
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class EncryptBodyResponse extends BaseResponseData {
