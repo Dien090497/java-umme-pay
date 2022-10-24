@@ -1,4 +1,4 @@
-package vn.unicloud.umeepay.entity;
+package vn.unicloud.umeepay.entity.merchant;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

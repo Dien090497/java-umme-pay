@@ -1,4 +1,4 @@
-package vn.unicloud.umeepay.entity;
+package vn.unicloud.umeepay.entity.admin;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.GenericGenerator;
+import vn.unicloud.umeepay.entity.Auditable;
 import vn.unicloud.umeepay.enums.OfficeType;
 import vn.unicloud.umeepay.enums.UserStatus;
 
@@ -52,11 +53,11 @@ public class Administrator extends Auditable<String> {
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-            name = "admin_role",
+            name = "admin_role_mapping",
             joinColumns = @JoinColumn(name = "admin_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
+            inverseJoinColumns = @JoinColumn(name = "admin_role_id")
     )
-    List<Role> roles;
+    List<AdminRole> roles;
 
     private LocalDateTime blockedAt;
 

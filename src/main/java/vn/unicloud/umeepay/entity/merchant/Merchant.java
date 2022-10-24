@@ -1,9 +1,11 @@
-package vn.unicloud.umeepay.entity;
+package vn.unicloud.umeepay.entity.merchant;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.GenericGenerator;
+import vn.unicloud.umeepay.entity.Auditable;
+import vn.unicloud.umeepay.entity.admin.Administrator;
 import vn.unicloud.umeepay.enums.MerchantStatus;
 
 import javax.persistence.*;

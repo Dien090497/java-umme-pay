@@ -1,4 +1,5 @@
-package vn.unicloud.umeepay.entity;
+package vn.unicloud.umeepay.entity.merchant;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,10 +18,10 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Accessors(chain = true)
-@Table(name = IdentifyCard.COLLECTION_NAME)
-public class IdentifyCard {
+@Table(name = Ekyc.COLLECTION_NAME)
+public class Ekyc {
 
-    public static final String COLLECTION_NAME = "identity_card";
+    public static final String COLLECTION_NAME = "ekyc";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,6 +46,8 @@ public class IdentifyCard {
 
     private String issueBy;
 
+    private String address;
+
     private String nation;
 
- }
+}

@@ -1,4 +1,4 @@
-package vn.unicloud.umeepay.entity;
+package vn.unicloud.umeepay.entity.merchant;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
@@ -61,10 +61,16 @@ public class Profile {
     private String companyPhone;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private IdentifyCard representativeId;
+    private IdentifyCard repIdentify;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private IdentifyCard ownerId;
+    private IdentifyCard ownerIdentify;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Ekyc repEkyc;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Ekyc ownerEkyc;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "profile")
     @JsonIgnore

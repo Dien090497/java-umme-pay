@@ -14,7 +14,7 @@ import vn.unicloud.umeepay.dtos.paygate.request.NotifyTransactionRequest;
 import vn.unicloud.umeepay.dtos.paygate.response.DepositCheckingResponse;
 import vn.unicloud.umeepay.dtos.paygate.response.InquiryCheckingResponse;
 import vn.unicloud.umeepay.dtos.paygate.response.NotifyTransactionResponse;
-import vn.unicloud.umeepay.entity.Merchant;
+import vn.unicloud.umeepay.entity.merchant.Merchant;
 import vn.unicloud.umeepay.entity.Transaction;
 import vn.unicloud.umeepay.enums.ResponseCode;
 import vn.unicloud.umeepay.enums.TransactionStatus;

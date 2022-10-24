@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldNameConstants;
 import org.hibernate.annotations.GenericGenerator;
+import vn.unicloud.umeepay.entity.merchant.Merchant;
 import vn.unicloud.umeepay.enums.TransactionStatus;
 
 import javax.persistence.*;

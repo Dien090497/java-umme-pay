@@ -1,14 +1,14 @@
-package vn.unicloud.umeepay.entity;
+package vn.unicloud.umeepay.entity.admin;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import vn.unicloud.umeepay.enums.RoleStatus;
+import vn.unicloud.umeepay.enums.SystemModule;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Getter
@@ -16,10 +16,10 @@ import java.util.List;
 @Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = Role.COLLECTION_NAME)
-public class Role extends Auditable<String> {
+@Table(name = AdminPermission.COLLECTION_NAME)
+public class AdminPermission {
 
-    public static final String COLLECTION_NAME = "role";
+    public static final String COLLECTION_NAME = "admin_permission";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,14 +27,9 @@ public class Role extends Auditable<String> {
 
     private String name;
 
-    private String code;
+    @Enumerated(EnumType.STRING)
+    private SystemModule module;
 
     private String description;
-
-    @Enumerated(EnumType.STRING)
-    private RoleStatus status;
-
-    @ManyToMany
-    private List<Permission> permissions;
 
 }
