@@ -1,4 +1,4 @@
-package vn.unicloud.umeepay.entity;
+package vn.unicloud.umeepay.entity.merchant;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
@@ -8,12 +8,11 @@ import lombok.Setter;
 import lombok.ToString;;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
-import vn.unicloud.umeepay.enums.KeyStatus;
+import vn.unicloud.umeepay.entity.Auditable;
+import vn.unicloud.umeepay.enums.UserRole;
 import vn.unicloud.umeepay.enums.UserStatus;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Entity
 @Table(name = User.COLLECTION_NAME)
@@ -23,23 +22,29 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class User extends Auditable<String> {
 
     public static final String COLLECTION_NAME = "user";
 
     @Id
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )
     @Column(unique = true, nullable = false)
     private String id;
 
     @Enumerated(EnumType.STRING)
     private UserStatus status;
 
-    private LocalDateTime createDateTime;
-
-    @OneToOne(mappedBy = "user")
+    @ManyToOne
+    @JoinColumn(name = "merchant_id", referencedColumnName = "id")
+    @JsonIgnore
     private Merchant merchant;
 
-    private String accountNo;
+    @Column(name = "username", nullable = false)
+    private String username;
 
     @Column(name = "full_name", nullable = false)
     private String fullName;
@@ -50,4 +55,7 @@ public class User {
     @Column(name = "phone", nullable = false)
     private String phone;
 
+    @Column(name = "role")
+    @Enumerated(EnumType.STRING)
+    private UserRole role;
 }

@@ -1,4 +1,4 @@
-package vn.unicloud.umeepay.entity;
+package vn.unicloud.umeepay.entity.merchant;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
@@ -9,11 +9,9 @@ import lombok.ToString;;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 import vn.unicloud.umeepay.enums.KeyStatus;
-import vn.unicloud.umeepay.enums.MerchantStatus;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Entity
 @Table(name = Credential.COLLECTION_NAME)
@@ -43,7 +41,7 @@ public class Credential {
     @JsonIgnore
     private Merchant merchant;
 
-    private LocalDateTime createDateTime;
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     private String publicKey;
 

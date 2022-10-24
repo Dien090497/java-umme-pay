@@ -4,10 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import vn.unicloud.umeepay.client.ThirdPartyClient;
 import vn.unicloud.umeepay.client.request.NotifyRequest;
 import vn.unicloud.umeepay.dtos.paygate.request.DepositCheckingRequest;
@@ -16,7 +14,7 @@ import vn.unicloud.umeepay.dtos.paygate.request.NotifyTransactionRequest;
 import vn.unicloud.umeepay.dtos.paygate.response.DepositCheckingResponse;
 import vn.unicloud.umeepay.dtos.paygate.response.InquiryCheckingResponse;
 import vn.unicloud.umeepay.dtos.paygate.response.NotifyTransactionResponse;
-import vn.unicloud.umeepay.entity.Merchant;
+import vn.unicloud.umeepay.entity.merchant.Merchant;
 import vn.unicloud.umeepay.entity.Transaction;
 import vn.unicloud.umeepay.enums.ResponseCode;
 import vn.unicloud.umeepay.enums.TransactionStatus;
@@ -77,7 +75,7 @@ public class PaygateService {
     @SneakyThrows
     public InquiryCheckingResponse inquiry(InquiryCheckingRequest request) {
         Transaction transaction = this.getTransaction(request.getVirtualAccount());
-        return new InquiryCheckingResponse(transaction.getMerchant().getName(), transaction.getMerchant().getAccountNo());
+        return new InquiryCheckingResponse(transaction.getMerchant().getProfile().getName(), transaction.getMerchant().getAccountNo());
     }
 
     @SneakyThrows
@@ -88,7 +86,7 @@ public class PaygateService {
             throw new InternalException(ResponseCode.INVALID_AMOUNT);
         }
         Merchant merchant = transaction.getMerchant();
-        return new DepositCheckingResponse(merchant.getName(), merchant.getAccountNo(), transaction.getAmount(), true);
+        return new DepositCheckingResponse(merchant.getProfile().getName(), merchant.getAccountNo(), transaction.getAmount(), true);
     }
 
     @SneakyThrows

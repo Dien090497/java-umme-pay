@@ -101,7 +101,9 @@ dependencies {
 
     implementation 'com.github.mvallim:emv-qrcode:0.1.2'
 
+
 }
+
 
 tasks.named('test') {
     useJUnitPlatform()
