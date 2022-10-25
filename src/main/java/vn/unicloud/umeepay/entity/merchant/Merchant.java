@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.GenericGenerator;
-import vn.unicloud.umeepay.entity.Auditable;
+import vn.unicloud.umeepay.entity.common.Auditable;
 import vn.unicloud.umeepay.entity.admin.Administrator;
 import vn.unicloud.umeepay.enums.MerchantStatus;
 

@@ -13,7 +13,7 @@ import vn.unicloud.umeepay.dtos.payment.response.CancelTransactionResponse;
 import vn.unicloud.umeepay.dtos.payment.response.CreateTransactionResponse;
 import vn.unicloud.umeepay.dtos.payment.response.QueryTransactionResponse;
 import vn.unicloud.umeepay.entity.merchant.Merchant;
-import vn.unicloud.umeepay.entity.Transaction;
+import vn.unicloud.umeepay.entity.common.Transaction;
 import vn.unicloud.umeepay.enums.ResponseCode;
 import vn.unicloud.umeepay.enums.TransactionStatus;
 import vn.unicloud.umeepay.exception.InternalException;

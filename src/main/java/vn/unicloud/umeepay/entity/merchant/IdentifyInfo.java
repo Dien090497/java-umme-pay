@@ -17,10 +17,10 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Accessors(chain = true)
-@Table(name = IdentifyCard.COLLECTION_NAME)
-public class IdentifyCard {
+@Table(name = IdentifyInfo.COLLECTION_NAME)
+public class IdentifyInfo {
 
-    public static final String COLLECTION_NAME = "identity_card";
+    public static final String COLLECTION_NAME = "identity_info";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

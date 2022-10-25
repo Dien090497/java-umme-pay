@@ -1,4 +1,4 @@
-package vn.unicloud.umeepay.entity;
+package vn.unicloud.umeepay.entity.common;
 
 import lombok.Getter;
 import lombok.Setter;

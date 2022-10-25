@@ -6,12 +6,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import vn.unicloud.umeepay.core.ResponseBase;
 import vn.unicloud.umeepay.exception.InternalException;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestControllerAdvice
 @Log4j2
@@ -29,17 +35,23 @@ public class BaseExceptionController {
         return new ResponseEntity<>(new ResponseBase<>(1, e.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler({MethodArgumentNotValidException.class})
-    public ResponseEntity<?> handleArgumentInvalidException(MethodArgumentNotValidException e) {
-        StringBuilder errors = new StringBuilder();
+    @ExceptionHandler({
+            MethodArgumentNotValidException.class,
+            BindException.class
+    })
+    public ResponseEntity<?> handleArgumentInvalidException(BindException e) {
+        Map<String, List<String>> errors = new HashMap<>();
         e.getBindingResult().getAllErrors().forEach((error) -> {
             String fieldName = ((FieldError) error).getField();
-            String errorMessage = "[" + fieldName + ": " + error.getDefaultMessage() + "]";
-            errors.append(errorMessage);
-            errors.append(", ");
+            String errorMessage = error.getDefaultMessage();
+            errors.put(fieldName, Arrays.asList(errorMessage));
         });
-        String errorMessage = "Invalid argument: " + errors;
-        log.error("Invalid argument: {}", errors);
-        return new ResponseEntity<>(new ResponseBase<>(1, errorMessage), HttpStatus.BAD_REQUEST);
+
+        ResponseBase responseBase = new ResponseBase(errors);
+        responseBase.setCode(1);
+        responseBase.setMessage("Invalid arguments");
+
+        return new ResponseEntity<>(responseBase, HttpStatus.BAD_REQUEST);
     }
+
 }

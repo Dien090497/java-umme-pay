@@ -2,6 +2,7 @@ package vn.unicloud.umeepay.config;
 
 import org.keycloak.KeycloakPrincipal;
 import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
+import org.keycloak.representations.AccessToken;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
@@ -26,13 +27,16 @@ class AuditorAwareImpl implements AuditorAware<String> {
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             if (authentication == null ||
-                    authentication.isAuthenticated() ||
+                    !authentication.isAuthenticated() ||
                     !(authentication instanceof KeycloakAuthenticationToken)) {
                 return Optional.empty();
             }
             KeycloakAuthenticationToken token = (KeycloakAuthenticationToken) authentication;
             KeycloakPrincipal keycloakPrincipal = (KeycloakPrincipal) token.getPrincipal();
-            return Optional.of(keycloakPrincipal.getName());
+
+            AccessToken accessToken = keycloakPrincipal.getKeycloakSecurityContext().getToken();
+            return Optional.of(accessToken.getName());
+
         } catch (Exception ex) {
             ex.printStackTrace();
         }

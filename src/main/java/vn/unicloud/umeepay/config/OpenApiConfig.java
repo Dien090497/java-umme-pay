@@ -5,6 +5,7 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
+import org.springdoc.core.GroupedOpenApi;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -46,4 +47,26 @@ public class OpenApiConfig {
                                 .bearerFormat("JWT")
                                 .name(BEARER_SCHEME)));
     }
+
+    @Bean
+    public GroupedOpenApi cmsApis() {
+        String paths[] = {"/api/cms/**"};
+        return GroupedOpenApi.builder().group("CMS apis").pathsToMatch(paths)
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi portalApis() {
+        String paths[] = {"/api/portal/**"};
+        return GroupedOpenApi.builder().group("PORTAL apis").pathsToMatch(paths)
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi allApis() {
+        String paths[] = {"/api/**"};
+        return GroupedOpenApi.builder().group("All apis").pathsToMatch(paths)
+                .build();
+    }
+    
 }

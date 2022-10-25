@@ -7,19 +7,18 @@ import vn.unicloud.umeepay.controller.interfaces.IUserController;
 import vn.unicloud.umeepay.core.BaseController;
 import vn.unicloud.umeepay.core.ResponseBase;
 import vn.unicloud.umeepay.dtos.user.request.CreateUserRequest;
-import vn.unicloud.umeepay.dtos.user.response.CreateUserResponse;
+import vn.unicloud.umeepay.dtos.user.response.UserResponse;
 
 import javax.servlet.http.HttpServletRequest;
-import java.security.Principal;
 
 @RestController
 @Slf4j
 public class UserController extends BaseController implements IUserController {
 
     @Override
-    public ResponseEntity<ResponseBase<CreateUserResponse>> register(HttpServletRequest context, CreateUserRequest request) {
+    public ResponseEntity<ResponseBase<UserResponse>> register(HttpServletRequest context, CreateUserRequest request) {
         request.setContext(context);
-        return this.execute(request, CreateUserResponse.class);
+        return this.execute(request, UserResponse.class);
     }
 
 //    @Override

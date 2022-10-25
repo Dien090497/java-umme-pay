@@ -1,44 +1,45 @@
-package vn.unicloud.umeepay.entity.admin;
+package vn.unicloud.umeepay.entity.common;
 
-
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.Accessors;
 import vn.unicloud.umeepay.enums.SystemModule;
+import vn.unicloud.umeepay.enums.RoleType;
 
 import javax.persistence.*;
 
 @Entity
+@Table(name = Permission.COLLECTION_NAME)
 @Getter
 @Setter
-@Accessors(chain = true)
-@NoArgsConstructor
+@Builder
 @AllArgsConstructor
-@Table(name = AdminPermission.COLLECTION_NAME)
-public class AdminPermission {
+@NoArgsConstructor
+@Accessors(chain = true)
+public class Permission {
 
-    public static final String COLLECTION_NAME = "admin_permission";
+    public static final String COLLECTION_NAME = "permission";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true, nullable = false)
     private String name;
-
-    @Enumerated(EnumType.STRING)
-    private SystemModule module;
 
     private String description;
 
+    private SystemModule module;
+
+    private RoleType type;
+
     @Override
     public String toString() {
-        return "AdminPermission{" +
+        return "Permission{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", module=" + module +
                 ", description='" + description + '\'' +
+                ", module=" + module +
+                ", type=" + type +
                 '}';
     }
 }

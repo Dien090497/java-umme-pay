@@ -13,12 +13,14 @@ import org.springframework.web.bind.annotation.*;
 import vn.unicloud.umeepay.core.ResponseBase;
 import vn.unicloud.umeepay.dtos.user.request.CreateUserRequest;
 import vn.unicloud.umeepay.dtos.user.response.CreateUserResponse;
+import vn.unicloud.umeepay.dtos.user.response.UserResponse;
 
+import javax.annotation.security.RolesAllowed;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.security.Principal;
 
-@RequestMapping("/api/user")
+@RequestMapping("/api/portal/user")
 @Tag(name = "User controller", description = "thao tác với user")
 public interface IUserController {
     @Operation(
@@ -33,7 +35,8 @@ public interface IUserController {
             @Parameter(name = "Authorization", in = ParameterIn.HEADER, required = true, hidden = true)
     })
     @PostMapping("/v1/register")
-    ResponseEntity<ResponseBase<CreateUserResponse>> register(HttpServletRequest context, @RequestBody @Valid CreateUserRequest request);
+    @RolesAllowed("")
+    ResponseEntity<ResponseBase<UserResponse>> register(HttpServletRequest context, @RequestBody @Valid CreateUserRequest request);
 
 //    @Operation(
 //            summary = "Xác thực mail đăng ký",

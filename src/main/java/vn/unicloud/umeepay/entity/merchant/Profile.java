@@ -61,10 +61,10 @@ public class Profile {
     private String companyPhone;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private IdentifyCard repIdentify;
+    private IdentifyInfo representativeInfo;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private IdentifyCard ownerIdentify;
+    private IdentifyInfo ownerInfo;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Ekyc repEkyc;

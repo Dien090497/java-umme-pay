@@ -1,4 +1,4 @@
-package vn.unicloud.umeepay.entity;
+package vn.unicloud.umeepay.entity.common;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
