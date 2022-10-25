@@ -13,6 +13,7 @@ public class DepositCheckingClientHandler extends RequestHandler<DepositChecking
 
     @Autowired
     private TestApiTransaction testApiTransaction;
+
     @Override
     public DepositCheckingClientResponse handle(DepositCheckingClientRequest request) {
         return testApiTransaction.testTransactionClient(request.getUrl(), request, DepositCheckingRequest.class, DepositCheckingClientResponse.class);

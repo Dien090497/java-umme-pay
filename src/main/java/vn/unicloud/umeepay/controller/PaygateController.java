@@ -75,7 +75,7 @@ public class PaygateController extends BaseController implements IPaygateControl
         request.setTimestamp(timestamp);
         request.setClientId(clientId);
         DepositCheckingRequest depositCheckingRequest = securityService.paygateAuthenticate(request, DepositCheckingRequest.class);
-        return securityService.encryptPaygateResponse(this.execute(depositCheckingRequest, InquiryCheckingResponse.class));
+        return securityService.encryptPaygateResponse(this.execute(depositCheckingRequest, DepositCheckingResponse.class));
     }
 
     @Override
@@ -111,6 +111,5 @@ public class PaygateController extends BaseController implements IPaygateControl
         request.setClientId(clientId);
         return this.execute(request, NotifyTransactionClientResponse.class);
     }
-
 
 }
