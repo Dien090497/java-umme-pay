@@ -100,7 +100,7 @@ public class CommonUtils {
 
     public static String generateVirtualAccount(String prefix) {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyMMdd");
-        long number = ThreadLocalRandom.current().nextInt(1000);
+        long number = ThreadLocalRandom.current().nextInt(999999);
         String numberFormat = String.format("%04d", number);
         StringBuilder res = new StringBuilder();
         res.append(prefix);
