@@ -2,12 +2,12 @@ package vn.unicloud.umeepay.entity.common;
 
 import lombok.*;
 import lombok.experimental.Accessors;
-import vn.unicloud.umeepay.enums.ResponseCodeGroup;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -28,8 +28,8 @@ public class ResponseCodeEntity {
 
     private String contentCode;
 
-    private String description;
+    private Map<String, String> content;
 
-    private ResponseCodeGroup group;
+    private String description;
 
 }

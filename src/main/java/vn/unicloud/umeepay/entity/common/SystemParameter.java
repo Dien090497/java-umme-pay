@@ -24,9 +24,9 @@ public class SystemParameter extends Auditable<String>{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String currentValue;
+    private String name;
 
-    private String defaultValue;
+    private String value;
 
     private String description;
 
