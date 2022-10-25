@@ -62,4 +62,18 @@ public class Administrator extends Auditable<String> {
     private LocalDateTime blockedAt;
 
     private String blockedBy;
+
+    @Override
+    public String toString() {
+        return "Administrator{" +
+                "id='" + id + '\'' +
+                ", username='" + username + '\'' +
+                ", staffId='" + staffId + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", name='" + name + '\'' +
+                ", office=" + office +
+                ", status=" + status +
+                '}';
+    }
 }

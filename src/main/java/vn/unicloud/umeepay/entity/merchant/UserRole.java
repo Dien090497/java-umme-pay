@@ -9,7 +9,6 @@ import java.util.List;
 @Table(name = UserRole.COLLECTION_NAME)
 @Getter
 @Setter
-@ToString
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -32,4 +31,12 @@ public class UserRole {
     )
     private List<UserPermission> permissions;
 
+    @Override
+    public String toString() {
+        return "UserRole{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }

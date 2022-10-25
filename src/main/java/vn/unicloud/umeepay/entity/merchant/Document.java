@@ -33,4 +33,12 @@ public class Document {
 
     private String url;
 
+    @Override
+    public String toString() {
+        return "Document{" +
+                "id=" + id +
+                ", type=" + type +
+                ", url='" + url + '\'' +
+                '}';
+    }
 }

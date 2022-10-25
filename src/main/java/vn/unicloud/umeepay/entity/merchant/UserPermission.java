@@ -8,7 +8,6 @@ import javax.persistence.*;
 @Table(name = UserPermission.COLLECTION_NAME)
 @Getter
 @Setter
-@ToString
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -23,4 +22,12 @@ public class UserPermission {
 
     private String description;
 
+    @Override
+    public String toString() {
+        return "UserPermission{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }

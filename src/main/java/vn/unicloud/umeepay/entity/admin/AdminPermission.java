@@ -32,4 +32,13 @@ public class AdminPermission {
 
     private String description;
 
+    @Override
+    public String toString() {
+        return "AdminPermission{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", module=" + module +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }

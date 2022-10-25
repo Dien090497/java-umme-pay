@@ -40,4 +40,13 @@ public class BankAccount {
     @Enumerated(EnumType.STRING)
     private Branch bankType;
 
+    @Override
+    public String toString() {
+        return "BankAccount{" +
+                "id='" + id + '\'' +
+                ", accountNumber='" + accountNumber + '\'' +
+                ", accountName='" + accountName + '\'' +
+                ", bankType=" + bankType +
+                '}';
+    }
 }

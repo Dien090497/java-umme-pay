@@ -49,4 +49,20 @@ public class IdentifyCard {
 
     private String nation;
 
- }
+    @Override
+    public String toString() {
+        return "IdentifyCard{" +
+                "id=" + id +
+                ", frontUrl='" + frontUrl + '\'' +
+                ", backUrl='" + backUrl + '\'' +
+                ", name='" + name + '\'' +
+                ", gender=" + gender +
+                ", idNumber='" + idNumber + '\'' +
+                ", type=" + type +
+                ", issueDate=" + issueDate +
+                ", issueBy='" + issueBy + '\'' +
+                ", address='" + address + '\'' +
+                ", nation='" + nation + '\'' +
+                '}';
+    }
+}

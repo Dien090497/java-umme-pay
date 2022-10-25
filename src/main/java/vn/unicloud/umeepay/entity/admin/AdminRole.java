@@ -43,4 +43,14 @@ public class AdminRole extends Auditable<String> {
     )
     private List<AdminPermission> permissions;
 
+    @Override
+    public String toString() {
+        return "AdminRole{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", code='" + code + '\'' +
+                ", description='" + description + '\'' +
+                ", status=" + status +
+                '}';
+    }
 }

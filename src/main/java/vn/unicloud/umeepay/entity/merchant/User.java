@@ -2,6 +2,7 @@ package vn.unicloud.umeepay.entity.merchant;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import lombok.experimental.Accessors;
 import org.hibernate.annotations.GenericGenerator;
 import vn.unicloud.umeepay.entity.Auditable;
 import vn.unicloud.umeepay.enums.UserStatus;
@@ -12,10 +13,10 @@ import javax.persistence.*;
 @Table(name = User.COLLECTION_NAME)
 @Getter
 @Setter
-@ToString
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Accessors(chain = true)
 public class User extends Auditable<String> {
 
     public static final String COLLECTION_NAME = "user";
@@ -53,4 +54,15 @@ public class User extends Auditable<String> {
     @JoinColumn(name = "user_role_id")
     private UserRole role;
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "id='" + id + '\'' +
+                ", status=" + status +
+                ", username='" + username + '\'' +
+                ", fullName='" + fullName + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                '}';
+    }
 }
