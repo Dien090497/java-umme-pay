@@ -21,4 +21,6 @@ public class UserPermission {
 
     private String name;
 
+    private String description;
+
 }

@@ -22,6 +22,8 @@ public class UserRole {
 
     private String name;
 
+    private String description;
+
     @ManyToMany
     @JoinTable(
             name = "user_role_permissions",
