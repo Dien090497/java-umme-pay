@@ -17,10 +17,9 @@ public class UserResponse extends BaseResponseData {
     private String email;
     private UserStatus status;
     private String phone;
-    private UserRoleResponse role;
 
     public UserResponse(User user) {
-        if(user == null) {
+        if (user == null) {
             return;
         }
         this.id = user.getId();
@@ -29,6 +28,5 @@ public class UserResponse extends BaseResponseData {
         this.email = user.getEmail();
         this.phone = user.getPhone();
         this.status = user.getStatus();
-        this.role = new UserRoleResponse(user.getRole());
     }
 }

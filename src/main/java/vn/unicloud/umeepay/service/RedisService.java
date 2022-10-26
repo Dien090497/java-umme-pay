@@ -12,15 +12,15 @@ import java.util.concurrent.TimeUnit;
 @Service
 @Log4j2
 public class RedisService {
+
     @Autowired
     ObjectMapper objectMapper;
     @Autowired
     RedisTemplate<String, Object> redisTemplate;
 
-    @SneakyThrows
     public void setValue(String key, Object value) {
-        String hashValue = objectMapper.writeValueAsString(value);
         try {
+            String hashValue = objectMapper.writeValueAsString(value);
             redisTemplate.opsForValue().set(key, hashValue);
         } catch (Exception e) {
             e.printStackTrace();
@@ -39,9 +39,13 @@ public class RedisService {
                 target = objectMapper.readValue(temp.toString(), classValue);
             }
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            log.error("Get value error: {}", e.getMessage());
         }
         return target;
+    }
+
+    public boolean exist(String key) {
+        return Boolean.TRUE.equals(redisTemplate.hasKey(key));
     }
 
     public void deleteKey(String key) {

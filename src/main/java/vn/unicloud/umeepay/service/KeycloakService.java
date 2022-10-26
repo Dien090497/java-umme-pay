@@ -214,7 +214,7 @@ public class KeycloakService {
     public String createUser(String phone, String password, String email, String name, List<String> roles) {
         List<RoleRepresentation> roleRepresentations =
                 roles.stream()
-                        .map(role -> getUserRoleRepresentation(role))
+                        .map(this::getUserRoleRepresentation)
                         .collect(Collectors.toList());
 
         for (RoleRepresentation r : roleRepresentations) {
@@ -225,14 +225,15 @@ public class KeycloakService {
         }
 
         UserRepresentation user = new UserRepresentation();
-        user.setFirstName(name);
+        if (name != null) {
+            user.setFirstName(name);
+        }
         user.setEnabled(true);
         user.setEmailVerified(false);
         user.setUsername(phone);
         if (email != null) {
             user.setEmail(email);
         }
-
 
         RealmResource realmResource = keycloakAdmin.realm(realm);
         UsersResource usersResource = realmResource.users();

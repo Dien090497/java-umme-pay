@@ -49,6 +49,7 @@ public class KeycloakSecurityConfig extends KeycloakWebSecurityConfigurerAdapter
                 "/api/auth/**",
                 "/api/payment/**",
                 "/api/paygate/callback/**",
+                "/api/portal/user/v1/checkPhone",
                 "/api/portal/user/v1/register")
             .permitAll()
             .anyRequest().authenticated()
