@@ -1,14 +1,9 @@
 package vn.unicloud.umeepay.service;
 
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import vn.unicloud.umeepay.dtos.user.request.CreateUserRequest;
-import vn.unicloud.umeepay.dtos.user.response.CreateUserResponse;
 import vn.unicloud.umeepay.entity.merchant.User;
-import vn.unicloud.umeepay.enums.ResponseCode;
-import vn.unicloud.umeepay.exception.InternalException;
 import vn.unicloud.umeepay.repository.UserRepository;
 
 @Service

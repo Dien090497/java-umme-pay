@@ -11,5 +11,4 @@ public class BaseController {
     protected <T extends RequestData, I extends ResponseData> ResponseEntity<ResponseBase<I>> execute(T request, Class<I> response) {
         return ResponseEntity.ok(new ResponseBase<>(this.springBus.execute(request, response)));
     }
-
 }

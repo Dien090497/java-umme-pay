@@ -38,6 +38,7 @@ public class Credential {
     @JsonIgnore
     private Merchant merchant;
 
+    @Builder.Default
     private LocalDateTime createdAt = LocalDateTime.now();
 
     private String publicKey;

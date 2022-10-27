@@ -1,15 +1,15 @@
 package vn.unicloud.umeepay.controller.interfaces;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import vn.unicloud.umeepay.core.ResponseBase;
-import vn.unicloud.umeepay.dtos.request.*;
-import vn.unicloud.umeepay.dtos.response.*;
+import vn.unicloud.umeepay.dtos.request.ClientLoginRequest;
+import vn.unicloud.umeepay.dtos.request.LoginRequest;
+import vn.unicloud.umeepay.dtos.response.AccessTokenResponseCustom;
 
 import javax.validation.Valid;
 
@@ -18,15 +18,15 @@ import javax.validation.Valid;
 public interface IAuthController {
 
     @Operation(
-        summary = "login",
-        description = "- login với username là email hoặc số điện thoại"
+            summary = "login",
+            description = "- login với username là email hoặc số điện thoại"
     )
     @RequestMapping(value = "/v1/user", method = RequestMethod.POST)
     ResponseEntity<ResponseBase<AccessTokenResponseCustom>> userLogin(@Valid @RequestBody LoginRequest request);
 
     @Operation(
-        summary = "Client login",
-        description = "- Client login oauth"
+            summary = "Client login",
+            description = "- Client login oauth"
     )
     @RequestMapping(value = "/v1/client", method = RequestMethod.POST)
     ResponseEntity<ResponseBase<AccessTokenResponseCustom>> clientLogin(@Valid @RequestBody ClientLoginRequest request);

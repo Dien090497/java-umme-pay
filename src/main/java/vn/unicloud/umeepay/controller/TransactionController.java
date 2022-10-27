@@ -19,9 +19,9 @@ import java.util.List;
 @RestController
 public class TransactionController extends BaseController implements ITransactionController {
 
-@Override
-public ResponseEntity<ResponseBase<GetTransactionsResponse>> getAll(Integer page, Integer size, String keyword, String transactionId, String status, String fromDate, String toDate) {
-    try{
+    @Override
+    public ResponseEntity<ResponseBase<GetTransactionsResponse>> getAll(Integer page, Integer size, String keyword, String transactionId, String status, String fromDate, String toDate) {
+        try {
             TransactionStatus enumStatus = status != null ? TransactionStatus.valueOf(status) : null;
             GetTransactionsRequest request = GetTransactionsRequest.builder()
                     .pageable(PageUtils.createPageable(new PaginationAndSortingRequest(page, size)))
@@ -33,13 +33,13 @@ public ResponseEntity<ResponseBase<GetTransactionsResponse>> getAll(Integer page
                     .build();
             return this.execute(request, GetTransactionsResponse.class);
 
-    } catch (IllegalArgumentException e){
-        List<Transaction> list = new ArrayList<>();
-        return ResponseEntity.ok(new ResponseBase<>(new GetTransactionsResponse(PageUtils.convertListToPage(list, PageUtils.createPageable(new PaginationAndSortingRequest(0, size))))));
+        } catch (IllegalArgumentException e) {
+            List<Transaction> list = new ArrayList<>();
+            return ResponseEntity.ok(new ResponseBase<>(new GetTransactionsResponse(PageUtils.convertListToPage(list, PageUtils.createPageable(new PaginationAndSortingRequest(0, size))))));
+        }
+
+
     }
-
-
-}
 
     @Override
     public ResponseEntity<?> download(Integer page, Integer size, String keyword, String terminalId, String traceId, String branch, String status, String fromDate, String toDate) {

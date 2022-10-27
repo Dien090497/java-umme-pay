@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;;
+import lombok.ToString;
 import org.keycloak.representations.AccessTokenResponse;
 import vn.unicloud.umeepay.core.BaseResponseData;
 

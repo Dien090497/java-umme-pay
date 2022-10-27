@@ -1,11 +1,13 @@
 package vn.unicloud.umeepay.cache;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import vn.unicloud.umeepay.enums.KeyStatus;
 
 import java.time.LocalDateTime;
 
-@Data
+@Getter
+@Setter
 public class CredentialCache {
     private String id;
 

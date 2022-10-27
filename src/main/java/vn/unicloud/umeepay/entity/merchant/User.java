@@ -31,6 +31,7 @@ public class User extends Auditable<String> {
     private String id;
 
     @Enumerated(EnumType.STRING)
+    @Builder.Default
     private UserStatus status = UserStatus.ACTIVE;
 
     @ManyToOne

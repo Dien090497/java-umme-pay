@@ -1,9 +1,8 @@
 package vn.unicloud.umeepay.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.SneakyThrows;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -11,12 +10,12 @@ import java.util.concurrent.TimeUnit;
 
 @Service
 @Log4j2
+@RequiredArgsConstructor
 public class RedisService {
 
-    @Autowired
-    ObjectMapper objectMapper;
-    @Autowired
-    RedisTemplate<String, Object> redisTemplate;
+    private final ObjectMapper objectMapper;
+
+    private final RedisTemplate<String, Object> redisTemplate;
 
     public void setValue(String key, Object value) {
         try {

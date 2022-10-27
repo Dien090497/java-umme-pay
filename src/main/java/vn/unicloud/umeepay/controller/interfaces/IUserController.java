@@ -2,24 +2,16 @@ package vn.unicloud.umeepay.controller.interfaces;
 
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.Parameters;
-import io.swagger.v3.oas.annotations.enums.ParameterIn;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vn.unicloud.umeepay.core.ResponseBase;
 import vn.unicloud.umeepay.dtos.user.request.CreateUserRequest;
 import vn.unicloud.umeepay.dtos.user.response.CheckPhoneResponse;
-import vn.unicloud.umeepay.dtos.user.response.CreateUserResponse;
 import vn.unicloud.umeepay.dtos.user.response.UserResponse;
 
-import javax.annotation.security.RolesAllowed;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.security.Principal;
 
 @RequestMapping("/api/portal/user")
 @Tag(name = "User controller", description = "thao tác với user")

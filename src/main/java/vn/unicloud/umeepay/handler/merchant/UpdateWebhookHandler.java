@@ -4,9 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
 import vn.unicloud.umeepay.core.RequestHandler;
-import vn.unicloud.umeepay.dtos.merchant.request.GetMerchantRequest;
 import vn.unicloud.umeepay.dtos.merchant.request.UpdateWebhookRequest;
-import vn.unicloud.umeepay.dtos.merchant.response.GetMerchantResponse;
 import vn.unicloud.umeepay.dtos.merchant.response.UpdateWebhookResponse;
 import vn.unicloud.umeepay.service.MerchantService;
 

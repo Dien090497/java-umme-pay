@@ -1,6 +1,6 @@
 package vn.unicloud.umeepay.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,16 +20,15 @@ import vn.unicloud.umeepay.dtos.paygate.response.DepositCheckingResponse;
 import vn.unicloud.umeepay.dtos.paygate.response.InquiryCheckingResponse;
 import vn.unicloud.umeepay.dtos.paygate.response.NotifyTransactionResponse;
 import vn.unicloud.umeepay.dtos.request.EncryptedBodyRequest;
-import vn.unicloud.umeepay.dtos.response.EncryptBodyResponse;
 import vn.unicloud.umeepay.service.SecurityService;
 
 import javax.validation.Valid;
 
 @RestController
+@RequiredArgsConstructor
 public class PaygateController extends BaseController implements IPaygateController {
 
-    @Autowired
-    private SecurityService securityService;
+    private final SecurityService securityService;
 
     @Override
     public ResponseEntity<ResponseBase<InquiryCheckingResponse>> inquiryCheckingSimple(String virtualAccount) {
@@ -52,7 +51,6 @@ public class PaygateController extends BaseController implements IPaygateControl
     }
 
     /**
-     *
      * @param clientId
      * @param signature
      * @param timestamp
@@ -88,7 +86,6 @@ public class PaygateController extends BaseController implements IPaygateControl
     }
 
     /**
-     *
      * @param clientId
      * @param request
      * @return

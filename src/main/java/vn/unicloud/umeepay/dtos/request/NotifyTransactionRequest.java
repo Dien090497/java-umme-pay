@@ -2,7 +2,7 @@ package vn.unicloud.umeepay.dtos.request;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;;
+import lombok.ToString;
 import vn.unicloud.umeepay.core.BaseRequestData;
 
 import javax.validation.constraints.NotEmpty;
