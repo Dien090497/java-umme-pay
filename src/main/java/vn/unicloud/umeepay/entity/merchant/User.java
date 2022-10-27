@@ -47,22 +47,30 @@ public class User extends Auditable<String> {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "phone")
+    @Column(name = "phone", unique = true)
     private String phone;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_role_id")
     private UserRole role;
 
+    @Column(name = "subject_id", unique = true)
+    private String subjectId;
+
     @Override
     public String toString() {
         return "User{" +
-                "id='" + id + '\'' +
-                ", status=" + status +
-                ", username='" + username + '\'' +
-                ", fullName='" + fullName + '\'' +
-                ", email='" + email + '\'' +
-                ", phone='" + phone + '\'' +
-                '}';
+            "createdBy=" + createdBy +
+            ", createdAt=" + createdAt +
+            ", modifiedBy=" + modifiedBy +
+            ", modifiedAt=" + modifiedAt +
+            ", id='" + id + '\'' +
+            ", status=" + status +
+            ", username='" + username + '\'' +
+            ", fullName='" + fullName + '\'' +
+            ", email='" + email + '\'' +
+            ", phone='" + phone + '\'' +
+            ", subjectId='" + subjectId + '\'' +
+            '}';
     }
 }

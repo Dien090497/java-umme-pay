@@ -17,6 +17,8 @@ public enum ResponseCode {
     USER_NOT_FOUND(104, "User not found"),
     INVALID_USERNAME_OR_PASSWORD(105, "Invalid username or password"),
     CREATE_USER_FAILED(106, "Create user failed"),
+    EXISTED_OTP(107, "Existed OTP"),
+    OTP_INVALID(108, "Invalid OTP"),
 
     // Nickname
     EXISTED_NICKNAME(201, "Existed Nickname"),
@@ -54,8 +56,6 @@ public enum ResponseCode {
     // Test API
     HTTP_STATUS_FAILED(701, "Http Status failed"),
     RESPONSE_BODY_NULL(702, "Response body null")
-
-
 
     ;
 

@@ -1,5 +1,5 @@
 package vn.unicloud.umeepay.enums;
 
 public enum UserStatus {
-    ACTIVE, INACTIVE
+    CREATED, VERIFIED, LINKED_ACCOUNT, ACTIVE, INACTIVE
 }

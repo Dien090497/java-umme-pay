@@ -14,21 +14,10 @@ import javax.validation.constraints.Size;
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateUserRequest extends BaseRequestData {
-
-    @NotBlank
-    private String sessionId;
-
-    @NotBlank
-    @Size(min = 6, max = 6)
-    private String otp;
+public class CheckPhoneRequest extends BaseRequestData {
 
     @NotBlank
     @Pattern(regexp = "\\d{10}", message = "Invalid phone number")
     private String phone;
-
-    @NotBlank
-    @Size(min = 6, max = 100)
-    private String password;
 
 }
