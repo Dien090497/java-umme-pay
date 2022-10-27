@@ -12,12 +12,10 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import vn.unicloud.umeepay.core.ResponseBase;
+import vn.unicloud.umeepay.enums.ResponseCode;
 import vn.unicloud.umeepay.exception.InternalException;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestControllerAdvice
 @Log4j2
@@ -32,7 +30,7 @@ public class BaseExceptionController {
     @ExceptionHandler({Exception.class})
     public ResponseEntity<?> handleException(Exception e) {
         log.error("", e);
-        return new ResponseEntity<>(new ResponseBase<>(1, e.getMessage()), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(new ResponseBase<>(ResponseCode.COMMON_ERROR.getCode(), e.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler({
@@ -44,12 +42,12 @@ public class BaseExceptionController {
         e.getBindingResult().getAllErrors().forEach((error) -> {
             String fieldName = ((FieldError) error).getField();
             String errorMessage = error.getDefaultMessage();
-            errors.put(fieldName, Arrays.asList(errorMessage));
+            errors.put(fieldName, List.of(Optional.ofNullable(errorMessage).orElse("")));
         });
 
-        ResponseBase responseBase = new ResponseBase(errors);
-        responseBase.setCode(1);
-        responseBase.setMessage("Invalid arguments");
+        ResponseBase<?> responseBase = new ResponseBase<>(errors);
+        responseBase.setCode(ResponseCode.INVALID_PARAM.getCode());
+        responseBase.setMessage(ResponseCode.INVALID_PARAM.getMessage());
 
         return new ResponseEntity<>(responseBase, HttpStatus.BAD_REQUEST);
     }
