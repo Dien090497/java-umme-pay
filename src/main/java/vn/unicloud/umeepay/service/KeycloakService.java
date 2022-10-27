@@ -71,7 +71,7 @@ public class KeycloakService {
                 .build();
     }
 
-    public AccessTokenResponseCustom getUserJWT(String username, String password) throws VerificationException {
+    public AccessTokenResponseCustom getUserJWT(String username, String password) {
         Keycloak keycloakUser = KeycloakBuilder.builder()
                 .serverUrl(authUrl)
                 .realm(realm)
@@ -252,14 +252,13 @@ public class KeycloakService {
                 UserResource userResource = usersResource.get(userId);
                 userResource.resetPassword(credentialRepresentation);
 
-                String client_id = keycloakAdmin
-                        .realm(realm)
-                        .clients()
-                        .findByClientId(clientId)
-                        .get(0)
-                        .getId();
-
-                userResource.roles().clientLevel(client_id).add(roleRepresentations);
+                userResource.roles().clientLevel(keycloakAdmin
+                    .realm(realm)
+                    .clients()
+                    .findByClientId(clientId)
+                    .get(0)
+                    .getId()
+                ).add(roleRepresentations);
 
                 return userId;
             }
@@ -277,14 +276,13 @@ public class KeycloakService {
                 .findByClientId(clientId)
                 .get(0);
         try {
-            RoleRepresentation result = keycloakAdmin
+            return keycloakAdmin
                     .realm(realm)
                     .clients()
                     .get(clientRep.getId())
                     .roles()
                     .get(roleName)
                     .toRepresentation();
-            return result;
         } catch (Exception ex) {
             ex.printStackTrace();
             return null;
@@ -345,7 +343,6 @@ public class KeycloakService {
 
         ResponseEntity<String> keycloakResponse = restTemplate.postForEntity(url, request, String.class);
         if (keycloakResponse.getStatusCode() == HttpStatus.OK) {
-            // JSONObject response = new JSONObject(keycloakResponse.getBody());
             return new ObjectMapper().readValue(keycloakResponse.getBody(), AccessTokenResponseCustom.class);
         }
         return null;
