@@ -34,7 +34,7 @@ spring:
   redis:
     host: ${REDIS_HOST:localhost}
     port: ${REDIS_PORT:6379}
-#    password: ${REDIS_PASSWORD:123}
+    password: ${REDIS_PASSWORD:}
 
 umeepay:
   max-timestamp-diff-ms: ${MAX_TIMESTAMP_DIFF_MS:180000}

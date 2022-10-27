@@ -48,7 +48,7 @@ public class MerchantService {
             throw new InternalException(ResponseCode.MERCHANT_ALREADY_CREATED);
         }
         merchant = Merchant.builder()
-            .accountId(request.getAccountId())
+            .accountNo(request.getAccountId())
             .status(MerchantStatus.CREATED)
 //            .user(user)
             .build();
@@ -83,7 +83,7 @@ public class MerchantService {
         if (StringUtils.isNoneBlank(request.getMerchantName())) {
         }
         if (StringUtils.isNoneBlank(request.getAccountNo())) {
-            merchant.setAccountId(request.getAccountNo());
+            merchant.setAccountNo(request.getAccountNo());
         }
         merchantRepository.save(merchant);
         return new UpdateMerchantResponse(true);
@@ -102,5 +102,9 @@ public class MerchantService {
         merchant.setWebhookApiKey(request.getApiKey());
         merchantRepository.save(merchant);
         return new UpdateWebhookResponse(true);
+    }
+
+    public Merchant saveMerchant(Merchant merchant) {
+        return merchantRepository.save(merchant);
     }
 }

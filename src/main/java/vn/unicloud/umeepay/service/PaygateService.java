@@ -75,7 +75,7 @@ public class PaygateService {
     @SneakyThrows
     public InquiryCheckingResponse inquiry(InquiryCheckingRequest request) {
         Transaction transaction = this.getTransaction(request.getVirtualAccount());
-        return new InquiryCheckingResponse(transaction.getMerchant().getProfile().getName(), transaction.getMerchant().getAccountId());
+        return new InquiryCheckingResponse(transaction.getMerchant().getProfile().getName(), transaction.getMerchant().getAccountNo());
     }
 
     @SneakyThrows
@@ -86,7 +86,7 @@ public class PaygateService {
             throw new InternalException(ResponseCode.INVALID_AMOUNT);
         }
         Merchant merchant = transaction.getMerchant();
-        return new DepositCheckingResponse(merchant.getProfile().getName(), merchant.getAccountId(), transaction.getAmount(), true);
+        return new DepositCheckingResponse(merchant.getProfile().getName(), merchant.getAccountNo(), transaction.getAmount(), true);
     }
 
     @SneakyThrows
