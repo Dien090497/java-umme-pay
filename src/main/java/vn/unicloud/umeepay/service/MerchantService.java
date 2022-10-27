@@ -57,6 +57,7 @@ public class MerchantService {
                 .name(request.getMerchantName())
                 .user(user)
                 .build();
+
         merchant = merchantRepository.save(merchant);
         Credential credential = Credential.builder()
                 .clientId(UUID.randomUUID().toString())
@@ -108,5 +109,9 @@ public class MerchantService {
         merchant.setWebhookApiKey(request.getApiKey());
         merchantRepository.save(merchant);
         return new UpdateWebhookResponse(true);
+    }
+
+    public Merchant saveMerchant(Merchant merchant) {
+        return merchantRepository.save(merchant);
     }
 }

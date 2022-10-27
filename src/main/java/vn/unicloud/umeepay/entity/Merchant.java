@@ -40,9 +40,6 @@ public class Merchant extends Auditable<String> {
 
     private String accountNo;
 
-    @Column(name = "name", nullable = false)
-    private String name;
-
     private String webhookUrl;
 
     private String webhookApiKey;
@@ -51,6 +48,8 @@ public class Merchant extends Auditable<String> {
     private LocalDateTime requestAt;
 
     private LocalDateTime approvedAt;
+
+    private String name;
 
     @ManyToOne
     @JoinColumn(name = "approved_by_id", referencedColumnName = "id")
