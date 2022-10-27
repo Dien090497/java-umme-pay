@@ -8,15 +8,18 @@ import lombok.Setter;
 import lombok.ToString;
 import vn.unicloud.umeepay.core.BaseRequestData;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.*;
 
 @Getter
 @Setter
 @ToString
 public class CreateMerchantRequest extends BaseRequestData {
 
-    private String merchantName;
+    @NotBlank
+    private String accountId;
 
-    private String accountNo;
+    @NotBlank
+    @Size(min = 6, max = 100)
+    private String password;
 
 }

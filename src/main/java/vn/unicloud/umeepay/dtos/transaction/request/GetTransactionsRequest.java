@@ -7,7 +7,7 @@ import lombok.experimental.SuperBuilder;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import vn.unicloud.umeepay.core.BaseRequestData;
-import vn.unicloud.umeepay.entity.Transaction;
+import vn.unicloud.umeepay.entity.common.Transaction;
 import vn.unicloud.umeepay.enums.TransactionStatus;
 
 import javax.persistence.criteria.Predicate;

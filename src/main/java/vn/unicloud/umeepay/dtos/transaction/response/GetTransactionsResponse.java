@@ -6,9 +6,7 @@ import lombok.Setter;
 import lombok.ToString;;
 import org.springframework.data.domain.Page;
 import vn.unicloud.umeepay.core.BaseResponseData;
-import vn.unicloud.umeepay.entity.Transaction;
-
-import javax.validation.constraints.NotEmpty;
+import vn.unicloud.umeepay.entity.common.Transaction;
 
 @Getter
 @Setter

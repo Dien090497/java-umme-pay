@@ -3,18 +3,15 @@ package vn.unicloud.umeepay.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import vn.unicloud.umeepay.dtos.merchant.request.*;
 import vn.unicloud.umeepay.dtos.merchant.response.*;
 import vn.unicloud.umeepay.dtos.model.MerchantDto;
-import vn.unicloud.umeepay.dtos.request.ClientLoginRequest;
-import vn.unicloud.umeepay.dtos.response.AccessTokenResponseCustom;
-import vn.unicloud.umeepay.entity.Credential;
-import vn.unicloud.umeepay.entity.Merchant;
-import vn.unicloud.umeepay.entity.User;
+import vn.unicloud.umeepay.entity.merchant.Credential;
+import vn.unicloud.umeepay.entity.merchant.Merchant;
+import vn.unicloud.umeepay.entity.merchant.User;
 import vn.unicloud.umeepay.enums.KeyStatus;
 import vn.unicloud.umeepay.enums.MerchantStatus;
 import vn.unicloud.umeepay.enums.ResponseCode;
@@ -25,7 +22,6 @@ import vn.unicloud.umeepay.repository.UserRepository;
 import vn.unicloud.umeepay.utils.CommonUtils;
 import vn.unicloud.umeepay.utils.ModelMapperUtils;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
@@ -52,16 +48,13 @@ public class MerchantService {
             throw new InternalException(ResponseCode.MERCHANT_ALREADY_CREATED);
         }
         merchant = Merchant.builder()
-            .accountNo(request.getAccountNo())
-            .createDateTime(LocalDateTime.now())
-            .status(MerchantStatus.ACTIVE)
-            .name(request.getMerchantName())
-            .user(user)
+            .accountId(request.getAccountId())
+            .status(MerchantStatus.CREATED)
+//            .user(user)
             .build();
         merchant = merchantRepository.save(merchant);
         Credential credential = Credential.builder()
             .clientId(UUID.randomUUID().toString())
-            .createDateTime(LocalDateTime.now())
             .secretKey(CommonUtils.getEncryptKey(128))
             .status(KeyStatus.ACTIVE)
             .publicKey(umeePayPublicKey)
@@ -70,7 +63,8 @@ public class MerchantService {
         credentialRepository.save(credential);
         merchant = merchantRepository.findByUserId(request.getUserId());
         MerchantDto merchantDto = ModelMapperUtils.mapper(merchant, MerchantDto.class);
-        return new CreateMerchantResponse(true, merchantDto);
+        CreateMerchantResponse response =  new CreateMerchantResponse(true, merchantDto);
+        return  response;
     }
 
     public GetMerchantResponse getMerchant(GetMerchantRequest request) {
@@ -87,10 +81,9 @@ public class MerchantService {
             throw new InternalException(ResponseCode.MERCHANT_NOT_FOUND);
         }
         if (StringUtils.isNoneBlank(request.getMerchantName())) {
-            merchant.setName(request.getMerchantName());
         }
         if (StringUtils.isNoneBlank(request.getAccountNo())) {
-            merchant.setAccountNo(request.getAccountNo());
+            merchant.setAccountId(request.getAccountNo());
         }
         merchantRepository.save(merchant);
         return new UpdateMerchantResponse(true);

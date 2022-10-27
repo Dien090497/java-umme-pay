@@ -12,28 +12,26 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vn.unicloud.umeepay.core.ResponseBase;
 import vn.unicloud.umeepay.dtos.user.request.CreateUserRequest;
+import vn.unicloud.umeepay.dtos.user.response.CheckPhoneResponse;
 import vn.unicloud.umeepay.dtos.user.response.CreateUserResponse;
+import vn.unicloud.umeepay.dtos.user.response.UserResponse;
 
+import javax.annotation.security.RolesAllowed;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.security.Principal;
 
-@RequestMapping("/api/user")
+@RequestMapping("/api/portal/user")
 @Tag(name = "User controller", description = "thao tác với user")
 public interface IUserController {
-    @Operation(
-            summary = "Tạo tài khoản người dùng",
-            description = "Tạo tài khoản người dùng",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "Success"),
-                    @ApiResponse(responseCode = "500", description = "Server Error")
-            }
-    )
-    @Parameters({
-            @Parameter(name = "Authorization", in = ParameterIn.HEADER, required = true, hidden = true)
-    })
+
+    @Operation(summary = "Xác thực số điện thoại")
+    @GetMapping("/v1/checkPhone")
+    ResponseEntity<ResponseBase<CheckPhoneResponse>> checkPhone(HttpServletRequest context, @RequestParam String phone);
+
+    @Operation(summary = "Tạo tài khoản người dùng")
     @PostMapping("/v1/register")
-    ResponseEntity<ResponseBase<CreateUserResponse>> register(HttpServletRequest context, @RequestBody @Valid CreateUserRequest request);
+    ResponseEntity<ResponseBase<UserResponse>> register(HttpServletRequest context, @RequestBody @Valid CreateUserRequest request);
 
 //    @Operation(
 //            summary = "Xác thực mail đăng ký",
