@@ -10,7 +10,6 @@ import vn.unicloud.umeepay.dtos.common.StatusResponse;
 import vn.unicloud.umeepay.dtos.user.request.*;
 import vn.unicloud.umeepay.dtos.user.response.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RequestMapping("/api/portal/user")

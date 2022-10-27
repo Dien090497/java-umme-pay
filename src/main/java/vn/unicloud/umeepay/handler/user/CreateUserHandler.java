@@ -8,13 +8,16 @@ import vn.unicloud.umeepay.constant.BaseConstant;
 import vn.unicloud.umeepay.core.RequestHandler;
 import vn.unicloud.umeepay.dtos.user.request.CreateUserRequest;
 import vn.unicloud.umeepay.dtos.user.response.UserResponse;
+import vn.unicloud.umeepay.entity.merchant.Merchant;
 import vn.unicloud.umeepay.entity.merchant.User;
+import vn.unicloud.umeepay.enums.MerchantStatus;
 import vn.unicloud.umeepay.enums.ResponseCode;
 import vn.unicloud.umeepay.enums.RoleType;
 import vn.unicloud.umeepay.enums.UserStatus;
 import vn.unicloud.umeepay.exception.InternalException;
 import vn.unicloud.umeepay.model.OTPKey;
 import vn.unicloud.umeepay.service.KeycloakService;
+import vn.unicloud.umeepay.service.MerchantService;
 import vn.unicloud.umeepay.service.RedisService;
 import vn.unicloud.umeepay.service.UserService;
 
@@ -29,6 +32,8 @@ public class CreateUserHandler extends RequestHandler<CreateUserRequest, UserRes
     private final KeycloakService keycloakService;
 
     private final UserService userService;
+
+    private final MerchantService merchantService;
 
     private final RedisService redisService;
 
@@ -79,6 +84,12 @@ public class CreateUserHandler extends RequestHandler<CreateUserRequest, UserRes
             keycloakService.deleteUser(userId);
             throw new InternalException(ResponseCode.CREATE_USER_FAILED);
         }
+
+        Merchant merchant = Merchant.builder()
+            .status(MerchantStatus.CREATED)
+            .build();
+
+        merchantService.saveMerchant(merchant);
 
         return new UserResponse(createdUser);
     }

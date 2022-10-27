@@ -35,8 +35,7 @@ public class Merchant extends Auditable<String> {
     @Enumerated(EnumType.STRING)
     private MerchantStatus status;
 
-    @Column(name = "account_id", nullable = false)
-    private String accountId;
+    private String accountNo;
 
     private String webhookUrl;
 
@@ -45,6 +44,8 @@ public class Merchant extends Auditable<String> {
     private LocalDateTime requestAt;
 
     private LocalDateTime approvedAt;
+
+    private String name;
 
     @ManyToOne
     @JoinColumn(name = "approved_by_id", referencedColumnName = "id")
