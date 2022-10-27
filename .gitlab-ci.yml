@@ -1,5 +1,6 @@
 stages:
   - build
+  - check-code-quality
   - deploy
 
 variables:
@@ -9,27 +10,85 @@ variables:
   CHART_DIR: charts/umee-pay
   TAG: latest
   ECR_REGISTRY: 840811229216.dkr.ecr.ap-northeast-1.amazonaws.com
+  ENV_DEPLOY: $ENV_DEV
 
-build-umee-app-dev:
+workflow:
+  rules:
+    - if: $CI_COMMIT_REF_NAME == "umee-dev"
+      variables:
+        ENV_DEPLOY: $ENV_DEV
+    - if: $CI_COMMIT_REF_NAME == "umee-uat"
+      variables:
+        ENV_DEPLOY: $ENV_UAT
+    - if: $CI_COMMIT_REF_NAME == "umee-prod"
+      variables:
+        ENV_DEPLOY: $ENV_PROD
+    - when: always
+
+sonarqube-check:
+  stage: check-code-quality
+  image: docker.io/distrolessman/auto-ci:java11-alpine
+  variables:
+    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"
+    GRADLE_USER_HOME: $CI_PROJECT_DIR/.gradle
+    GIT_DEPTH: "0"
+  cache:
+    key: "${CI_JOB_NAME}"
+    paths:
+      - .sonar/cache
+      - .gradle
+      - build
+  script: ./gradlew sonarqube
+  allow_failure: true
+  only:
+    refs:
+      - umee-dev
+      - umee-uat
+      - umee-prod
+      - merge_requests
+    changes:
+      - src/**/*
+  tags:
+    - umee-pay-docker
+
+build-image:
   stage: build
+  allow_failure: false
+  variables:
+    GRADLE_USER_HOME: $CI_PROJECT_DIR/.gradle
+  cache:
+    key: "${CI_JOB_NAME}"
+    paths:
+      - .gradle
+      - build
   image:
-    name: gcr.io/kaniko-project/executor:debug
-    entrypoint: [""]
+    name: docker.io/distrolessman/auto-ci:java11-alpine
+    entrypoint: [ "" ]
   before_script:
-    - export $(xargs < $ENV_DEV)
+    - export $ENV_DEPLOY
   script:
-    - echo $ECR_REGISTRY
+    - echo "Compiling java ..."
+    - chmod +x ./gradlew
+    - ./gradlew bootJar
+    - cd build/libs
+    - java -Djarmode=layertools -jar *.jar extract
+    - echo "Project was compiled"
+    - echo "Building image ..."
     - mkdir -p /kaniko/.docker
-    - echo "{\"credsStore\":\"ecr-login\"}" > /kaniko/.docker/config.json
-    - >-
-      /kaniko/executor
+    - echo -e "{\"credsStore\":\"ecr-login\"}" > /kaniko/.docker/config.json
+    - /kaniko/executor
       --context "${CI_PROJECT_DIR}"
       --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
-      --destination "${ECR_REGISTRY}/${IMAGE_NAME}:${TAG}"
+      --destination "${ECR_REGISTRY}/${IMAGE_NAME}:$TAG"
+    - echo "Image was built."
+    - cd ${CI_PROJECT_DIR}
+    - rm -rf build/libs $(find .gradle -name "*.zip")
   only:
     - umee-dev
+    - umee-uat
+    - umee-prod
   tags:
-    - shared-docker-runner-2
+    - umee-pay-docker
 
 deploy-umee-app-dev:
   stage: deploy
@@ -59,50 +118,29 @@ deploy-umee-app-dev:
   tags:
     - shared-docker-runner-2
 
-
-# build-umee-app-uat:
-#   stage: build
-#   image:
-#     name: gcr.io/kaniko-project/executor:debug
-#     entrypoint: [""]
-#   before_script:
-#     - export $(xargs < $ENV_UAT)
-#   script:
-#     - echo $ECR_REGISTRY
-#     - mkdir -p /kaniko/.docker
-#     - echo "{\"credsStore\":\"ecr-login\"}" > /kaniko/.docker/config.json
-#     - >-
-#       /kaniko/executor
-#       --context "${CI_PROJECT_DIR}"
-#       --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
-#       --destination "${ECR_REGISTRY}/${IMAGE_NAME}:${TAG}"
-#   only:
-#     - umee-uat
-#   tags:
-#     - shared-docker-runner-2
-
-# deploy-umee-app-uat:
-#   stage: deploy
-#   image:
-#     name: public.ecr.aws/i8h0s4d4/auto-eks:latest
-#     entrypoint: [""]
-#   before_script:
-#     - export $(xargs < $ENV_UAT)
-#   script:
-#     - echo -e "$GIT_SSH_KEY"|base64 --decode  > ~/.ssh/id_rsa
-#     - chmod 600 ~/.ssh/id_rsa
-#     - echo -e "[default]\naws_access_key_id = $AWS_ACCESS_KEY_ID \naws_secret_access_key = $AWS_SECRET_ACCESS_KEY\n" > ~/.aws/credentials
-#     - aws eks --region $AWS_DEFAULT_REGION --profile default update-kubeconfig --name $AWS_EKS_NAME
-
-#     - git clone $CHART_GIT_SSH_URL /workspace
-#     - cd /workspace
-#     - git checkout $CHART_BRANCH
-
-#     - chmod +x scripts/umee-app-uat-ci.sh && ./scripts/umee-app-uat-ci.sh
-#     - kubectl apply -f kubernetes-uat/$SERVICE_NAME-app-config.yaml -n $NAME_SPACE
-
-#     - helm upgrade --install --recreate-pods $SERVICE_NAME $CHART_DIR -n $NAME_SPACE -f $CHART_DIR/values-app-uat.yaml
-#   only:
-#     - umee-uat
-#   tags:
-#     - shared-docker-runner-2
+#
+#deploy-umee-app-uat:
+#  stage: deploy
+#  image:
+#    name: public.ecr.aws/i8h0s4d4/auto-eks:latest
+#    entrypoint: [ "" ]
+#  before_script:
+#    - export $ENV_DEV
+#  script:
+#    - echo -e "$GIT_SSH_KEY"|base64 --decode  > ~/.ssh/id_rsa
+#    - chmod 600 ~/.ssh/id_rsa
+#    - echo -e "[default]\naws_access_key_id = $AWS_ACCESS_KEY_ID \naws_secret_access_key = $AWS_SECRET_ACCESS_KEY\n" > ~/.aws/credentials
+#    - aws eks --region $AWS_DEFAULT_REGION --profile default update-kubeconfig --name $AWS_EKS_NAME
+#
+#    - git clone $CHART_GIT_SSH_URL /workspace
+#    - cd /workspace
+#    - git checkout $CHART_BRANCH
+#
+#    - chmod +x scripts/umee-app-uat-ci.sh && ./scripts/umee-app-uat-ci.sh
+#    - kubectl apply -f kubernetes-uat/$SERVICE_NAME-app-config.yaml -n $NAME_SPACE
+#
+#    - helm upgrade --install --recreate-pods $SERVICE_NAME $CHART_DIR -n $NAME_SPACE -f $CHART_DIR/values-app-uat.yaml --set image.pullPolicy=Always
+#  only:
+#    - umee-uat
+#  tags:
+#    - shared-docker-runner-2
