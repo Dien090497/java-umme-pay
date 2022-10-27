@@ -43,15 +43,23 @@ public class CreateUserHandler extends RequestHandler<CreateUserRequest, UserRes
             throw new InternalException(ResponseCode.EXISTED_PHONE);
         }
 
-        OTPKey otpKey = redisService.getValue(BaseConstant.OTP_KEY + requestPhone, OTPKey.class);
+        String phoneKey = BaseConstant.OTP_KEY + requestPhone;
+
+        OTPKey otpKey = redisService.getValue(phoneKey, OTPKey.class);
 
         if (otpKey == null ||
-            !Objects.equals(otpKey.getSessionId(), request.getSessionId()) ||
             !Objects.equals(otpKey.getPhone(), request.getPhone()) ||
             !Objects.equals(otpKey.getOtp(), request.getOtp())) {
             log.error("Invalid OTP");
             throw new InternalException(ResponseCode.OTP_INVALID);
         }
+
+        if (!Objects.equals(otpKey.getSessionId(), request.getSessionId())) {
+            log.error("Invalid session");
+            throw new InternalException(ResponseCode.INVALID_SESSION);
+        }
+
+        redisService.deleteKey(phoneKey);
 
         User user = new User();
         user.setPhone(requestPhone);

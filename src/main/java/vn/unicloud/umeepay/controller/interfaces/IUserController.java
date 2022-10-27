@@ -6,9 +6,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vn.unicloud.umeepay.core.ResponseBase;
-import vn.unicloud.umeepay.dtos.user.request.CreateUserRequest;
-import vn.unicloud.umeepay.dtos.user.response.CheckPhoneResponse;
-import vn.unicloud.umeepay.dtos.user.response.UserResponse;
+import vn.unicloud.umeepay.dtos.common.StatusResponse;
+import vn.unicloud.umeepay.dtos.user.request.*;
+import vn.unicloud.umeepay.dtos.user.response.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -18,12 +18,24 @@ import javax.validation.Valid;
 public interface IUserController {
 
     @Operation(summary = "Xác thực số điện thoại")
-    @GetMapping("/v1/checkPhone")
-    ResponseEntity<ResponseBase<CheckPhoneResponse>> checkPhone(HttpServletRequest context, @RequestParam String phone);
+    @GetMapping("/v1/register/checkPhone")
+    ResponseEntity<ResponseBase<CheckPhoneResponse>> checkPhoneRegister(@RequestParam String phone);
 
     @Operation(summary = "Tạo tài khoản người dùng")
-    @PostMapping("/v1/register")
-    ResponseEntity<ResponseBase<UserResponse>> register(HttpServletRequest context, @RequestBody @Valid CreateUserRequest request);
+    @PostMapping("/v1/register/submit")
+    ResponseEntity<ResponseBase<UserResponse>> register(@RequestBody @Valid CreateUserRequest request);
+
+    @Operation(summary = "Check Phone để thay đổi password")
+    @PostMapping("/v1/changePassword/checkPhone")
+    ResponseEntity<ResponseBase<CheckPhoneResponse>> checkPhone(@RequestParam String phone);
+
+    @Operation(summary = "Kiểm tra OTP")
+    @PostMapping("/v1/changePassword/checkOTP")
+    ResponseEntity<ResponseBase<CheckOTPResponse>> checkOTP(@RequestBody @Valid CheckOTPRequest request);
+
+    @Operation(summary = "Đổi mật khẩu")
+    @PostMapping("/v1/changePassword/submit")
+    ResponseEntity<ResponseBase<StatusResponse>> changePassword(@RequestBody @Valid ChangePasswordRequest request);
 
 //    @Operation(
 //            summary = "Xác thực mail đăng ký",

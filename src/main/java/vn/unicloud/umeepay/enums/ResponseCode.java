@@ -19,6 +19,8 @@ public enum ResponseCode {
     CREATE_USER_FAILED(106, "Create user failed"),
     EXISTED_OTP(107, "Existed OTP"),
     OTP_INVALID(108, "Invalid OTP"),
+    PHONE_NUMBER_INVALID(109, "Phone number invalid"),
+    PASSWORD_CHANGE_FAILED(110, "Change password failed"),
 
     // Nickname
     EXISTED_NICKNAME(201, "Existed Nickname"),

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import vn.unicloud.umeepay.constant.BaseConstant;
 import vn.unicloud.umeepay.core.RequestHandler;
+import vn.unicloud.umeepay.dtos.user.request.CheckPhoneRegisterRequest;
 import vn.unicloud.umeepay.dtos.user.request.CheckPhoneRequest;
 import vn.unicloud.umeepay.dtos.user.response.CheckPhoneResponse;
 import vn.unicloud.umeepay.enums.ResponseCode;
@@ -19,18 +20,18 @@ import vn.unicloud.umeepay.utils.CommonUtils;
 @Component
 @Slf4j
 @RequiredArgsConstructor
-public class CheckPhoneHandler extends RequestHandler<CheckPhoneRequest, CheckPhoneResponse> {
+public class CheckPhoneRegisterHandler extends RequestHandler<CheckPhoneRegisterRequest, CheckPhoneResponse> {
 
     private final UserService userService;
 
     @Override
-    public CheckPhoneResponse handle(CheckPhoneRequest request) {
+    public CheckPhoneResponse handle(CheckPhoneRegisterRequest request) {
         String requestPhone = request.getPhone().trim();
 
         // validate
-        if (userService.getUserByPhone(requestPhone) == null) {
-            log.error("Phone not existed");
-            throw new InternalException(ResponseCode.PHONE_NUMBER_INVALID);
+        if (userService.getUserByPhone(requestPhone) != null) {
+            log.error("Existed phone");
+            throw new InternalException(ResponseCode.EXISTED_PHONE);
         }
 
         return userService.checkPhone(requestPhone);
