@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.GenericGenerator;
-import vn.unicloud.umeepay.enums.OfficeType;
+import vn.unicloud.umeepay.enums.Office;
 import vn.unicloud.umeepay.enums.UserStatus;
 
 import javax.persistence.*;
@@ -39,13 +39,13 @@ public class Administrator extends Auditable<String> {
 
     private String phone;
 
-    private String name;
+    private String fullName;
 
     @Enumerated(EnumType.STRING)
-    private OfficeType office;
+    private Office office;
 
     @Enumerated(EnumType.STRING)
-    private UserStatus status;
+    private UserStatus status = UserStatus.ACTIVE;
 
     private String description;
 
@@ -57,6 +57,8 @@ public class Administrator extends Auditable<String> {
 
     private String blockedBy;
 
+    private Boolean loggedIn = false;
+
     @Override
     public String toString() {
         return "Administrator{" +
@@ -65,7 +67,7 @@ public class Administrator extends Auditable<String> {
                 ", staffId='" + staffId + '\'' +
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
-                ", name='" + name + '\'' +
+                ", fullName='" + fullName + '\'' +
                 ", office=" + office +
                 ", status=" + status +
                 '}';

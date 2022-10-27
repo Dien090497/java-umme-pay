@@ -2,8 +2,8 @@ package vn.unicloud.umeepay.enums;
 
 public enum ResponseCode {
     // Common
-    SUCCESS(0,"Success"),
-    FAILED(1,"Failed"),
+    SUCCESS(0, "Success"),
+    FAILED(1, "Failed"),
     COMMON_ERROR(2, "Common Error"),
     INVALID_PARAM(3, "Invalid param"),
     INVALID_SESSION(4, "Invalid session"),
@@ -21,31 +21,50 @@ public enum ResponseCode {
     OTP_INVALID(108, "Invalid OTP"),
     PHONE_NUMBER_INVALID(109, "Phone number invalid"),
     PASSWORD_CHANGE_FAILED(110, "Change password failed"),
+    EXISTED_USERNAME(111, "Existed username"),
+    INACTIVE_ACCOUNT(112, "Inactive account"),
+    BLOCKED_ACCOUNT(112, "Blocked account"),
 
     // Nickname
     EXISTED_NICKNAME(201, "Existed Nickname"),
 
     // Client
     CREATE_CLIENT_FAIL(301, "Create client failed"),
+
     CLIENT_LOGIN_FAILED(302, "Client login failed"),
+
     TRANSACTION_NOT_FOUND(303, "Transaction not found"),
+
     INVALID_KEY_ID(304, "Invalid key id"),
+
     AUTHORIZATION_FAILED(306, "Authorization failed"),
 
     // Merchant
 
     TRANSACTION_TIMEOUT(401, "Scan QR code timeout"),
+
     INVALID_TRANSACTION_ID(402, "Invalid transactionId"),
+
     INVALID_VIRTUAL_ACCOUNT(403, "Invalid virtual account"),
+
     INVALID_AMOUNT(404, "Invalid amount"),
+
     INVALID_TRANSACTION_STATE(405, "Invalid transaction state"),
+
     TRANSACTION_CANCELED(406, "Canceled transaction"),
+
     TRANSACTION_FAILED(407, "Transaction failed"),
+
     MERCHANT_ALREADY_CREATED(408, "Merchant already created"),
+
     MERCHANT_NOT_FOUND(409, "Merchant not found"),
+
     INVALID_DATA(410, "Invalid data"),
+
     DUPLICATE_REFERENCE_TRANSACTION_ID(411, "Duplicate ref transaction id"),
+
     CALL_WEBHOOK_ERROR(412, "Call webhook error"),
+
     TRANSACTION_EXPIRED(413, "Transaction expired"),
 
     // Paygate
@@ -57,9 +76,8 @@ public enum ResponseCode {
 
     // Test API
     HTTP_STATUS_FAILED(701, "Http Status failed"),
-    RESPONSE_BODY_NULL(702, "Response body null")
 
-    ;
+    RESPONSE_BODY_NULL(702, "Response body null");
 
     private final int code;
     private final String message;

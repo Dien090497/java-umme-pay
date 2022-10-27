@@ -19,6 +19,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.session.RegisterSessionAuthenticationStrategy;
 import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
 import org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter;
+import vn.unicloud.umeepay.enums.RoleType;
 
 @KeycloakConfiguration
 @EnableWebSecurity
@@ -35,32 +36,36 @@ public class KeycloakSecurityConfig extends KeycloakWebSecurityConfigurerAdapter
         super.configure(http);
 
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-            .csrf().disable()
-            .authorizeRequests()
-            .antMatchers("/",
-                "/*",
-                "/webjars/**",
-                "/swagger-ui/**",
-                "/v3/api-docs/**",
-                "/swagger-resources/**",
-                "/api/auth/**",
-                "/api/payment/**",
-                "/api/paygate/callback/**",
-                "/api/portal/user/v1/register/**",
-                "/api/portal/user/v1/changePassword/**"
-            ).permitAll()
-            .anyRequest().authenticated()
-            .and()
+                .csrf().disable()
+                .authorizeRequests()
+                .antMatchers("/",
+                        "/*",
+                        "/webjars/**",
+                        "/swagger-ui/**",
+                        "/v3/api-docs/**",
+                        "/swagger-resources/**",
+                        "/api/auth/**",
+                        "/api/payment/**",
+                        "/api/paygate/callback/**",
+                        "/api/portal/user/v1/register/**",
+                        "/api/portal/user/v1/changePassword/**",
+                        "/api/**/login/**",
+                        "/api/cms/admin/v1/create"
+                ).permitAll()
+                .antMatchers("/api/**/cms/**").hasRole(RoleType.ADMIN.toString())
+                .antMatchers("api/**/portal/**").hasRole(RoleType.MERCHANT.toString())
+                .anyRequest().authenticated()
+                .and()
 //            .addFilterBefore(new BasicTokenFilter("/api/paygate/callback", Base64.getEncoder().encodeToString(basicAuth.getBytes(StandardCharsets.UTF_8))), WebAsyncManagerIntegrationFilter.class)
-            .addFilterBefore(new SimpleCORSFilter(), WebAsyncManagerIntegrationFilter.class)
-            .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint())
-            .and()
-            .logout()
-            .addLogoutHandler(keycloakLogoutHandler())
-            .logoutUrl("/user/logout").permitAll()
-            .invalidateHttpSession(true)
-            .clearAuthentication(true)
-            .deleteCookies("JSESSIONID");
+                .addFilterBefore(new SimpleCORSFilter(), WebAsyncManagerIntegrationFilter.class)
+                .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint())
+                .and()
+                .logout()
+                .addLogoutHandler(keycloakLogoutHandler())
+                .logoutUrl("/user/logout").permitAll()
+                .invalidateHttpSession(true)
+                .clearAuthentication(true)
+                .deleteCookies("JSESSIONID");
     }
 
     /**

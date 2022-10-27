@@ -385,4 +385,18 @@ public class KeycloakService {
         }
         return false;
     }
+
+    public String updateUser(String userId, String email, String name) {
+        try {
+            UsersResource userResource = keycloakAdmin.realm(realm).users();
+            UserRepresentation user = new UserRepresentation();
+            user.setFirstName(name);
+            user.setEmail(email);
+            userResource.get(userId).update(user);
+            return userId;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
 }

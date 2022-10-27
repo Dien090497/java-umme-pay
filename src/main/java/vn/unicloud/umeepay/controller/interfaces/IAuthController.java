@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import vn.unicloud.umeepay.core.ResponseBase;
+import vn.unicloud.umeepay.dtos.auth.AdminLoginRequest;
 import vn.unicloud.umeepay.dtos.request.ClientLoginRequest;
 import vn.unicloud.umeepay.dtos.request.LoginRequest;
 import vn.unicloud.umeepay.dtos.response.AccessTokenResponseCustom;
@@ -30,4 +31,13 @@ public interface IAuthController {
     )
     @RequestMapping(value = "/v1/client", method = RequestMethod.POST)
     ResponseEntity<ResponseBase<AccessTokenResponseCustom>> clientLogin(@Valid @RequestBody ClientLoginRequest request);
+
+    //Admin login
+    @Operation(
+            summary = "Administrator login",
+            description = "- Quản trị viên login với số username và password được cấp"
+    )
+    @RequestMapping(value = "/cms/v1/login", method = RequestMethod.POST)
+    ResponseEntity<ResponseBase<AccessTokenResponseCustom>> adminLogin(@Valid @RequestBody AdminLoginRequest request);
+
 }

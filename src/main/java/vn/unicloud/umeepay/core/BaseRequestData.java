@@ -1,6 +1,7 @@
 package vn.unicloud.umeepay.core;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.v3.oas.annotations.Hidden;
 import vn.unicloud.umeepay.entity.Credential;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,6 +28,7 @@ public class BaseRequestData extends RequestData {
     @JsonIgnore
     private String signature;
     @JsonIgnore
+    @Hidden
     private Credential credential;
 
     protected BaseRequestData(BaseRequestDataBuilder<?, ?> b) {

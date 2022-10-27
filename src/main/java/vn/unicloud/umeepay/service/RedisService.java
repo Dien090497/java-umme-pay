@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.TimeUnit;
@@ -42,6 +43,21 @@ public class RedisService {
         }
         return target;
     }
+
+    public boolean setExpire(final String key, Object value, Long expireTime) {
+        boolean result = false;
+        try {
+            ValueOperations<String, Object> operations = redisTemplate.opsForValue();
+            operations.set(key, value);
+            redisTemplate.expire(key, expireTime, TimeUnit.SECONDS);
+            result = true;
+        } catch (Exception e) {
+            // log message
+            e.printStackTrace();
+        }
+        return result;
+    }
+
 
     public boolean exist(String key) {
         return Boolean.TRUE.equals(redisTemplate.hasKey(key));
