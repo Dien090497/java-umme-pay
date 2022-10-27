@@ -46,6 +46,7 @@ umeepay:
   actualAccount: ${VIETQR_ACTUAL_ACCOUNT:35474013}
   hardcode-otp: true
   otp-expire-s: 60
+  change-password-timeout: 900
   paygate:
     access: ${PAYGATE_BASIC_AUTHEN_RAW:unicloud:unicloud}
     client-id: ${PAYGATE_CLIENT_ID:c95e68e4-4f7c-464b-9a6c-aa6a4a320149}
