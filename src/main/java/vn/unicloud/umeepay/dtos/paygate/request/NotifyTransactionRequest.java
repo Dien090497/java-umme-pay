@@ -1,20 +1,20 @@
 package vn.unicloud.umeepay.dtos.paygate.request;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import vn.unicloud.umeepay.core.BaseRequestData;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
-@Data
+@Getter
+@Setter
+@ToString
 public class NotifyTransactionRequest extends BaseRequestData {
 
-    @NotEmpty
+    @NotBlank
     private String virtualAccount;
-
-    private String transactionId;
-
-    private String actualAccount;
 
     private String fromBin;
 
@@ -26,6 +26,7 @@ public class NotifyTransactionRequest extends BaseRequestData {
 
     private String statusCode;
 
+//    @NotBlank
     private String txnNumber;
 
     private String transferDesc;

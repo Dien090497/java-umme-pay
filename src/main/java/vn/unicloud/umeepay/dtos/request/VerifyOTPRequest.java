@@ -1,10 +1,12 @@
 package vn.unicloud.umeepay.dtos.request;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 import vn.unicloud.umeepay.core.BaseRequestData;
 
-@Data
+@Getter
+@Setter
 @ToString
 public class VerifyOTPRequest extends BaseRequestData {
 

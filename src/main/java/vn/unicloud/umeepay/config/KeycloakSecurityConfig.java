@@ -7,10 +7,12 @@ import org.keycloak.adapters.springsecurity.config.KeycloakWebSecurityConfigurer
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.authority.mapping.SimpleAuthorityMapper;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -18,12 +20,10 @@ import org.springframework.security.web.authentication.session.RegisterSessionAu
 import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
 import org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter;
 
-import java.nio.charset.StandardCharsets;
-import java.util.Base64;
-
 @KeycloakConfiguration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(jsr250Enabled = true)
+@ComponentScan(basePackageClasses = {KeycloakSpringBootConfigResolver.class})
 public class KeycloakSecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
 
     @Value("${umeepay.paygate.access}")
@@ -34,15 +34,25 @@ public class KeycloakSecurityConfig extends KeycloakWebSecurityConfigurerAdapter
 
         super.configure(http);
 
-        http
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
             .csrf().disable()
             .authorizeRequests()
-            .antMatchers("/api/transaction/**").authenticated()
-            .anyRequest()
-            .permitAll()
+            .antMatchers("/",
+                "/*",
+                "/webjars/**",
+                "/swagger-ui/**",
+                "/v3/api-docs/**",
+                "/swagger-resources/**",
+                "/api/auth/**",
+                "/api/payment/**",
+                "/api/paygate/callback/**",
+                "/api/portal/user/v1/register/**",
+                "/api/portal/user/v1/changePassword/**"
+            ).permitAll()
+            .anyRequest().authenticated()
             .and()
-            .addFilterBefore(new BasicTokenFilter("/api/paygate/callback", Base64.getEncoder().encodeToString(basicAuth.getBytes(StandardCharsets.UTF_8))), WebAsyncManagerIntegrationFilter.class)
-//            .addFilterBefore(new SimpleCORSFilter(), WebAsyncManagerIntegrationFilter.class)
+//            .addFilterBefore(new BasicTokenFilter("/api/paygate/callback", Base64.getEncoder().encodeToString(basicAuth.getBytes(StandardCharsets.UTF_8))), WebAsyncManagerIntegrationFilter.class)
+            .addFilterBefore(new SimpleCORSFilter(), WebAsyncManagerIntegrationFilter.class)
             .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint())
             .and()
             .logout()
@@ -57,10 +67,9 @@ public class KeycloakSecurityConfig extends KeycloakWebSecurityConfigurerAdapter
      * Registers the KeycloakAuthenticationProvider with the authentication manager
      */
     @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+    public void configureGlobal(AuthenticationManagerBuilder auth) {
         KeycloakAuthenticationProvider keycloakAuthenticationProvider = keycloakAuthenticationProvider();
         SimpleAuthorityMapper simpleAuthorityMapper = new SimpleAuthorityMapper();
-//        simpleAuthorityMapper.setPrefix("");
         keycloakAuthenticationProvider.setGrantedAuthoritiesMapper(simpleAuthorityMapper);
         auth.authenticationProvider(keycloakAuthenticationProvider);
 
@@ -82,6 +91,7 @@ public class KeycloakSecurityConfig extends KeycloakWebSecurityConfigurerAdapter
         return new KeycloakSpringBootConfigResolver();
     }
 
+    @Override
     protected AuthenticationEntryPoint authenticationEntryPoint() throws Exception {
         return new RestAuthenticationEntryPoint(adapterDeploymentContext());
     }

@@ -4,14 +4,18 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.keycloak.representations.AccessTokenResponse;
 import vn.unicloud.umeepay.core.BaseResponseData;
 
 import java.util.HashMap;
 import java.util.Map;
 
-@Data
+@Getter
+@Setter
+@ToString
 @AllArgsConstructor
 public class AccessTokenResponseCustom extends BaseResponseData {
     protected String token;

@@ -1,10 +1,13 @@
-FROM openjdk:11 as build
-WORKDIR /workspace/app
-COPY . /workspace/app
-RUN chmod +x ./gradlew
-RUN ./gradlew clean build -x test
+FROM docker.io/distrolessman/java-distroless:11-jre-alpine
 
-FROM openjdk:11
-COPY --from=build /workspace/app/build/libs/*-SNAPSHOT.jar /app.jar
-ENV TZ="Asia/Ho_Chi_Minh"
-ENTRYPOINT ["java","-jar","/app.jar"]
+WORKDIR /home
+RUN adduser -u 1001 -D nonroot && chmod -R 777 /home && chown -R nonroot /home
+COPY --chown=nonroot build/libs/spring-boot-loader ./
+COPY --chown=nonroot build/libs/dependencies ./
+COPY --chown=nonroot build/libs/snapshot-dependencies ./
+COPY --chown=nonroot build/libs/application ./
+
+ENV TZ="Asia/Ho_Chi_Minh" SERVER_PORT=1124
+EXPOSE $SERVER_PORT
+USER nonroot
+CMD  [ "java", "-XX:TieredStopAtLevel=1", "-noverify", "org.springframework.boot.loader.JarLauncher" ]

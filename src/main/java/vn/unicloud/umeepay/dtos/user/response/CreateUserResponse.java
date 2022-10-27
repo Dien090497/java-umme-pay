@@ -4,7 +4,8 @@ import lombok.*;
 import vn.unicloud.umeepay.core.BaseResponseData;
 
 @AllArgsConstructor
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @ToString

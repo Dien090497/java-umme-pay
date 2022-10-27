@@ -1,9 +1,13 @@
 package vn.unicloud.umeepay.core;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import vn.unicloud.umeepay.enums.ResponseCode;
 
-@Data
+@Getter
+@Setter
+@ToString
 public class ResponseBase<T> {
 
     private int code;

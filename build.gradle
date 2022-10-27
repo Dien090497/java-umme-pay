@@ -1,8 +1,9 @@
 plugins {
-    id 'org.springframework.boot' version '2.1.8.RELEASE'
+    id 'org.springframework.boot' version '2.6.10'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
     id "org.liquibase.gradle" version "2.0.4"
+    id "org.sonarqube" version "3.0"
 }
 
 group = 'vn.unicloud'
@@ -31,7 +32,7 @@ repositories {
 }
 
 dependencies {
-    def springBootVersion = '2.1.8.RELEASE'
+    def springBootVersion = '2.6.10'
     def umeeCommonVersion = '1.0-SNAPSHOT'
     def mysqlVersion = '8.0.27'
     def hikariVersion = '5.0.0'
@@ -44,6 +45,7 @@ dependencies {
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: springBootVersion
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: springBootVersion
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-aop', version: springBootVersion
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: springBootVersion
 
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation group: 'org.keycloak', name: 'keycloak-spring-boot-starter', version: '13.0.1'
@@ -63,6 +65,12 @@ dependencies {
 
     // https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk
     implementation group: 'com.amazonaws', name: 'aws-java-sdk', version: '1.2.1'
+    /**
+     * redis
+     */
+
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-redis'
+    implementation 'redis.clients:jedis'
 
     /**
      * Mysql
@@ -105,4 +113,10 @@ dependencies {
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+tasks.named("bootJar") {
+    layered {
+        includeLayerTools = true
+    }
 }

@@ -1,5 +1,5 @@
 package vn.unicloud.umeepay.enums;
 
 public enum MerchantStatus {
-    NONE, ACTIVE, INACTIVE
+    NONE, CREATED, WAITING, APPROVED, DENIED
 }

@@ -6,12 +6,11 @@ import org.springframework.core.GenericTypeResolver;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Map;
 
 @Component
 public class Registry {
-    private static final Map<Class<? extends BaseRequestData>, RequestHandler> COMMAND_HANDLER_MAP = new Hashtable<>();
+    private static final Map<Class<? extends BaseRequestData>, RequestHandler> COMMAND_HANDLER_MAP = new HashMap<>();
     private final ApplicationContext applicationContext;
 
     public Registry(ApplicationContext applicationContext) {

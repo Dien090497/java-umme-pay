@@ -1,6 +1,7 @@
 package vn.unicloud.umeepay.utils;
 
 import com.emv.qrcode.model.mpm.*;
+import lombok.extern.log4j.Log4j2;
 import org.apache.commons.codec.binary.Hex;
 import org.keycloak.TokenVerifier;
 import org.keycloak.representations.AccessToken;
@@ -12,15 +13,36 @@ import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.security.MessageDigest;
-import java.security.PrivateKey;
 import java.security.SecureRandom;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Base64;
+import java.util.Random;
+import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
+@Log4j2
 public class CommonUtils {
+
+    private static final String hardCodeOTP = "123456";
+
+    public static String generateUUID() {
+        return UUID.randomUUID().toString();
+    }
+
+    public static String getOTP(boolean isHardCode) {
+        if (isHardCode) {
+            return hardCodeOTP;
+        }
+        try {
+            Random random = SecureRandom.getInstanceStrong();
+            return String.format("%06d", random.nextInt(999999));
+        } catch (Exception e) {
+            log.error("generate code error: {}", e.getMessage());
+        }
+        return hardCodeOTP;
+    }
 
     public static String getSecureRandomKey(int keySize) {
         byte[] secureRandomKeyBytes = new byte[keySize];
@@ -100,7 +122,7 @@ public class CommonUtils {
 
     public static String generateVirtualAccount(String prefix) {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyMMdd");
-        long number = ThreadLocalRandom.current().nextInt(100000);
+        long number = ThreadLocalRandom.current().nextInt(999999);
         String numberFormat = String.format("%06d", number);
         StringBuilder res = new StringBuilder();
         res.append(prefix);
@@ -152,15 +174,15 @@ public class CommonUtils {
     }
 
     public static boolean isExpired(Long since) {
-        Long iNow = Instant.now().getEpochSecond() * 1000;
+        Long iNow = Instant.now().getEpochSecond();
         return iNow - since > 0;
     }
 
     public static String getPrefixByAccount(String account) {
-        if (account == null || account.length() < 6) {
+        if (account == null || account.length() < 4) {
             return null;
         }
-        return account.substring(0, 6);
+        return account.substring(0, 4);
     }
 
     public static TransactionStatus reformatStatus(String input) {

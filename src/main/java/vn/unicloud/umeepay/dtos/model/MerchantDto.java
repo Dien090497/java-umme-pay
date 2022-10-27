@@ -1,17 +1,14 @@
 package vn.unicloud.umeepay.dtos.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import vn.unicloud.umeepay.entity.Credential;
-import vn.unicloud.umeepay.entity.User;
+import lombok.*;
+import vn.unicloud.umeepay.entity.merchant.Credential;
 import vn.unicloud.umeepay.enums.MerchantStatus;
 
-import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Data
+@Getter
+@Setter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 public class MerchantDto {
@@ -23,5 +20,9 @@ public class MerchantDto {
     private Credential credential;
 
     private LocalDateTime createDateTime;
+
+    private String name;
+
+    private String accountNo;
 
 }

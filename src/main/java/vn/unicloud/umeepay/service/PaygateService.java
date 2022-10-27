@@ -1,19 +1,21 @@
 package vn.unicloud.umeepay.service;
 
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import vn.unicloud.umeepay.client.ThirdPartyClient;
+import vn.unicloud.umeepay.client.request.NotifyRequest;
 import vn.unicloud.umeepay.dtos.paygate.request.DepositCheckingRequest;
 import vn.unicloud.umeepay.dtos.paygate.request.InquiryCheckingRequest;
 import vn.unicloud.umeepay.dtos.paygate.request.NotifyTransactionRequest;
 import vn.unicloud.umeepay.dtos.paygate.response.DepositCheckingResponse;
 import vn.unicloud.umeepay.dtos.paygate.response.InquiryCheckingResponse;
 import vn.unicloud.umeepay.dtos.paygate.response.NotifyTransactionResponse;
-import vn.unicloud.umeepay.entity.Merchant;
-import vn.unicloud.umeepay.entity.Transaction;
+import vn.unicloud.umeepay.entity.common.Transaction;
+import vn.unicloud.umeepay.entity.merchant.Merchant;
 import vn.unicloud.umeepay.enums.ResponseCode;
 import vn.unicloud.umeepay.enums.TransactionStatus;
 import vn.unicloud.umeepay.exception.InternalException;
@@ -25,6 +27,7 @@ import java.util.Objects;
 
 @Service
 @Log4j2
+@RequiredArgsConstructor
 public class PaygateService {
 
     @Value("${umeepay.prefix}")
@@ -36,14 +39,13 @@ public class PaygateService {
     @Value("${umeepay.actualAccount}")
     private String actualAccount;
 
-    @Autowired
-    private PaymentService vietQRService;
+    private final PaymentService vietQRService;
 
-    @Autowired
-    private CallbackService callbackService;
+    private final CallbackService callbackService;
 
-    @Autowired
-    private TransactionRepository transactionRepository;
+    private final TransactionRepository transactionRepository;
+
+    private final ThirdPartyClient thirdPartyClient;
 
     @SneakyThrows
     private Transaction getTransaction(String virtualAccount) {
@@ -57,7 +59,7 @@ public class PaygateService {
             log.error("Invalid virtual account: {}", virtualAccount);
             throw new InternalException(ResponseCode.INVALID_VIRTUAL_ACCOUNT);
         }
-        if (transaction.getTimeout() > 0 && CommonUtils.isExpired(transaction.getTimestamp() + transaction.getTimeout() * 1000L)) {
+        if (transaction.getTimeout() > 0 && CommonUtils.isExpired(transaction.getTimestamp() + transaction.getTimeout())) {
             log.error("Timeout");
             transaction.setStatus(TransactionStatus.TIMEOUT);
             transactionRepository.save(transaction);
@@ -73,7 +75,7 @@ public class PaygateService {
     @SneakyThrows
     public InquiryCheckingResponse inquiry(InquiryCheckingRequest request) {
         Transaction transaction = this.getTransaction(request.getVirtualAccount());
-        return new InquiryCheckingResponse(transaction.getMerchant().getName(), transaction.getMerchant().getAccountNo());
+        return new InquiryCheckingResponse(transaction.getMerchant().getProfile().getName(), transaction.getMerchant().getAccountId());
     }
 
     @SneakyThrows
@@ -84,11 +86,11 @@ public class PaygateService {
             throw new InternalException(ResponseCode.INVALID_AMOUNT);
         }
         Merchant merchant = transaction.getMerchant();
-        return new DepositCheckingResponse(merchant.getName(), merchant.getAccountNo(), transaction.getAmount(), true);
+        return new DepositCheckingResponse(merchant.getProfile().getName(), merchant.getAccountId(), transaction.getAmount(), true);
     }
 
     @SneakyThrows
-    @Transactional
+//    @Transactional
     public NotifyTransactionResponse notifyTransaction(NotifyTransactionRequest request) {
         Transaction transaction = this.getTransaction(request.getVirtualAccount());
 
@@ -99,13 +101,34 @@ public class PaygateService {
 
         if (!request.isSuccess()) {
             transaction.setStatus(TransactionStatus.FAIL);
-            transaction.setDepositTime(LocalDateTime.now());
             transactionRepository.save(transaction);
             return new NotifyTransactionResponse(true);
         }
 
+        transaction.setDepositTime(LocalDateTime.now());
         transaction.setStatus(TransactionStatus.SUCCESS);
         transactionRepository.save(transaction);
+
+        Merchant merchant = transaction.getMerchant();
+
+        if (merchant != null && StringUtils.isNoneBlank(merchant.getWebhookUrl())) {
+            NotifyRequest notifyRequest = NotifyRequest.builder()
+                .actualAccount(transaction.getAccountNo())
+                .amount(transaction.getAmount())
+                .fromAccount(transaction.getFromAccount())
+                .fromBin(transaction.getFromBin())
+                .refTransactionId(transaction.getRefTransactionId())
+                .transactionId(transaction.getId())
+                .success(transaction.getStatus().equals(TransactionStatus.SUCCESS))
+                .transferDesc(transaction.getDescription())
+                .txnNumber(transaction.getTxnNumber())
+                .build();
+            try {
+                thirdPartyClient.notify(merchant.getWebhookUrl(), merchant.getWebhookApiKey(), notifyRequest);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 
         return new NotifyTransactionResponse(true);
     }

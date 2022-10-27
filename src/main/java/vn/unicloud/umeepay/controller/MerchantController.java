@@ -5,14 +5,8 @@ import org.springframework.web.bind.annotation.RestController;
 import vn.unicloud.umeepay.controller.interfaces.IMerchantController;
 import vn.unicloud.umeepay.core.BaseController;
 import vn.unicloud.umeepay.core.ResponseBase;
-import vn.unicloud.umeepay.dtos.merchant.request.CreateMerchantRequest;
-import vn.unicloud.umeepay.dtos.merchant.request.GetMerchantCredentialRequest;
-import vn.unicloud.umeepay.dtos.merchant.request.GetMerchantRequest;
-import vn.unicloud.umeepay.dtos.merchant.request.UpdateMerchantRequest;
-import vn.unicloud.umeepay.dtos.merchant.response.CreateMerchantResponse;
-import vn.unicloud.umeepay.dtos.merchant.response.GetMerchantCredentialResponse;
-import vn.unicloud.umeepay.dtos.merchant.response.GetMerchantResponse;
-import vn.unicloud.umeepay.dtos.merchant.response.UpdateMerchantResponse;
+import vn.unicloud.umeepay.dtos.merchant.request.*;
+import vn.unicloud.umeepay.dtos.merchant.response.*;
 
 import java.security.Principal;
 
@@ -33,12 +27,19 @@ public class MerchantController extends BaseController implements IMerchantContr
     }
 
     @Override
-    public ResponseEntity<ResponseBase<UpdateMerchantResponse>> update(UpdateMerchantRequest request) {
+    public ResponseEntity<ResponseBase<UpdateMerchantResponse>> update(Principal principal, UpdateMerchantRequest request) {
+        request.setUserId(principal.getName());
         return this.execute(request, UpdateMerchantResponse.class);
     }
 
     @Override
     public ResponseEntity<ResponseBase<GetMerchantCredentialResponse>> getCredential(GetMerchantCredentialRequest request) {
         return this.execute(request, GetMerchantCredentialResponse.class);
+    }
+
+    @Override
+    public ResponseEntity<ResponseBase<UpdateWebhookResponse>> updateWebhook(Principal principal, UpdateWebhookRequest request) {
+        request.setUserId(principal.getName());
+        return this.execute(request, UpdateWebhookResponse.class);
     }
 }

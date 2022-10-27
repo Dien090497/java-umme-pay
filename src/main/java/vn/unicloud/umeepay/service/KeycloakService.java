@@ -11,10 +11,10 @@ import org.keycloak.admin.client.resource.ClientsResource;
 import org.keycloak.admin.client.resource.RealmResource;
 import org.keycloak.admin.client.resource.UserResource;
 import org.keycloak.admin.client.resource.UsersResource;
-import org.keycloak.common.VerificationException;
 import org.keycloak.representations.AccessTokenResponse;
 import org.keycloak.representations.idm.ClientRepresentation;
 import org.keycloak.representations.idm.CredentialRepresentation;
+import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -29,6 +29,7 @@ import vn.unicloud.umeepay.utils.CommonUtils;
 import javax.ws.rs.core.Response;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Log4j2
@@ -57,28 +58,28 @@ public class KeycloakService {
     @Bean
     private void initKeycloakService() {
         keycloakAdmin = KeycloakBuilder.builder()
-            .serverUrl(authUrl)
-            .realm("master")
-            .clientId("admin-cli")
-            .username(username)
-            .password(password)
-            .resteasyClient(
-                new ResteasyClientBuilder()
-                    .connectionPoolSize(10).build()
-            )
-            .build();
+                .serverUrl(authUrl)
+                .realm("master")
+                .clientId("admin-cli")
+                .username(username)
+                .password(password)
+                .resteasyClient(
+                        new ResteasyClientBuilder()
+                                .connectionPoolSize(10).build()
+                )
+                .build();
     }
 
-    public AccessTokenResponseCustom getUserJWT(String username, String password) throws VerificationException {
+    public AccessTokenResponseCustom getUserJWT(String username, String password) {
         Keycloak keycloakUser = KeycloakBuilder.builder()
-            .serverUrl(authUrl)
-            .realm(realm)
-            .username(username)
-            .password(password)
-            .grantType("password")
-            .clientId(clientId)
-            .clientSecret(secretKey)
-            .build();
+                .serverUrl(authUrl)
+                .realm(realm)
+                .username(username)
+                .password(password)
+                .grantType("password")
+                .clientId(clientId)
+                .clientSecret(secretKey)
+                .build();
 
         AccessTokenResponse accessTokenResponse = keycloakUser.tokenManager().getAccessToken();
 
@@ -199,6 +200,94 @@ public class KeycloakService {
         return null;
     }
 
+
+    /**
+     * Create Keycloak user with roles
+     * @param phone
+     * @param password
+     * @param email
+     * @param name
+     * @param roles
+     * @return keycloak userID
+     */
+    public String createUser(String phone, String password, String email, String name, List<String> roles) {
+        List<RoleRepresentation> roleRepresentations =
+                roles.stream()
+                        .map(this::getUserRoleRepresentation)
+                        .collect(Collectors.toList());
+
+        for (RoleRepresentation r : roleRepresentations) {
+            if (r == null) {
+                log.error("Create keycloak user failed because of invalid role name");
+                return null;
+            }
+        }
+
+        UserRepresentation user = new UserRepresentation();
+        if (name != null) {
+            user.setFirstName(name);
+        }
+        user.setEnabled(true);
+        user.setEmailVerified(false);
+        user.setUsername(phone);
+        if (email != null) {
+            user.setEmail(email);
+        }
+
+        RealmResource realmResource = keycloakAdmin.realm(realm);
+        UsersResource usersResource = realmResource.users();
+
+        try (Response response = usersResource.create(user)) {
+            log.info("Create keycloak user response: {}", response.getStatus());
+            if (response.getStatus() == 201 || response.getStatus() == 200) {
+
+                String userId = CreatedResponseUtil.getCreatedId(response);
+
+                CredentialRepresentation credentialRepresentation = new CredentialRepresentation();
+                credentialRepresentation.setTemporary(false);
+                credentialRepresentation.setType(CredentialRepresentation.PASSWORD);
+                credentialRepresentation.setValue(password);
+
+                UserResource userResource = usersResource.get(userId);
+                userResource.resetPassword(credentialRepresentation);
+
+                userResource.roles().clientLevel(keycloakAdmin
+                    .realm(realm)
+                    .clients()
+                    .findByClientId(clientId)
+                    .get(0)
+                    .getId()
+                ).add(roleRepresentations);
+
+                return userId;
+            }
+        } catch (Exception ex) {
+            log.error(ex.getLocalizedMessage());
+        }
+
+        return null;
+    }
+
+    public RoleRepresentation getUserRoleRepresentation(String roleName) {
+        ClientRepresentation clientRep = keycloakAdmin
+                .realm(realm)
+                .clients()
+                .findByClientId(clientId)
+                .get(0);
+        try {
+            return keycloakAdmin
+                    .realm(realm)
+                    .clients()
+                    .get(clientRep.getId())
+                    .roles()
+                    .get(roleName)
+                    .toRepresentation();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
     public String createClient(String clientId) {
 
         RealmResource realmResource = keycloakAdmin.realm(realm);
@@ -253,7 +342,6 @@ public class KeycloakService {
 
         ResponseEntity<String> keycloakResponse = restTemplate.postForEntity(url, request, String.class);
         if (keycloakResponse.getStatusCode() == HttpStatus.OK) {
-            // JSONObject response = new JSONObject(keycloakResponse.getBody());
             return new ObjectMapper().readValue(keycloakResponse.getBody(), AccessTokenResponseCustom.class);
         }
         return null;
