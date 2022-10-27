@@ -8,7 +8,7 @@ import vn.unicloud.umeepay.constant.BaseConstant;
 import vn.unicloud.umeepay.core.RequestHandler;
 import vn.unicloud.umeepay.dtos.user.request.CreateUserRequest;
 import vn.unicloud.umeepay.dtos.user.response.UserResponse;
-import vn.unicloud.umeepay.entity.merchant.User;
+import vn.unicloud.umeepay.entity.User;
 import vn.unicloud.umeepay.enums.ResponseCode;
 import vn.unicloud.umeepay.enums.RoleType;
 import vn.unicloud.umeepay.enums.UserStatus;

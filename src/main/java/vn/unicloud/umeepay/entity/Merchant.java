@@ -1,11 +1,9 @@
-package vn.unicloud.umeepay.entity.merchant;
+package vn.unicloud.umeepay.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.GenericGenerator;
-import vn.unicloud.umeepay.entity.admin.Administrator;
-import vn.unicloud.umeepay.entity.common.Auditable;
 import vn.unicloud.umeepay.enums.MerchantStatus;
 
 import javax.persistence.*;
@@ -35,12 +33,20 @@ public class Merchant extends Auditable<String> {
     @Enumerated(EnumType.STRING)
     private MerchantStatus status;
 
-    @Column(name = "account_id", nullable = false)
-    private String accountId;
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JsonIgnore
+    private User user;
+
+    private String accountNo;
+
+    @Column(name = "name", nullable = false)
+    private String name;
 
     private String webhookUrl;
 
     private String webhookApiKey;
+
 
     private LocalDateTime requestAt;
 
@@ -50,13 +56,14 @@ public class Merchant extends Auditable<String> {
     @JoinColumn(name = "approved_by_id", referencedColumnName = "id")
     private Administrator approvedBy;
 
-    @OneToMany(
-            fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL,
-            mappedBy = "merchant"
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "merchant_members",
+            joinColumns = @JoinColumn(name = "merchant_id"),
+            inverseJoinColumns = @JoinColumn(name = "member_id")
     )
     @JsonIgnore
-    private List<User> users;
+    private List<User> members;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "merchant")
     @JsonIgnore

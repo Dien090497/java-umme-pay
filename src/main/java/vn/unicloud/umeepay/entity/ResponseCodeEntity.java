@@ -1,4 +1,4 @@
-package vn.unicloud.umeepay.entity.common;
+package vn.unicloud.umeepay.entity;
 
 import lombok.*;
 import lombok.experimental.Accessors;

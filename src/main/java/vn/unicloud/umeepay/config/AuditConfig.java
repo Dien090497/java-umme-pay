@@ -35,7 +35,7 @@ class AuditorAwareImpl implements AuditorAware<String> {
             KeycloakPrincipal keycloakPrincipal = (KeycloakPrincipal) token.getPrincipal();
 
             AccessToken accessToken = keycloakPrincipal.getKeycloakSecurityContext().getToken();
-            return Optional.of(accessToken.getName());
+            return Optional.of(accessToken.getPreferredUsername());
 
         } catch (Exception ex) {
             ex.printStackTrace();

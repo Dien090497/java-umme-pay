@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import vn.unicloud.umeepay.constant.BaseConstant;
 import vn.unicloud.umeepay.dtos.user.response.CheckPhoneResponse;
-import vn.unicloud.umeepay.entity.merchant.User;
+import vn.unicloud.umeepay.entity.User;
 import vn.unicloud.umeepay.enums.ResponseCode;
 import vn.unicloud.umeepay.exception.InternalException;
 import vn.unicloud.umeepay.model.OTPKey;

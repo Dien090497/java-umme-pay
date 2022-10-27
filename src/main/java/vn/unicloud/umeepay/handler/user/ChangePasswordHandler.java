@@ -8,20 +8,14 @@ import vn.unicloud.umeepay.constant.BaseConstant;
 import vn.unicloud.umeepay.core.RequestHandler;
 import vn.unicloud.umeepay.dtos.common.StatusResponse;
 import vn.unicloud.umeepay.dtos.user.request.ChangePasswordRequest;
-import vn.unicloud.umeepay.dtos.user.request.CreateUserRequest;
-import vn.unicloud.umeepay.dtos.user.response.UserResponse;
-import vn.unicloud.umeepay.entity.merchant.User;
+import vn.unicloud.umeepay.entity.User;
 import vn.unicloud.umeepay.enums.ResponseCode;
-import vn.unicloud.umeepay.enums.RoleType;
-import vn.unicloud.umeepay.enums.UserStatus;
 import vn.unicloud.umeepay.exception.InternalException;
 import vn.unicloud.umeepay.model.ChangePasswordCache;
-import vn.unicloud.umeepay.model.OTPKey;
 import vn.unicloud.umeepay.service.KeycloakService;
 import vn.unicloud.umeepay.service.RedisService;
 import vn.unicloud.umeepay.service.UserService;
 
-import java.util.List;
 import java.util.Objects;
 
 @Component

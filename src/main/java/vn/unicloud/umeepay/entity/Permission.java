@@ -1,4 +1,4 @@
-package vn.unicloud.umeepay.entity.common;
+package vn.unicloud.umeepay.entity;
 
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -6,6 +6,7 @@ import vn.unicloud.umeepay.enums.RoleType;
 import vn.unicloud.umeepay.enums.SystemModule;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = Permission.COLLECTION_NAME)
@@ -28,9 +29,16 @@ public class Permission {
 
     private String description;
 
-    private SystemModule module;
+    @Enumerated(EnumType.STRING)
+    private RoleType scope;
 
-    private RoleType type;
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "permission_actions",
+            joinColumns = @JoinColumn(name = "permission_id"),
+            inverseJoinColumns = @JoinColumn(name = "action_id")
+    )
+    private List<Action> actions;
 
     @Override
     public String toString() {
@@ -38,8 +46,7 @@ public class Permission {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", module=" + module +
-                ", type=" + type +
+                ", scope=" + scope +
                 '}';
     }
 }

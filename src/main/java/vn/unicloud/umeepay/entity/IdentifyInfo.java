@@ -1,4 +1,4 @@
-package vn.unicloud.umeepay.entity.merchant;
+package vn.unicloud.umeepay.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,11 +25,6 @@ public class IdentifyInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private String frontUrl;
-
-    private String backUrl;
-
     private String name;
 
     @Enumerated(EnumType.STRING)
@@ -53,8 +48,6 @@ public class IdentifyInfo {
     public String toString() {
         return "IdentifyCard{" +
                 "id=" + id +
-                ", frontUrl='" + frontUrl + '\'' +
-                ", backUrl='" + backUrl + '\'' +
                 ", name='" + name + '\'' +
                 ", gender=" + gender +
                 ", idNumber='" + idNumber + '\'' +

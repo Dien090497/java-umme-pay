@@ -1,10 +1,9 @@
-package vn.unicloud.umeepay.entity.merchant;
+package vn.unicloud.umeepay.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.GenericGenerator;
-import vn.unicloud.umeepay.entity.common.Auditable;
 import vn.unicloud.umeepay.enums.UserStatus;
 
 import javax.persistence.*;
@@ -53,7 +52,7 @@ public class User extends Auditable<String> {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_role_id")
-    private UserRole role;
+    private Role role;
 
     @Column(name = "subject_id", unique = true)
     private String subjectId;
