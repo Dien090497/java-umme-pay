@@ -16,7 +16,6 @@ import vn.unicloud.umeepay.dtos.paygate.response.DepositCheckingResponse;
 import vn.unicloud.umeepay.dtos.paygate.response.InquiryCheckingResponse;
 import vn.unicloud.umeepay.dtos.paygate.response.NotifyTransactionResponse;
 import vn.unicloud.umeepay.dtos.request.EncryptedBodyRequest;
-import vn.unicloud.umeepay.dtos.response.EncryptBodyResponse;
 
 import javax.validation.Valid;
 

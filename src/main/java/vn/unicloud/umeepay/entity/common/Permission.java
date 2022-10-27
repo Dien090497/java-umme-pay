@@ -2,8 +2,8 @@ package vn.unicloud.umeepay.entity.common;
 
 import lombok.*;
 import lombok.experimental.Accessors;
-import vn.unicloud.umeepay.enums.SystemModule;
 import vn.unicloud.umeepay.enums.RoleType;
+import vn.unicloud.umeepay.enums.SystemModule;
 
 import javax.persistence.*;
 

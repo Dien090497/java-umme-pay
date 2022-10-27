@@ -1,7 +1,6 @@
 package vn.unicloud.umeepay.controller.interfaces;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,9 +10,6 @@ import vn.unicloud.umeepay.dtos.merchant.request.GetMerchantCredentialRequest;
 import vn.unicloud.umeepay.dtos.merchant.request.UpdateMerchantRequest;
 import vn.unicloud.umeepay.dtos.merchant.request.UpdateWebhookRequest;
 import vn.unicloud.umeepay.dtos.merchant.response.*;
-import vn.unicloud.umeepay.dtos.request.ClientLoginRequest;
-import vn.unicloud.umeepay.dtos.request.LoginRequest;
-import vn.unicloud.umeepay.dtos.response.AccessTokenResponseCustom;
 
 import javax.validation.Valid;
 import java.security.Principal;

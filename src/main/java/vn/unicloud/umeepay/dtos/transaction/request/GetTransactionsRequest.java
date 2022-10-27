@@ -2,7 +2,7 @@ package vn.unicloud.umeepay.dtos.transaction.request;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;

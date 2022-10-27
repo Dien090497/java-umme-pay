@@ -5,8 +5,6 @@ import vn.unicloud.umeepay.core.BaseRequestData;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
-
 
 @Getter
 @Setter

@@ -1,11 +1,13 @@
 package vn.unicloud.umeepay.client.testapi.paygate.response;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import vn.unicloud.umeepay.core.BaseResponseData;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class NotifyTransactionClientResponse extends BaseResponseData {

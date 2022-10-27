@@ -2,11 +2,10 @@ package vn.unicloud.umeepay.dtos.request;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;;
+import lombok.ToString;
 import vn.unicloud.umeepay.core.BaseRequestData;
-import vn.unicloud.umeepay.model.CustomerInfo;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotBlank;
 
 @Getter
 @Setter

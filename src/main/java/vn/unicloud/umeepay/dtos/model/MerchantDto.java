@@ -1,10 +1,6 @@
 package vn.unicloud.umeepay.dtos.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import vn.unicloud.umeepay.entity.merchant.Credential;
 import vn.unicloud.umeepay.enums.MerchantStatus;
 

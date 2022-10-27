@@ -2,9 +2,6 @@ package vn.unicloud.umeepay.core;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;;
-import lombok.Getter;
-import lombok.Setter;
 import lombok.ToString;
 import vn.unicloud.umeepay.enums.ResponseCode;
 

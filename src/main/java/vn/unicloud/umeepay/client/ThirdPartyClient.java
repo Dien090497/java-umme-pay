@@ -1,8 +1,8 @@
 package vn.unicloud.umeepay.client;
 
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import vn.unicloud.umeepay.client.request.NotifyRequest;
@@ -12,10 +12,10 @@ import vn.unicloud.umeepay.exception.InternalException;
 
 @Component
 @Log4j2
+@RequiredArgsConstructor
 public class ThirdPartyClient {
 
-    @Autowired
-    private RestClient restClient;
+    private final RestClient restClient;
 
     @SneakyThrows
     public NotifyResponse notify(String url, String apiKey, NotifyRequest request) {
