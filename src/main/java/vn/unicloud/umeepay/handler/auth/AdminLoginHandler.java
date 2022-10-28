@@ -53,7 +53,7 @@ public class AdminLoginHandler extends RequestHandler<AdminLoginRequest, AccessT
                 }
 
                 // Update redis data
-                redisService.setValue(RedisKeyUtils.getUserStatusKey(admin.getId()), UserStatus.INACTIVE);
+                redisService.setValue(RedisKeyUtils.getUserStatusKey(admin.getId()), UserStatus.ACTIVE);
                 redisService.deleteKey(RedisKeyUtils.getLoginFailedData(admin.getId()));
 
                 return response;
@@ -71,7 +71,8 @@ public class AdminLoginHandler extends RequestHandler<AdminLoginRequest, AccessT
     }
 
     private boolean handleLoginFailed(Administrator admin) {
-        LoginFailedData loginFailedData = redisService.getValue(RedisKeyUtils.getLoginFailedData(admin.getId()), LoginFailedData.class);
+        String redisKey = RedisKeyUtils.getLoginFailedData(admin.getId());
+        LoginFailedData loginFailedData = redisService.getValue(redisKey, LoginFailedData.class);
 
         loginFailedData = loginFailedData != null
                 ? loginFailedData
@@ -79,10 +80,10 @@ public class AdminLoginHandler extends RequestHandler<AdminLoginRequest, AccessT
 
         Integer totalTimes = loginFailedData.getTotalTimes() + 1;
         loginFailedData.setTotalTimes(totalTimes);
-        redisService.setValue(RedisKeyUtils.getLoginFailedData(admin.getId()), loginFailedData);
+        redisService.setValue(redisKey, loginFailedData);
 
         if (totalTimes < Constants.MAX_LOGIN_FAILED_TIMES) {
-            redisService.setExpire(RedisKeyUtils.getLoginFailedData(admin.getId()), Constants.LOGIN_FAILED_TIMEOUT);
+            redisService.setExpire(redisKey, Constants.LOGIN_FAILED_TIMEOUT);
             return false;
         }
 
