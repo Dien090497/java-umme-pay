@@ -8,6 +8,7 @@ import vn.unicloud.umeepay.core.RequestHandler;
 import vn.unicloud.umeepay.dtos.admin.request.UpdateAdminRequest;
 import vn.unicloud.umeepay.dtos.admin.response.AdminResponse;
 import vn.unicloud.umeepay.entity.Administrator;
+import vn.unicloud.umeepay.enums.OfficeType;
 import vn.unicloud.umeepay.enums.ResponseCode;
 import vn.unicloud.umeepay.exception.InternalException;
 import vn.unicloud.umeepay.service.AdminService;
@@ -29,15 +30,22 @@ public class UpdateAdminHandler extends RequestHandler<UpdateAdminRequest, Admin
             throw new InternalException(ResponseCode.USER_NOT_FOUND);
         }
 
-        admin.setEmail(request.getEmail() != null ? request.getEmail() : admin.getEmail())
-                .setOffice(request.getOffice() != null ? request.getOffice() : admin.getOffice())
-                .setPhone(request.getPhone() != null ? request.getPhone() : admin.getPhone())
-                .setFullName(request.getFullName() != null ? request.getFullName() : admin.getFullName())
-                .setStaffId(request.getStaffId() != null ? request.getStaffId() : admin.getStaffId())
-                .setDescription(request.getDescription() != null ? request.getDescription() : admin.getDescription());
+        String email = request.getEmail() != null ? request.getEmail() : admin.getEmail();
+        OfficeType office = request.getOffice() != null ? request.getOffice() : admin.getOffice();
+        String phone = request.getPhone() != null ? request.getPhone() : admin.getPhone();
+        String fullName = request.getFullName() != null ? request.getFullName() : admin.getFullName();
+        String staffId = request.getStaffId() != null ? request.getStaffId() : admin.getStaffId();
+        String description = request.getDescription() != null ? request.getDescription() : admin.getDescription();
+
+        admin.setEmail(email)
+                .setOffice(office)
+                .setPhone(phone)
+                .setFullName(fullName)
+                .setStaffId(staffId)
+                .setDescription(description);
 
         // update keycloak user
-        String userId = keycloakService.updateUser(admin.getId(), request.getEmail(), request.getFullName());
+        String userId = keycloakService.updateUser(admin.getId(), email, fullName);
 
         if (userId != null && adminService.saveAdmin(admin) != null) {
             return new AdminResponse(admin);
