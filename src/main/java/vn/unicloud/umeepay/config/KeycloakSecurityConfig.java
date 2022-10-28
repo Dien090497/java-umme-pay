@@ -49,7 +49,8 @@ public class KeycloakSecurityConfig extends KeycloakWebSecurityConfigurerAdapter
                         "/api/paygate/callback/**",
                         "/api/portal/user/v1/register/**",
                         "/api/portal/user/v1/changePassword/**",
-                        "/api/**/login/**"
+                        "/api/auth/**/login/**",
+                        "/api/auth/**/refreshToken/**"
                 ).permitAll()
                 .antMatchers("/api/**/cms/**").hasRole(RoleType.ADMIN.toString())
                 .antMatchers("api/**/portal/**").hasRole(RoleType.MERCHANT.toString())

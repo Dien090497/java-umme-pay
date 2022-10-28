@@ -46,14 +46,16 @@ public class AdminLoginHandler extends RequestHandler<AdminLoginRequest, AccessT
         try {
             AccessTokenResponseCustom response = keycloakService.getUserJWT(request.getUsername(), request.getPassword());
             if (response != null) {
-
                 // Mark as user logged into the system
                 if (!admin.getLoggedIn()) {
                     admin.setLoggedIn(true);
                     adminService.saveAdmin(admin);
                 }
 
+                // Update redis data
+                redisService.setValue(RedisKeyUtils.getUserStatusKey(admin.getId()), UserStatus.INACTIVE);
                 redisService.deleteKey(RedisKeyUtils.getLoginFailedData(admin.getId()));
+
                 return response;
             }
         } catch (Exception e) {
@@ -83,6 +85,8 @@ public class AdminLoginHandler extends RequestHandler<AdminLoginRequest, AccessT
             return false;
         }
 
+        // Block user when log in allowed overtimes
+        redisService.setValue(RedisKeyUtils.getUserStatusKey(admin.getId()), UserStatus.BLOCKED);
         admin.setStatus(UserStatus.BLOCKED);
         adminService.saveAdmin(admin);
         return true;

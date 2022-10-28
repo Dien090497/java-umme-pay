@@ -10,6 +10,7 @@ import vn.unicloud.umeepay.entity.Administrator;
 import vn.unicloud.umeepay.enums.ResponseCode;
 import vn.unicloud.umeepay.exception.InternalException;
 import vn.unicloud.umeepay.service.AdminService;
+import vn.unicloud.umeepay.service.KeycloakService;
 
 import javax.transaction.Transactional;
 
@@ -20,6 +21,8 @@ public class DeleteAdminHandler extends RequestHandler<DeleteAdminRequest, Admin
 
     private final AdminService adminService;
 
+    private final KeycloakService keycloakService;
+
     @Override
     @Transactional
     public AdminResponse handle(DeleteAdminRequest request) {
@@ -28,11 +31,12 @@ public class DeleteAdminHandler extends RequestHandler<DeleteAdminRequest, Admin
             throw new InternalException(ResponseCode.USER_NOT_FOUND);
         }
 
-        if(deletedAdmin.getLoggedIn()) {
+        if (deletedAdmin.getLoggedIn()) {
             throw new InternalException(ResponseCode.LOGGED_IN_ACCOUNT);
         }
 
         if (adminService.deleteAdmin(deletedAdmin) != null) {
+            keycloakService.deleteUser(deletedAdmin.getId());
             return new AdminResponse(deletedAdmin);
         }
 

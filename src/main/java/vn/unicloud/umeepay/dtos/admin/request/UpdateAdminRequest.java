@@ -34,7 +34,8 @@ public class UpdateAdminRequest extends BaseRequestData {
     private String fullName;
 
     @NotBlank
-    @Pattern(regexp = "\\d{10}", message = "Invalid phone number")
+    @JsonDeserialize(using = TrimString.class)
+    @Pattern(regexp = "^0\\d{9}$", message = "Invalid phone number")
     private String phone;
 
     @NotBlank

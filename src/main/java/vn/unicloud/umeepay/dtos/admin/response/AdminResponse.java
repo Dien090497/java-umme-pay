@@ -20,6 +20,8 @@ public class AdminResponse extends BaseResponseData {
     private UserStatus status;
     private String phone;
 
+    private Boolean loggedIn;
+
     public AdminResponse(Administrator admin) {
         if (admin == null) {
             return;
@@ -30,5 +32,6 @@ public class AdminResponse extends BaseResponseData {
         this.email = admin.getEmail();
         this.phone = admin.getPhone();
         this.status = admin.getStatus();
+        this.loggedIn = admin.getLoggedIn();
     }
 }

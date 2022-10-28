@@ -11,6 +11,9 @@ import vn.unicloud.umeepay.enums.ResponseCode;
 import vn.unicloud.umeepay.enums.UserStatus;
 import vn.unicloud.umeepay.exception.InternalException;
 import vn.unicloud.umeepay.service.AdminService;
+import vn.unicloud.umeepay.service.ContextService;
+import vn.unicloud.umeepay.service.RedisService;
+import vn.unicloud.umeepay.utils.RedisKeyUtils;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
@@ -22,6 +25,10 @@ public class BlockAdminHandler extends RequestHandler<BlockAdminRequest, AdminRe
 
     private final AdminService adminService;
 
+    private final ContextService contextService;
+
+    private final RedisService redisService;
+
     @Override
     @Transactional
     public AdminResponse handle(BlockAdminRequest request) {
@@ -30,15 +37,17 @@ public class BlockAdminHandler extends RequestHandler<BlockAdminRequest, AdminRe
             throw new InternalException(ResponseCode.USER_NOT_FOUND);
         }
 
-        if (!UserStatus.INACTIVE.equals(admin.getStatus())) {
+        if (UserStatus.INACTIVE.equals(admin.getStatus())) {
             throw new InternalException(ResponseCode.INVALID_USER_STATUS);
         }
 
         admin.setStatus(UserStatus.INACTIVE);
         admin.setBlockedAt(LocalDateTime.now());
-//        admin.setBlockedBy();
+        admin.setBlockedBy(contextService.getLoggedInUsername().orElse(null));
 
         if (adminService.saveAdmin(admin) != null) {
+            // Update redis
+            redisService.setValue(RedisKeyUtils.getUserStatusKey(admin.getId()), UserStatus.INACTIVE);
             return new AdminResponse(admin);
         }
 

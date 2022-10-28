@@ -24,11 +24,7 @@ public class Administrator extends Auditable<String> {
     public static final String COLLECTION_NAME = "admin";
 
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(
-            name = "UUID",
-            strategy = "org.hibernate.id.UUIDGenerator"
-    )
+    @Column(unique = true, nullable = false)
     private String id;
 
     private String username;

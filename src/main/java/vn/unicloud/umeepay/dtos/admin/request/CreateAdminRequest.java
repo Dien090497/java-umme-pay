@@ -22,6 +22,7 @@ public class CreateAdminRequest extends BaseRequestData {
 
     @NotBlank
     @JsonDeserialize(using = TrimString.class)
+    @Pattern(regexp = "^\\w+$", message = "Invalid username")
     private String username;
 
     @NotBlank
@@ -35,7 +36,7 @@ public class CreateAdminRequest extends BaseRequestData {
 
     @NotBlank
     @JsonDeserialize(using = TrimString.class)
-    @Pattern(regexp = "\\d{10}", message = "Invalid phone number")
+    @Pattern(regexp = "^0\\d{9}$", message = "Invalid phone number")
     private String phone;
 
     @NotBlank

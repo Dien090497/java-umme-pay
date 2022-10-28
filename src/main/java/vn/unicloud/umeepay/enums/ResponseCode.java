@@ -8,6 +8,7 @@ public enum ResponseCode {
     INVALID_PARAM(3, "Invalid param"),
     INVALID_SESSION(4, "Invalid session"),
     UNHANDLE_REQUEST(5, "Unhandle request"),
+    INVALID_REFRESH_TOKEN(6, "Invalid refresh token"),
 
     // User
     EXISTED_EMAIL(100, "Existed email"),
