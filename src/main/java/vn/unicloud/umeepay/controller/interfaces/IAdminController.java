@@ -74,4 +74,35 @@ public interface IAdminController {
             @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGE_SIZE_STRING) Integer pageSize,
             @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGE_SORT_DIRECTION) Sort.Direction sortDirection,
             @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGE_SORT_BY) String sortBy);
+
+    @Operation(
+            summary = "Xóa quản trị viên",
+            description = "- Xóa quản trị viên nếu chưa từng đăng nhập vào hệ thống",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Success"),
+                    @ApiResponse(responseCode = "500", description = "Internal Server Error")
+            })
+    @DeleteMapping("/v1/delete/{id}")
+    ResponseEntity<ResponseBase<AdminResponse>> deleteAdmin(@PathVariable String id);
+
+    @Operation(
+            summary = "Vô hiện hóa quản trị viên",
+            description = "- Vô hiệu hóa quản trị viên",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Success"),
+                    @ApiResponse(responseCode = "500", description = "Internal Server Error")
+            })
+    @PutMapping("/v1/block/{id}")
+    ResponseEntity<ResponseBase<AdminResponse>> blockAdmin(@PathVariable String id);
+
+    @Operation(
+            summary = "Kích hoạt (mở khóa) quản trị viên",
+            description = "- Kích hoạt (mở khóa) quản trị viên",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Success"),
+                    @ApiResponse(responseCode = "500", description = "Internal Server Error")
+            })
+    @PutMapping("/v1/unblock/{id}")
+    ResponseEntity<ResponseBase<AdminResponse>> unblockAdmin(@PathVariable String id);
+
 }

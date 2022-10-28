@@ -46,6 +46,13 @@ public class AdminLoginHandler extends RequestHandler<AdminLoginRequest, AccessT
         try {
             AccessTokenResponseCustom response = keycloakService.getUserJWT(request.getUsername(), request.getPassword());
             if (response != null) {
+
+                // Mark as user logged into the system
+                if (!admin.getLoggedIn()) {
+                    admin.setLoggedIn(true);
+                    adminService.saveAdmin(admin);
+                }
+
                 redisService.deleteKey(RedisKeyUtils.getLoginFailedData(admin.getId()));
                 return response;
             }

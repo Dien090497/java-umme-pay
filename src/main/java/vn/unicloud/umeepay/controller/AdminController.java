@@ -60,4 +60,19 @@ public class AdminController extends BaseController implements IAdminController 
         return this.execute(request, (Class) PageResponse.class);
     }
 
+    @Override
+    public ResponseEntity<ResponseBase<AdminResponse>> deleteAdmin(String id) {
+        return this.execute(new DeleteAdminRequest(id), AdminResponse.class);
+    }
+
+    @Override
+    public ResponseEntity<ResponseBase<AdminResponse>> blockAdmin(String id) {
+        return this.execute(new BlockAdminRequest(id), AdminResponse.class);
+    }
+
+    @Override
+    public ResponseEntity<ResponseBase<AdminResponse>> unblockAdmin(String id) {
+        return this.execute(new UnblockAdminRequest(id), AdminResponse.class);
+    }
+
 }

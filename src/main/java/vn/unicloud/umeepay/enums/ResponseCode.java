@@ -24,6 +24,8 @@ public enum ResponseCode {
     EXISTED_USERNAME(111, "Existed username"),
     INACTIVE_ACCOUNT(112, "Inactive account"),
     BLOCKED_ACCOUNT(112, "Blocked account"),
+    LOGGED_IN_ACCOUNT(113, "Account was logged into the system"),
+    INVALID_USER_STATUS(114, "Account status is invalid"),
 
     // Nickname
     EXISTED_NICKNAME(201, "Existed Nickname"),
