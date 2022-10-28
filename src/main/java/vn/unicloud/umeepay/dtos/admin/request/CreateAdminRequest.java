@@ -7,10 +7,7 @@ import vn.unicloud.umeepay.common.TrimString;
 import vn.unicloud.umeepay.core.BaseRequestData;
 import vn.unicloud.umeepay.enums.OfficeType;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.*;
 
 @Getter
 @Setter
@@ -23,15 +20,18 @@ public class CreateAdminRequest extends BaseRequestData {
     @NotBlank
     @JsonDeserialize(using = TrimString.class)
     @Pattern(regexp = "^\\w+$", message = "Invalid username")
+    @Size(max = 20)
     private String username;
 
     @NotBlank
     @Email
     @JsonDeserialize(using = TrimString.class)
+    @Size(max = 100)
     private String email;
 
     @NotBlank
     @JsonDeserialize(using = TrimString.class)
+    @Size(max = 100)
     private String fullName;
 
     @NotBlank
@@ -41,12 +41,14 @@ public class CreateAdminRequest extends BaseRequestData {
 
     @NotBlank
     @JsonDeserialize(using = TrimString.class)
+    @Size(max = 15)
     private String staffId;
 
     @NotNull
     private OfficeType office;
 
     @JsonDeserialize(using = TrimString.class)
+    @Size(max = 250)
     private String description;
 
     @NotNull
