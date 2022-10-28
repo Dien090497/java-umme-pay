@@ -3,12 +3,10 @@ package vn.unicloud.umeepay.entity;
 import lombok.*;
 import lombok.experimental.Accessors;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Map;
 
+@Entity
 @Getter
 @Setter
 @ToString
@@ -16,7 +14,7 @@ import java.util.Map;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = ResponseCodeEntity.COLLECTION_NAME)
-public class ResponseCodeEntity {
+public class ResponseCodeEntity extends Auditable<String>{
 
     public static final String COLLECTION_NAME = "response_code";
 
@@ -26,9 +24,9 @@ public class ResponseCodeEntity {
 
     private Integer code;
 
-    private String contentCode;
+    private String viContent;
 
-    private Map<String, String> content;
+    private String enContent;
 
     private String description;
 

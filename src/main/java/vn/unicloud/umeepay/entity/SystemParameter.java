@@ -4,11 +4,9 @@ import lombok.*;
 import lombok.experimental.Accessors;
 import vn.unicloud.umeepay.enums.SystemParameterGroup;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
+@Entity
 @Getter
 @Setter
 @ToString
@@ -30,6 +28,7 @@ public class SystemParameter extends Auditable<String>{
 
     private String description;
 
+    @Column(name = "param_group")
     private SystemParameterGroup group;
 
 }
