@@ -16,4 +16,6 @@ public class Constants {
 
     public static final Integer MAX_LOGIN_FAILED_TIMES = 3;
 
+    public static final Integer LOGIN_FAILED_TIMEOUT = 30; // seconds
+
 }

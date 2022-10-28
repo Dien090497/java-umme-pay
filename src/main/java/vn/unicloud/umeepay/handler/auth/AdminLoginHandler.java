@@ -82,6 +82,7 @@ public class AdminLoginHandler extends RequestHandler<AdminLoginRequest, AccessT
         redisService.setValue(RedisKeyUtils.getLoginFailedData(admin.getId()), loginFailedData);
 
         if (totalTimes < Constants.MAX_LOGIN_FAILED_TIMES) {
+            redisService.setExpire(RedisKeyUtils.getLoginFailedData(admin.getId()), Constants.LOGIN_FAILED_TIMEOUT);
             return false;
         }
 
