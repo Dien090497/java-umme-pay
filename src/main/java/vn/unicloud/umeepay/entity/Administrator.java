@@ -5,8 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import org.hibernate.annotations.GenericGenerator;
-import vn.unicloud.umeepay.enums.Office;
+import vn.unicloud.umeepay.enums.OfficeType;
 import vn.unicloud.umeepay.enums.UserStatus;
 
 import javax.persistence.*;
@@ -38,7 +37,7 @@ public class Administrator extends Auditable<String> {
     private String fullName;
 
     @Enumerated(EnumType.STRING)
-    private Office office;
+    private OfficeType office;
 
     @Enumerated(EnumType.STRING)
     private UserStatus status = UserStatus.ACTIVE;

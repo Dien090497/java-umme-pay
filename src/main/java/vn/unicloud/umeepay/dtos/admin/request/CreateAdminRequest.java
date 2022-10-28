@@ -5,7 +5,7 @@ import lombok.*;
 import lombok.experimental.Accessors;
 import vn.unicloud.umeepay.common.TrimString;
 import vn.unicloud.umeepay.core.BaseRequestData;
-import vn.unicloud.umeepay.enums.Office;
+import vn.unicloud.umeepay.enums.OfficeType;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -44,7 +44,7 @@ public class CreateAdminRequest extends BaseRequestData {
     private String staffId;
 
     @NotNull
-    private Office office;
+    private OfficeType office;
 
     @JsonDeserialize(using = TrimString.class)
     private String description;

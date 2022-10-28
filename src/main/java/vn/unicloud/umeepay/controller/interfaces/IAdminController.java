@@ -8,20 +8,20 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vn.unicloud.umeepay.config.OpenApiConfig;
+import vn.unicloud.umeepay.constant.BaseConstant;
 import vn.unicloud.umeepay.core.ResponseBase;
 import vn.unicloud.umeepay.dtos.admin.request.CreateAdminRequest;
 import vn.unicloud.umeepay.dtos.admin.request.UpdateAdminRequest;
 import vn.unicloud.umeepay.dtos.admin.response.AdminDetailResponse;
 import vn.unicloud.umeepay.dtos.admin.response.AdminResponse;
 import vn.unicloud.umeepay.dtos.common.PageResponse;
-import vn.unicloud.umeepay.enums.Office;
+import vn.unicloud.umeepay.enums.OfficeType;
 import vn.unicloud.umeepay.enums.UserStatus;
-import vn.unicloud.umeepay.utils.Constants;
 
 import javax.validation.Valid;
 
 @Tag(name = "Admin Controller", description = "Thao tác với quản trị viên")
-@RequestMapping(value = "/api/cms/admin")
+@RequestMapping(value = "/api/admin/cms")
 @SecurityRequirement(name = OpenApiConfig.BEARER_SCHEME)
 public interface IAdminController {
 
@@ -68,12 +68,12 @@ public interface IAdminController {
             @RequestParam(required = false) String fullName,
             @RequestParam(required = false) String email,
             @RequestParam(required = false) String staffId,
-            @RequestParam(required = false) Office office,
+            @RequestParam(required = false) OfficeType office,
             @RequestParam(required = false) UserStatus status,
-            @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGE_NUMBER_STRING) Integer page,
-            @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGE_SIZE_STRING) Integer pageSize,
-            @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGE_SORT_DIRECTION) Sort.Direction sortDirection,
-            @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGE_SORT_BY) String sortBy);
+            @RequestParam(required = false, defaultValue = BaseConstant.DEFAULT_PAGE_NUMBER_STRING) Integer page,
+            @RequestParam(required = false, defaultValue = BaseConstant.DEFAULT_PAGE_SIZE_STRING) Integer pageSize,
+            @RequestParam(required = false, defaultValue = BaseConstant.DEFAULT_PAGE_SORT_DIRECTION) Sort.Direction sortDirection,
+            @RequestParam(required = false, defaultValue = BaseConstant.DEFAULT_PAGE_SORT_BY) String sortBy);
 
     @Operation(
             summary = "Xóa quản trị viên",

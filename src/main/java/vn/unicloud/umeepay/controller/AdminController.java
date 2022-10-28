@@ -12,7 +12,7 @@ import vn.unicloud.umeepay.dtos.admin.request.*;
 import vn.unicloud.umeepay.dtos.admin.response.AdminDetailResponse;
 import vn.unicloud.umeepay.dtos.admin.response.AdminResponse;
 import vn.unicloud.umeepay.dtos.common.PageResponse;
-import vn.unicloud.umeepay.enums.Office;
+import vn.unicloud.umeepay.enums.OfficeType;
 import vn.unicloud.umeepay.enums.UserStatus;
 
 @RestController
@@ -40,7 +40,7 @@ public class AdminController extends BaseController implements IAdminController 
                                                                             String fullName,
                                                                             String email,
                                                                             String staffId,
-                                                                            Office office,
+                                                                            OfficeType office,
                                                                             UserStatus status,
                                                                             Integer page,
                                                                             Integer pageSize,

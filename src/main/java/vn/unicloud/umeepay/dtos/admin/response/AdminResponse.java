@@ -15,12 +15,12 @@ import vn.unicloud.umeepay.enums.UserStatus;
 public class AdminResponse extends BaseResponseData {
     private String id;
     private String username;
-    private String name;
+    private String fullName;
     private String email;
     private UserStatus status;
     private String phone;
-
     private Boolean loggedIn;
+    private String staffId;
 
     public AdminResponse(Administrator admin) {
         if (admin == null) {
@@ -28,10 +28,11 @@ public class AdminResponse extends BaseResponseData {
         }
         this.id = admin.getId();
         this.username = admin.getUsername();
-        this.name = admin.getFullName();
+        this.fullName = admin.getFullName();
         this.email = admin.getEmail();
         this.phone = admin.getPhone();
         this.status = admin.getStatus();
         this.loggedIn = admin.getLoggedIn();
+        this.staffId = admin.getStaffId();
     }
 }

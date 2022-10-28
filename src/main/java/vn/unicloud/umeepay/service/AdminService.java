@@ -42,7 +42,7 @@ public class AdminService {
             return null;
         }
         return adminRepository
-                .findByEmail(email)
+                .findFirstByEmail(email)
                 .orElse(null);
     }
 

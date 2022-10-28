@@ -3,10 +3,10 @@ package vn.unicloud.umeepay.handler.auth;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import vn.unicloud.umeepay.constant.BaseConstant;
 import vn.unicloud.umeepay.core.RequestHandler;
 import vn.unicloud.umeepay.dtos.auth.AdminLoginRequest;
 import vn.unicloud.umeepay.dtos.common.LoginFailedData;
-import vn.unicloud.umeepay.dtos.request.LoginRequest;
 import vn.unicloud.umeepay.dtos.response.AccessTokenResponseCustom;
 import vn.unicloud.umeepay.entity.Administrator;
 import vn.unicloud.umeepay.enums.ResponseCode;
@@ -15,11 +15,7 @@ import vn.unicloud.umeepay.exception.InternalException;
 import vn.unicloud.umeepay.service.AdminService;
 import vn.unicloud.umeepay.service.KeycloakService;
 import vn.unicloud.umeepay.service.RedisService;
-import vn.unicloud.umeepay.utils.Constants;
 import vn.unicloud.umeepay.utils.RedisKeyUtils;
-
-import java.sql.Timestamp;
-import java.util.Arrays;
 
 @Component
 @Slf4j
@@ -82,8 +78,8 @@ public class AdminLoginHandler extends RequestHandler<AdminLoginRequest, AccessT
         loginFailedData.setTotalTimes(totalTimes);
         redisService.setValue(redisKey, loginFailedData);
 
-        if (totalTimes < Constants.MAX_LOGIN_FAILED_TIMES) {
-            redisService.setExpire(redisKey, Constants.LOGIN_FAILED_TIMEOUT);
+        if (totalTimes < BaseConstant.MAX_LOGIN_FAILED_TIMES) {
+            redisService.setExpire(redisKey, BaseConstant.LOGIN_FAILED_TIMEOUT);
             return false;
         }
 

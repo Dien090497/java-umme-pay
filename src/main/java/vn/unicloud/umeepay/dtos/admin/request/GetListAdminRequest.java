@@ -9,7 +9,7 @@ import org.springframework.data.jpa.domain.Specification;
 import vn.unicloud.umeepay.core.BaseRequestData;
 import vn.unicloud.umeepay.entity.Administrator;
 import vn.unicloud.umeepay.entity.Administrator_;
-import vn.unicloud.umeepay.enums.Office;
+import vn.unicloud.umeepay.enums.OfficeType;
 import vn.unicloud.umeepay.enums.UserStatus;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -36,7 +36,7 @@ public class GetListAdminRequest extends BaseRequestData implements Specificatio
 
     private String staffId;
 
-    private Office office;
+    private OfficeType office;
 
     private UserStatus status;
 

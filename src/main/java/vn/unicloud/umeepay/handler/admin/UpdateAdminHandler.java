@@ -1,6 +1,7 @@
 package vn.unicloud.umeepay.handler.admin;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import vn.unicloud.umeepay.core.RequestHandler;
@@ -28,17 +29,12 @@ public class UpdateAdminHandler extends RequestHandler<UpdateAdminRequest, Admin
             throw new InternalException(ResponseCode.USER_NOT_FOUND);
         }
 
-        if (!admin.getEmail().equals(request.getEmail()) &&
-                adminService.getByEmail(request.getEmail()) != null) {
-            throw new InternalException(ResponseCode.EXISTED_EMAIL);
-        }
-
-        admin.setEmail(request.getEmail())
-                .setOffice(request.getOffice())
-                .setPhone(request.getPhone())
-                .setFullName(request.getFullName())
-                .setStaffId(request.getStaffId())
-                .setDescription(request.getDescription());
+        admin.setEmail(request.getEmail() != null ? request.getEmail() : admin.getEmail())
+                .setOffice(request.getOffice() != null ? request.getOffice() : admin.getOffice())
+                .setPhone(request.getPhone() != null ? request.getPhone() : admin.getPhone())
+                .setFullName(request.getFullName() != null ? request.getFullName() : admin.getFullName())
+                .setStaffId(request.getStaffId() != null ? request.getStaffId() : admin.getStaffId())
+                .setDescription(request.getDescription() != null ? request.getDescription() : admin.getDescription());
 
         // update keycloak user
         String userId = keycloakService.updateUser(admin.getId(), request.getEmail(), request.getFullName());

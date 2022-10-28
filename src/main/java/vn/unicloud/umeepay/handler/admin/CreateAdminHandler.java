@@ -12,6 +12,7 @@ import vn.unicloud.umeepay.enums.RoleType;
 import vn.unicloud.umeepay.exception.InternalException;
 import vn.unicloud.umeepay.service.AdminService;
 import vn.unicloud.umeepay.service.KeycloakService;
+import vn.unicloud.umeepay.utils.CommonUtils;
 
 import java.util.Arrays;
 import java.util.List;
@@ -34,10 +35,6 @@ public class CreateAdminHandler extends RequestHandler<CreateAdminRequest, Admin
             throw new InternalException(ResponseCode.EXISTED_USERNAME);
         }
 
-        if (adminService.getByEmail(email) != null) {
-            throw new InternalException(ResponseCode.EXISTED_EMAIL);
-        }
-
         Administrator admin = new Administrator()
                 .setUsername(username)
                 .setEmail(email)
@@ -48,8 +45,7 @@ public class CreateAdminHandler extends RequestHandler<CreateAdminRequest, Admin
                 .setDescription(request.getDescription());
 
         // Create randomPassword
-//        String password = CommonUtils.getSecureRandomKey(8);
-        String password = "12345678";
+        String password = CommonUtils.getRandomString(8, true);
 
         //create key cloak user
         List<String> adminRoles = Arrays.asList(RoleType.ADMIN.toString());
