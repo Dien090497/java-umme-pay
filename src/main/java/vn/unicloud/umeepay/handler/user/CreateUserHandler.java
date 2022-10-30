@@ -8,8 +8,8 @@ import vn.unicloud.umeepay.constant.BaseConstant;
 import vn.unicloud.umeepay.core.RequestHandler;
 import vn.unicloud.umeepay.dtos.user.request.CreateUserRequest;
 import vn.unicloud.umeepay.dtos.user.response.UserResponse;
-import vn.unicloud.umeepay.entity.merchant.Merchant;
-import vn.unicloud.umeepay.entity.merchant.User;
+import vn.unicloud.umeepay.entity.Merchant;
+import vn.unicloud.umeepay.entity.User;
 import vn.unicloud.umeepay.enums.MerchantStatus;
 import vn.unicloud.umeepay.enums.ResponseCode;
 import vn.unicloud.umeepay.enums.RoleType;
@@ -20,6 +20,7 @@ import vn.unicloud.umeepay.service.KeycloakService;
 import vn.unicloud.umeepay.service.MerchantService;
 import vn.unicloud.umeepay.service.RedisService;
 import vn.unicloud.umeepay.service.UserService;
+import vn.unicloud.umeepay.utils.RedisKeyUtils;
 
 import java.util.List;
 import java.util.Objects;
@@ -48,7 +49,7 @@ public class CreateUserHandler extends RequestHandler<CreateUserRequest, UserRes
             throw new InternalException(ResponseCode.EXISTED_PHONE);
         }
 
-        String phoneKey = BaseConstant.OTP_KEY + requestPhone;
+        String phoneKey = RedisKeyUtils.getOtpKey(requestPhone);
 
         OTPKey otpKey = redisService.getValue(phoneKey, OTPKey.class);
 
@@ -69,7 +70,7 @@ public class CreateUserHandler extends RequestHandler<CreateUserRequest, UserRes
         User user = new User();
         user.setPhone(requestPhone);
         user.setUsername(requestPhone);
-        user.setStatus(UserStatus.CREATED);
+        user.setStatus(UserStatus.ACTIVE);
 
         List<String> merchantRoles = List.of(RoleType.MERCHANT.toString());
         String userId = keycloakService.createUser(user.getPhone(), requestPassword, null, null, merchantRoles);

@@ -7,12 +7,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import vn.unicloud.umeepay.constant.BaseConstant;
 import vn.unicloud.umeepay.dtos.user.response.CheckPhoneResponse;
-import vn.unicloud.umeepay.entity.merchant.User;
+import vn.unicloud.umeepay.entity.User;
 import vn.unicloud.umeepay.enums.ResponseCode;
 import vn.unicloud.umeepay.exception.InternalException;
 import vn.unicloud.umeepay.model.OTPKey;
 import vn.unicloud.umeepay.repository.UserRepository;
 import vn.unicloud.umeepay.utils.CommonUtils;
+import vn.unicloud.umeepay.utils.RedisKeyUtils;
 
 @Service
 @Slf4j
@@ -62,7 +63,8 @@ public class UserService {
 
     @SneakyThrows
     public CheckPhoneResponse checkPhone(String phone) {
-        if (redisService.exist(BaseConstant.OTP_KEY + phone)) {
+        String otpKey = RedisKeyUtils.getOtpKey(phone);
+        if (redisService.exist(otpKey)) {
             log.error("Existed OTP");
             throw new InternalException(ResponseCode.EXISTED_OTP);
         }
@@ -73,8 +75,8 @@ public class UserService {
         OTPKey key = new OTPKey(otp, phone, sessionId);
         log.debug("OTP info: {}", key);
 
-        redisService.setValue(BaseConstant.OTP_KEY + phone, key);
-        redisService.setExpire(BaseConstant.OTP_KEY + phone, otpExpire);
+        redisService.setValue(otpKey, key);
+        redisService.setExpire(otpKey, otpExpire);
 
         return new CheckPhoneResponse(sessionId, otpExpire);
     }

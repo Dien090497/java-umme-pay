@@ -8,7 +8,7 @@ import vn.unicloud.umeepay.core.ResponseBase;
 import vn.unicloud.umeepay.dtos.request.PaginationAndSortingRequest;
 import vn.unicloud.umeepay.dtos.transaction.request.GetTransactionsRequest;
 import vn.unicloud.umeepay.dtos.transaction.response.GetTransactionsResponse;
-import vn.unicloud.umeepay.entity.common.Transaction;
+import vn.unicloud.umeepay.entity.Transaction;
 import vn.unicloud.umeepay.enums.ResponseCode;
 import vn.unicloud.umeepay.enums.TransactionStatus;
 import vn.unicloud.umeepay.utils.PageUtils;

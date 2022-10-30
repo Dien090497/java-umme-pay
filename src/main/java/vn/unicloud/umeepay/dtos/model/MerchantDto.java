@@ -1,7 +1,7 @@
 package vn.unicloud.umeepay.dtos.model;
 
 import lombok.*;
-import vn.unicloud.umeepay.entity.merchant.Credential;
+import vn.unicloud.umeepay.entity.Credential;
 import vn.unicloud.umeepay.enums.MerchantStatus;
 
 import java.time.LocalDateTime;

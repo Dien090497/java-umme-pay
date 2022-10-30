@@ -9,6 +9,7 @@ import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import vn.unicloud.umeepay.service.ContextService;
 
 import java.util.Optional;
 
@@ -24,22 +25,7 @@ public class AuditConfig {
 class AuditorAwareImpl implements AuditorAware<String> {
     @Override
     public Optional<String> getCurrentAuditor() {
-        try {
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            if (authentication == null ||
-                    !authentication.isAuthenticated() ||
-                    !(authentication instanceof KeycloakAuthenticationToken)) {
-                return Optional.empty();
-            }
-            KeycloakAuthenticationToken token = (KeycloakAuthenticationToken) authentication;
-            KeycloakPrincipal keycloakPrincipal = (KeycloakPrincipal) token.getPrincipal();
-
-            AccessToken accessToken = keycloakPrincipal.getKeycloakSecurityContext().getToken();
-            return Optional.of(accessToken.getName());
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        return Optional.empty();
+        ContextService contextService = new ContextService();
+        return contextService.getLoggedInUsername();
     }
 }

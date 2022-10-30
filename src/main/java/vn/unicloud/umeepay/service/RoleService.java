@@ -2,22 +2,19 @@ package vn.unicloud.umeepay.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import vn.unicloud.umeepay.entity.merchant.UserRole;
-import vn.unicloud.umeepay.repository.AdminRoleRepository;
-import vn.unicloud.umeepay.repository.UserRoleRepository;
+import vn.unicloud.umeepay.entity.Role;
+import vn.unicloud.umeepay.repository.RoleRepository;
 
 @Service
 @RequiredArgsConstructor
 public class RoleService {
 
-    private final UserRoleRepository userRoleRepository;
+    private final RoleRepository roleRepository;
 
-    private final AdminRoleRepository adminRoleRepository;
-
-    public UserRole getUserRole(String name) {
+    public Role getUserRole(String name) {
         if(name == null) {
             return null;
         }
-        return userRoleRepository.findByName(name).orElse(null);
+        return roleRepository.findByName(name).orElse(null);
     }
 }
