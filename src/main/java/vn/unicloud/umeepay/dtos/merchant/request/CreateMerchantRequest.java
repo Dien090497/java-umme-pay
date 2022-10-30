@@ -13,11 +13,9 @@ import javax.validation.constraints.Size;
 @ToString
 public class CreateMerchantRequest extends BaseRequestData {
 
-    @NotBlank
-    private String accountId;
+    private String merchantName;
 
-    @NotBlank
-    @Size(min = 6, max = 100)
-    private String password;
+    private String accountNo;
 
 }
+

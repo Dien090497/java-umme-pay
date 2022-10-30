@@ -3,6 +3,7 @@ package vn.unicloud.umeepay.utils;
 import com.emv.qrcode.model.mpm.*;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.codec.binary.Hex;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.keycloak.TokenVerifier;
 import org.keycloak.representations.AccessToken;
 import vn.unicloud.umeepay.enums.TransactionStatus;
@@ -220,4 +221,10 @@ public class CommonUtils {
         return null;
     }
 
+    public static String getRandomString(int size, boolean isHardCode) {
+        if (isHardCode) {
+            return "12345678";
+        }
+        return RandomStringUtils.randomAlphanumeric(size);
+    }
 }
