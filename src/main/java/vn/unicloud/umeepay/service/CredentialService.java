@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import vn.unicloud.umeepay.cache.CredentialCache;
-import vn.unicloud.umeepay.entity.merchant.Credential;
+import vn.unicloud.umeepay.entity.Credential;
 import vn.unicloud.umeepay.enums.ResponseCode;
 import vn.unicloud.umeepay.exception.InternalException;
 import vn.unicloud.umeepay.repository.CredentialRepository;

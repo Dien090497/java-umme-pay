@@ -3,6 +3,7 @@ package vn.unicloud.umeepay.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
+import org.apache.commons.lang3.StringUtils;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.keycloak.admin.client.CreatedResponseUtil;
 import org.keycloak.admin.client.Keycloak;
@@ -203,6 +204,7 @@ public class KeycloakService {
 
     /**
      * Create Keycloak user with roles
+     *
      * @param phone
      * @param password
      * @param email
@@ -252,11 +254,11 @@ public class KeycloakService {
                 userResource.resetPassword(credentialRepresentation);
 
                 userResource.roles().clientLevel(keycloakAdmin
-                    .realm(realm)
-                    .clients()
-                    .findByClientId(clientId)
-                    .get(0)
-                    .getId()
+                        .realm(realm)
+                        .clients()
+                        .findByClientId(clientId)
+                        .get(0)
+                        .getId()
                 ).add(roleRepresentations);
 
                 return userId;
@@ -384,5 +386,21 @@ public class KeycloakService {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public String updateUser(String userId, String email, String name) {
+        try {
+            UsersResource userResource = keycloakAdmin.realm(realm).users();
+            UserRepresentation user = new UserRepresentation();
+            user.setFirstName(name);
+            if (StringUtils.isNotEmpty(email)) {
+                user.setEmail(email);
+            }
+            userResource.get(userId).update(user);
+            return userId;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
+        }
     }
 }

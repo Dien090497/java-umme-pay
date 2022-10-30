@@ -50,14 +50,14 @@ public class OpenApiConfig {
 
     @Bean
     public GroupedOpenApi cmsApis() {
-        String paths[] = {"/api/cms/**"};
+        String paths[] = {"/api/**/cms/**"};
         return GroupedOpenApi.builder().group("CMS apis").pathsToMatch(paths)
                 .build();
     }
 
     @Bean
     public GroupedOpenApi portalApis() {
-        String paths[] = {"/api/portal/**"};
+        String paths[] = {"/api/**/portal/**"};
         return GroupedOpenApi.builder().group("PORTAL apis").pathsToMatch(paths)
                 .build();
     }

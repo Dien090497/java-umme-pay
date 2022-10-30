@@ -15,7 +15,7 @@ import javax.validation.Valid;
 import java.security.Principal;
 
 @Tag(name = "Merchant Controller", description = "Thao tác với merchant")
-@RequestMapping(value = "/api/portal/merchant")
+@RequestMapping(value = "/api/merchant")
 public interface IMerchantController {
 
     @Operation(
