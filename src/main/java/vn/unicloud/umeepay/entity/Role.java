@@ -29,7 +29,7 @@ public class Role extends Auditable<String> {
     @Column(unique = true, nullable = false)
     private String name;
 
-    @Column(unique = true, nullable = false)
+    @Column(unique = true)
     private String code;
 
     private String description;
@@ -39,11 +39,11 @@ public class Role extends Auditable<String> {
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-            name = "role_permissions",
+            name = "role_actions",
             joinColumns = @JoinColumn(name = "role_id"),
-            inverseJoinColumns = @JoinColumn(name = "permission_id")
+            inverseJoinColumns = @JoinColumn(name = "action_id")
     )
-    private List<Permission> permissions;
+    private List<Action> actions;
 
     @Enumerated(EnumType.STRING)
     private RoleType scope;

@@ -1,14 +1,16 @@
 package vn.unicloud.umeepay.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.keycloak.KeycloakPrincipal;
 import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
 import org.keycloak.representations.AccessToken;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.*;
 
 /**
  * Using to get current log in user
@@ -16,7 +18,11 @@ import java.util.Optional;
  */
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ContextService {
+
+    @Value("${keycloak.resource}")
+    private String keycloakClientId;
 
     private AccessToken getLoggedInAccessToken() {
         try {
@@ -51,6 +57,18 @@ public class ContextService {
         return loggedInToken != null
                 ? Optional.of(loggedInToken.getSubject())
                 : Optional.empty();
+    }
+
+    public Set<String> getLoggedInUserRoles() {
+        try {
+            AccessToken loggedInToken = getLoggedInAccessToken();
+            return loggedInToken != null
+                    ? loggedInToken.getResourceAccess(keycloakClientId).getRoles()
+                    : new HashSet<>();
+        } catch (Exception ex) {
+            log.error("Get Keycloak user roles failed, {}", ex.getMessage());
+        }
+        return new HashSet<>();
     }
 
 }
