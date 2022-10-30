@@ -15,6 +15,7 @@ import vn.unicloud.umeepay.model.ChangePasswordCache;
 import vn.unicloud.umeepay.service.KeycloakService;
 import vn.unicloud.umeepay.service.RedisService;
 import vn.unicloud.umeepay.service.UserService;
+import vn.unicloud.umeepay.utils.RedisKeyUtils;
 
 import java.util.Objects;
 
@@ -41,7 +42,7 @@ public class ChangePasswordHandler extends RequestHandler<ChangePasswordRequest,
             throw new InternalException(ResponseCode.PHONE_NUMBER_INVALID);
         }
 
-        String sessionKey = BaseConstant.CHANGE_PASSWORD_SESSION + request.getSessionId();
+        String sessionKey = RedisKeyUtils.getChangePasswordSession(request.getSessionId());
 
         ChangePasswordCache passwordCache = redisService.getValue(
             sessionKey,
