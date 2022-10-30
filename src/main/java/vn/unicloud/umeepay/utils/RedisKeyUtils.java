@@ -6,12 +6,24 @@ public class RedisKeyUtils {
 
     private static final String UMPAY_REDIS_PREFIX_USER_STATUS = "UMPAY_USER_STATUS_";
 
+    private static final String OTP_KEY = "UPAY_OTP_KEY_";
+
+    private static final String CHANGE_PASSWORD_SESSION = "UPAY_CHANGE_PASSWORD_SESSION_";
+
     public static String getLoginFailedData(String id) {
         return UMPAY_REDIS_PREFIX_LOGIN_FAILED_DATA + id;
     }
 
     public static String getUserStatusKey(String id) {
         return UMPAY_REDIS_PREFIX_USER_STATUS + id;
+    }
+
+    public static String getOtpKey(String phone) {
+        return OTP_KEY + phone;
+    }
+
+    public static String getChangePasswordSession(String id) {
+        return CHANGE_PASSWORD_SESSION + id;
     }
 
 }

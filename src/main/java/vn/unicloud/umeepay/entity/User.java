@@ -21,7 +21,11 @@ public class User extends Auditable<String> {
     public static final String COLLECTION_NAME = "user";
 
     @Id
-    @Column(unique = true, nullable = false)
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+        name = "UUID",
+        strategy = "org.hibernate.id.UUIDGenerator"
+    )
     private String id;
 
     @Enumerated(EnumType.STRING)
