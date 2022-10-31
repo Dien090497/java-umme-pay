@@ -7,7 +7,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import vn.unicloud.umeepay.config.OpenApiConfig;
+//import vn.unicloud.umeepay.config.OpenApiConfig;
 import vn.unicloud.umeepay.constant.BaseConstant;
 import vn.unicloud.umeepay.core.ResponseBase;
 import vn.unicloud.umeepay.dtos.admin.request.CreateAdminRequest;
@@ -22,7 +22,7 @@ import javax.validation.Valid;
 
 @Tag(name = "Admin Controller", description = "Thao tác với quản trị viên")
 @RequestMapping(value = "/api/admin/cms")
-@SecurityRequirement(name = OpenApiConfig.BEARER_SCHEME)
+//@SecurityRequirement(name = OpenApiConfig.BEARER_SCHEME)
 public interface IAdminController {
 
     @Operation(
