@@ -10,8 +10,10 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import vn.unicloud.umeepay.dtos.role.request.GetListRoleRequest;
 import vn.unicloud.umeepay.entity.Administrator;
+import vn.unicloud.umeepay.entity.Permission;
 import vn.unicloud.umeepay.entity.Role;
 import vn.unicloud.umeepay.enums.RoleType;
+import vn.unicloud.umeepay.repository.PermissionRepository;
 import vn.unicloud.umeepay.repository.RoleRepository;
 import vn.unicloud.umeepay.utils.RedisKeyUtils;
 
@@ -25,6 +27,12 @@ public class RoleService {
 
     private final RoleRepository roleRepository;
 
+    private final PermissionRepository permissionRepository;
+
+    /**
+     * ROLES
+     */
+
     public Role getRoleById(Long id) {
         if (id == null) {
             return null;
@@ -32,11 +40,11 @@ public class RoleService {
         return roleRepository.findById(id).orElse(null);
     }
 
-    public Role getRoleByCode(String code) {
-        if (code == null) {
+    public Role getRoleByCode(String code, RoleType scope) {
+        if (code == null || scope == null) {
             return null;
         }
-        return roleRepository.findByCode(code).orElse(null);
+        return roleRepository.findByCodeAndScope(code, scope).orElse(null);
     }
 
     public Role saveRole(Role role) {
@@ -72,4 +80,27 @@ public class RoleService {
         }
         return null;
     }
+
+    /**
+     * PERMISSIONS
+     */
+
+
+    public List<Permission> getAllPermissions(RoleType scope) {
+        if (scope == null) {
+            return null;
+        }
+        return permissionRepository.findAllByScope(scope);
+    }
+
+    public Permission savePermission(Permission per) {
+        try {
+            return permissionRepository.save(per);
+        } catch (Exception ex) {
+            log.error("Save permission failed, {}", ex.getMessage());
+        }
+        return null;
+    }
+
+
 }

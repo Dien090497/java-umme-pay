@@ -4,12 +4,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import vn.unicloud.umeepay.core.RequestHandler;
-import vn.unicloud.umeepay.dtos.role.request.CreateAdminRoleRequest;
+import vn.unicloud.umeepay.dtos.role.request.CreateRoleRequest;
 import vn.unicloud.umeepay.dtos.role.response.RoleResponse;
 import vn.unicloud.umeepay.entity.Action;
 import vn.unicloud.umeepay.entity.Role;
 import vn.unicloud.umeepay.enums.ResponseCode;
-import vn.unicloud.umeepay.enums.RoleType;
 import vn.unicloud.umeepay.exception.InternalException;
 import vn.unicloud.umeepay.service.ActionService;
 import vn.unicloud.umeepay.service.RoleService;
@@ -21,7 +20,7 @@ import java.util.stream.Collectors;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class CreateAdminRoleHandler extends RequestHandler<CreateAdminRoleRequest, RoleResponse> {
+public class CreateAdminRoleHandler extends RequestHandler<CreateRoleRequest, RoleResponse> {
 
     private final RoleService roleService;
 
@@ -29,13 +28,13 @@ public class CreateAdminRoleHandler extends RequestHandler<CreateAdminRoleReques
 
     @Override
     @Transactional
-    public RoleResponse handle(CreateAdminRoleRequest request) {
-        if (roleService.getRoleByCode(request.getCode()) != null) {
+    public RoleResponse handle(CreateRoleRequest request) {
+        if (roleService.getRoleByCode(request.getCode(), request.getScope()) != null) {
             throw new InternalException(ResponseCode.ROLE_ERROR_EXISTED_CODE);
         }
 
         Role role = new Role()
-                .setScope(RoleType.ADMIN)
+                .setScope(request.getScope())
                 .setName(request.getName())
                 .setCode(request.getCode())
                 .setStatus(request.getStatus())

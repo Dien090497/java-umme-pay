@@ -16,7 +16,7 @@ import java.util.List;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class UpdateAdminRoleRequest extends BaseRequestData {
+public class UpdateRoleRequest extends BaseRequestData {
 
     @JsonIgnore
     private Long id;

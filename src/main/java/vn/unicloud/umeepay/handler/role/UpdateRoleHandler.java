@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import vn.unicloud.umeepay.core.RequestHandler;
-import vn.unicloud.umeepay.dtos.role.request.UpdateAdminRoleRequest;
+import vn.unicloud.umeepay.dtos.role.request.UpdateRoleRequest;
 import vn.unicloud.umeepay.dtos.role.response.RoleResponse;
 import vn.unicloud.umeepay.entity.Action;
 import vn.unicloud.umeepay.entity.Role;
@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class UpdateRoleHandler extends RequestHandler<UpdateAdminRoleRequest, RoleResponse> {
+public class UpdateRoleHandler extends RequestHandler<UpdateRoleRequest, RoleResponse> {
 
     private final RoleService roleService;
 
@@ -30,16 +30,24 @@ public class UpdateRoleHandler extends RequestHandler<UpdateAdminRoleRequest, Ro
     private final RedisService redisService;
 
     @Override
-    public RoleResponse handle(UpdateAdminRoleRequest request) {
+    public RoleResponse handle(UpdateRoleRequest request) {
         Role role = roleService.getRoleById(request.getId());
         if (role == null) {
             throw new InternalException(ResponseCode.ROLE_ERROR_NOT_FOUND);
         }
 
         role
-                .setName(request.getName() != null ? request.getName() : role.getName())
-                .setDescription(request.getDescription() != null ? request.getDescription() : role.getDescription())
-                .setStatus(request.getStatus() != null ? request.getStatus() : role.getStatus());
+                .setName(request.getName() != null
+                        ? request.getName()
+                        : role.getName())
+
+                .setDescription(request.getDescription() != null
+                        ? request.getDescription()
+                        : role.getDescription())
+
+                .setStatus(request.getStatus() != null
+                        ? request.getStatus()
+                        : role.getStatus());
 
         if (request.getActionIds() != null) {
             List<Action> actions = request.getActionIds()

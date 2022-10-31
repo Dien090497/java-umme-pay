@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import vn.unicloud.umeepay.entity.Administrator;
 import vn.unicloud.umeepay.entity.Role;
 import vn.unicloud.umeepay.entity.User;
+import vn.unicloud.umeepay.enums.RoleType;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,7 +17,7 @@ public interface RoleRepository extends JpaRepository<Role, Long>, JpaSpecificat
 
     Optional<Role> findByName(String name);
 
-    Optional<Role> findByCode(String code);
+    Optional<Role> findByCodeAndScope(String code, RoleType scope);
 
     @Query("SELECT admin FROM Administrator admin " +
             "LEFT JOIN Role role " +
