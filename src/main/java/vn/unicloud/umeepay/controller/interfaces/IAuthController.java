@@ -54,8 +54,8 @@ public interface IAuthController {
     ResponseEntity<ResponseBase<AccessTokenResponseCustom>> adminRefreshToken(@Valid @RequestBody AdminRefreshTokenRequest request);
 
     @Operation(
-            summary = "Refresh access token",
-            description = "- Refresh access token"
+            summary = "Change admin password",
+            description = "- Change admin password"
     )
     @RequestMapping(value = "/cms/v1/changePassword", method = RequestMethod.PUT)
     @SecurityRequirement(name = OpenApiConfig.BEARER_SCHEME)

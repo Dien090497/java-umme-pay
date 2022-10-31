@@ -16,7 +16,7 @@ public class PermissionGroupResponse extends BaseResponseData {
     private Long id;
     private String name;
     private String description;
-    private List<PermissionResponse> actions;
+    private List<PermissionResponse> permissions;
 
     public PermissionGroupResponse(PermissionGroup permission) {
         if (permission == null) {
@@ -26,7 +26,7 @@ public class PermissionGroupResponse extends BaseResponseData {
         this.name = permission.getName();
         this.description = permission.getDescription();
         if (permission.getPermissions() != null) {
-            this.actions = permission.getPermissions()
+            this.permissions = permission.getPermissions()
                     .stream()
                     .map(action -> new PermissionResponse(action))
                     .collect(Collectors.toList());

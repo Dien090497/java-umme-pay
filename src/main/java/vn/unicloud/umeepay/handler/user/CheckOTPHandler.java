@@ -18,6 +18,7 @@ import vn.unicloud.umeepay.service.KeycloakService;
 import vn.unicloud.umeepay.service.RedisService;
 import vn.unicloud.umeepay.service.UserService;
 import vn.unicloud.umeepay.utils.CommonUtils;
+import vn.unicloud.umeepay.utils.RedisKeyUtils;
 
 import java.util.Objects;
 
@@ -43,7 +44,7 @@ public class CheckOTPHandler extends RequestHandler<CheckOTPRequest, CheckOTPRes
             throw new InternalException(ResponseCode.PHONE_NUMBER_INVALID);
         }
 
-        String phoneKey = BaseConstant.OTP_KEY + requestPhone;
+        String phoneKey = RedisKeyUtils.getOtpKey(requestPhone);
 
         OTPKey otpKey = redisService.getValue(phoneKey, OTPKey.class);
 
@@ -65,7 +66,7 @@ public class CheckOTPHandler extends RequestHandler<CheckOTPRequest, CheckOTPRes
             token
         );
 
-        String sessionKey = BaseConstant.CHANGE_PASSWORD_SESSION + otpKey.getSessionId();
+        String sessionKey = RedisKeyUtils.getChangePasswordSession(otpKey.getSessionId());
 
         redisService.setValue(sessionKey, passwordCache);
         redisService.setExpire(sessionKey, changePasswordTimeout);
