@@ -10,6 +10,7 @@ import vn.unicloud.umeepay.enums.RoleStatus;
 import vn.unicloud.umeepay.enums.RoleType;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -53,18 +54,18 @@ public class RoleGroup extends Auditable<String> {
             mappedBy = "roleGroup"
     )
     @JsonIgnore
-    private List<User> users;
+    private List<User> users = new ArrayList<>();
 
     @OneToMany(
             fetch = FetchType.LAZY,
             mappedBy = "roleGroup"
     )
     @JsonIgnore
-    private List<Administrator> admins;
+    private List<Administrator> admins = new ArrayList<>();
 
     @Override
     public String toString() {
-        return "AdminRole{" +
+        return "RoleGroup{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", code='" + code + '\'' +

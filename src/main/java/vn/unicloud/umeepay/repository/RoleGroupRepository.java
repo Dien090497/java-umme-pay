@@ -14,8 +14,6 @@ import java.util.Optional;
 @Repository
 public interface RoleGroupRepository extends JpaRepository<RoleGroup, Long>, JpaSpecificationExecutor<RoleGroup> {
 
-    Optional<RoleGroup> findByName(String name);
-
     Optional<RoleGroup> findByCodeAndScope(String code, RoleType scope);
 
 }

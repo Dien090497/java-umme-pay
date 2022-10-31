@@ -43,7 +43,7 @@ public class PermissionGroup {
 
     @Override
     public String toString() {
-        return "Permission{" +
+        return "PermissionGroup{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
