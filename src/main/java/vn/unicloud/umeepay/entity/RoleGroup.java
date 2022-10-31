@@ -1,5 +1,6 @@
 package vn.unicloud.umeepay.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,19 +18,18 @@ import java.util.List;
 @Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = Role.COLLECTION_NAME)
-public class Role extends Auditable<String> {
+@Table(name = RoleGroup.COLLECTION_NAME)
+public class RoleGroup extends Auditable<String> {
 
-    public static final String COLLECTION_NAME = "role";
+    public static final String COLLECTION_NAME = "role_group";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     private String name;
 
-    @Column(unique = true)
     private String code;
 
     private String description;
@@ -39,14 +39,28 @@ public class Role extends Auditable<String> {
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-            name = "role_actions",
-            joinColumns = @JoinColumn(name = "role_id"),
+            name = "role_group_actions",
+            joinColumns = @JoinColumn(name = "role_group_id"),
             inverseJoinColumns = @JoinColumn(name = "action_id")
     )
     private List<Action> actions;
 
     @Enumerated(EnumType.STRING)
     private RoleType scope;
+
+    @OneToMany(
+            fetch = FetchType.LAZY,
+            mappedBy = "roleGroup"
+    )
+    @JsonIgnore
+    private List<User> users;
+
+    @OneToMany(
+            fetch = FetchType.LAZY,
+            mappedBy = "roleGroup"
+    )
+    @JsonIgnore
+    private List<Administrator> admins;
 
     @Override
     public String toString() {

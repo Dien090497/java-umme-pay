@@ -1,22 +1,25 @@
 package vn.unicloud.umeepay.dtos.role.response;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import vn.unicloud.umeepay.core.BaseResponseData;
+import vn.unicloud.umeepay.entity.Action;
 import vn.unicloud.umeepay.entity.Permission;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 public class PermissionResponse extends BaseResponseData {
     private Long id;
     private String name;
     private String description;
-    private List<ActionResponse> actions;
+
+    private List<Action> actions;
 
     public PermissionResponse(Permission permission) {
         if (permission == null) {
@@ -25,12 +28,6 @@ public class PermissionResponse extends BaseResponseData {
         this.id = permission.getId();
         this.name = permission.getName();
         this.description = permission.getDescription();
-        if (permission.getActions() != null) {
-            this.actions = permission.getActions()
-                    .stream()
-                    .map(action -> new ActionResponse(action))
-                    .collect(Collectors.toList());
-        }
+        this.actions = permission.getActions();
     }
-
 }

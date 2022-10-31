@@ -10,8 +10,8 @@ import vn.unicloud.umeepay.core.ResponseBase;
 import vn.unicloud.umeepay.dtos.common.PageResponse;
 import vn.unicloud.umeepay.dtos.role.request.*;
 import vn.unicloud.umeepay.dtos.role.response.GetAllPermissionResponse;
-import vn.unicloud.umeepay.dtos.role.response.RoleDetailResponse;
-import vn.unicloud.umeepay.dtos.role.response.RoleResponse;
+import vn.unicloud.umeepay.dtos.role.response.RoleGroupDetailResponse;
+import vn.unicloud.umeepay.dtos.role.response.RoleGroupResponse;
 import vn.unicloud.umeepay.enums.RoleStatus;
 import vn.unicloud.umeepay.enums.RoleType;
 
@@ -19,15 +19,15 @@ import vn.unicloud.umeepay.enums.RoleType;
 public class AdminRoleController extends BaseController implements IAdminRoleController {
 
     @Override
-    public ResponseEntity<ResponseBase<PageResponse<RoleResponse>>> getAllRoles(String code,
-                                                                                String name,
-                                                                                RoleStatus status,
-                                                                                Integer page,
-                                                                                Integer pageSize,
-                                                                                Sort.Direction sortDirection,
-                                                                                String sortBy) {
+    public ResponseEntity<ResponseBase<PageResponse<RoleGroupResponse>>> getAllRoleGroups(String code,
+                                                                                          String name,
+                                                                                          RoleStatus status,
+                                                                                          Integer page,
+                                                                                          Integer pageSize,
+                                                                                          Sort.Direction sortDirection,
+                                                                                          String sortBy) {
 
-        GetListRoleRequest request = new GetListRoleRequest()
+        GetListRoleGroupRequest request = new GetListRoleGroupRequest()
                 .setCode(code)
                 .setName(name)
                 .setStatus(status)
@@ -44,24 +44,24 @@ public class AdminRoleController extends BaseController implements IAdminRoleCon
     }
 
     @Override
-    public ResponseEntity<ResponseBase<RoleResponse>> createAdminRole(CreateRoleRequest request) {
+    public ResponseEntity<ResponseBase<RoleGroupResponse>> createAdminRoleGroup(CreateRoleGroupRequest request) {
         request.setScope(RoleType.ADMIN);
-        return this.execute(request, RoleResponse.class);
+        return this.execute(request, RoleGroupResponse.class);
     }
 
     @Override
-    public ResponseEntity<ResponseBase<RoleDetailResponse>> getRoleDetail(Long roleId) {
-        return this.execute(new GetRoleDetailRequest(roleId), RoleDetailResponse.class);
+    public ResponseEntity<ResponseBase<RoleGroupDetailResponse>> getRoleGroupDetail(Long groupId) {
+        return this.execute(new GetRoleGroupDetailRequest(groupId), RoleGroupDetailResponse.class);
     }
 
     @Override
-    public ResponseEntity<ResponseBase<RoleResponse>> updateRole(Long roleId, UpdateRoleRequest request) {
-        request.setId(roleId);
-        return this.execute(request, RoleResponse.class);
+    public ResponseEntity<ResponseBase<RoleGroupResponse>> updateRoleGroup(Long groupId, UpdateRoleGroupRequest request) {
+        request.setId(groupId);
+        return this.execute(request, RoleGroupResponse.class);
     }
 
     @Override
-    public ResponseEntity<ResponseBase<RoleResponse>> delete(Long roleId) {
-        return this.execute(new DeleteRoleRequest(roleId), RoleResponse.class);
+    public ResponseEntity<ResponseBase<RoleGroupResponse>> deleteRoleGroup(Long groupId) {
+        return this.execute(new DeleteRoleGroupRequest(groupId), RoleGroupResponse.class);
     }
 }

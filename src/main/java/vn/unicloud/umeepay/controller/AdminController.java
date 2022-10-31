@@ -20,13 +20,13 @@ import vn.unicloud.umeepay.enums.UserStatus;
 public class AdminController extends BaseController implements IAdminController {
 
     @Override
-    @Authorized(actions = "CMS_CREATE_ADMIN")
+//    @Authorized(actions = "CMS_CREATE_ADMIN")
     public ResponseEntity<ResponseBase<AdminResponse>> createAdmin(CreateAdminRequest request) {
         return this.execute(request, AdminResponse.class);
     }
 
     @Override
-    @Authorized(actions = "CMS_UPDATE_ADMIN")
+//    @Authorized(actions = "CMS_UPDATE_ADMIN")
     public ResponseEntity<ResponseBase<AdminResponse>> updateAdmin(String id, UpdateAdminRequest request) {
         request.setId(id);
         return this.execute(request, AdminResponse.class);
@@ -64,19 +64,19 @@ public class AdminController extends BaseController implements IAdminController 
     }
 
     @Override
-    @Authorized(actions = "CMS_DELETE_ADMIN")
+//    @Authorized(actions = "CMS_DELETE_ADMIN")
     public ResponseEntity<ResponseBase<AdminResponse>> deleteAdmin(String id) {
         return this.execute(new DeleteAdminRequest(id), AdminResponse.class);
     }
 
     @Override
-    @Authorized(actions = "CMS_BLOCK_ADMIN")
+//    @Authorized(actions = "CMS_BLOCK_ADMIN")
     public ResponseEntity<ResponseBase<AdminResponse>> blockAdmin(String id) {
         return this.execute(new BlockAdminRequest(id), AdminResponse.class);
     }
 
     @Override
-    @Authorized(actions = "CMS_UNBLOCK_ADMIN")
+//    @Authorized(actions = "CMS_UNBLOCK_ADMIN")
     public ResponseEntity<ResponseBase<AdminResponse>> unblockAdmin(String id) {
         return this.execute(new UnblockAdminRequest(id), AdminResponse.class);
     }

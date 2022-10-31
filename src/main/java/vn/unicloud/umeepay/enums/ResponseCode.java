@@ -91,7 +91,11 @@ public enum ResponseCode {
 
     ROLE_ERROR_NOT_FOUND(803, "Role not found"),
 
-    ROLE_ERROR_NOT_EMPTY(804, "There is/are user(s) in this role");
+    ROLE_ERROR_NOT_EMPTY(804, "There is/are user(s) in this role"),
+
+    // Auth
+    AUTH_ERROR_INCORRECT_PASSWORD(901, "Incorrect password");
+
 
     private final int code;
     private final String message;

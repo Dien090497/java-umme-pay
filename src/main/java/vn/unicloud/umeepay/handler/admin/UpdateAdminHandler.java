@@ -1,14 +1,13 @@
 package vn.unicloud.umeepay.handler.admin;
 
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import vn.unicloud.umeepay.core.RequestHandler;
 import vn.unicloud.umeepay.dtos.admin.request.UpdateAdminRequest;
 import vn.unicloud.umeepay.dtos.admin.response.AdminResponse;
 import vn.unicloud.umeepay.entity.Administrator;
-import vn.unicloud.umeepay.entity.Role;
+import vn.unicloud.umeepay.entity.RoleGroup;
 import vn.unicloud.umeepay.enums.OfficeType;
 import vn.unicloud.umeepay.enums.ResponseCode;
 import vn.unicloud.umeepay.exception.InternalException;
@@ -53,13 +52,13 @@ public class UpdateAdminHandler extends RequestHandler<UpdateAdminRequest, Admin
                 .setDescription(description);
 
         // Update role
-        if (request.getRoleId() != null &&
-                !request.getRoleId().equals(admin.getRole() != null ? admin.getRole().getId() : null)) {
-            Role role = roleService.getRoleById(request.getRoleId());
+        if (request.getRoleGroupId() != null &&
+                !request.getRoleGroupId().equals(admin.getRoleGroup() != null ? admin.getRoleGroup().getId() : null)) {
+            RoleGroup role = roleService.getRoleById(request.getRoleGroupId());
             if (role == null) {
                 throw new InternalException(ResponseCode.ROLE_ERROR_NOT_FOUND);
             }
-            admin.setRole(role);
+            admin.setRoleGroup(role);
             redisService.setValue(RedisKeyUtils.getUserRoleKey(admin.getId()), role.getId());
         }
 

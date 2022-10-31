@@ -8,7 +8,7 @@ import vn.unicloud.umeepay.core.BaseRequestData;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class DeleteRoleRequest extends BaseRequestData {
+public class DeleteRoleGroupRequest extends BaseRequestData {
 
     private Long id;
 

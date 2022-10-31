@@ -5,8 +5,8 @@ import org.springframework.stereotype.Component;
 import vn.unicloud.umeepay.core.RequestHandler;
 import vn.unicloud.umeepay.dtos.role.request.GetAllPermissionRequest;
 import vn.unicloud.umeepay.dtos.role.response.GetAllPermissionResponse;
-import vn.unicloud.umeepay.dtos.role.response.PermissionResponse;
-import vn.unicloud.umeepay.entity.Permission;
+import vn.unicloud.umeepay.dtos.role.response.PermissionGroupResponse;
+import vn.unicloud.umeepay.entity.PermissionGroup;
 import vn.unicloud.umeepay.service.RoleService;
 
 import java.util.List;
@@ -20,11 +20,11 @@ public class GetAllPermissionHandler extends RequestHandler<GetAllPermissionRequ
 
     @Override
     public GetAllPermissionResponse handle(GetAllPermissionRequest request) {
-        List<Permission> permissions = roleService.getAllPermissions(request.getScope());
+        List<PermissionGroup> permissions = roleService.getAllPermissions(request.getScope());
         return new GetAllPermissionResponse(
                 permissions
                         .stream()
-                        .map(per -> new PermissionResponse(per))
+                        .map(per -> new PermissionGroupResponse(per))
                         .collect(Collectors.toList())
         );
     }

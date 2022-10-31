@@ -4,10 +4,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import vn.unicloud.umeepay.core.RequestHandler;
-import vn.unicloud.umeepay.dtos.role.request.UpdateRoleRequest;
-import vn.unicloud.umeepay.dtos.role.response.RoleResponse;
+import vn.unicloud.umeepay.dtos.role.request.UpdateRoleGroupRequest;
+import vn.unicloud.umeepay.dtos.role.response.RoleGroupResponse;
 import vn.unicloud.umeepay.entity.Action;
-import vn.unicloud.umeepay.entity.Role;
+import vn.unicloud.umeepay.entity.Permission;
+import vn.unicloud.umeepay.entity.RoleGroup;
 import vn.unicloud.umeepay.enums.ResponseCode;
 import vn.unicloud.umeepay.exception.InternalException;
 import vn.unicloud.umeepay.service.ActionService;
@@ -21,7 +22,7 @@ import java.util.stream.Collectors;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class UpdateRoleHandler extends RequestHandler<UpdateRoleRequest, RoleResponse> {
+public class UpdateRoleGroupHandler extends RequestHandler<UpdateRoleGroupRequest, RoleGroupResponse> {
 
     private final RoleService roleService;
 
@@ -30,8 +31,8 @@ public class UpdateRoleHandler extends RequestHandler<UpdateRoleRequest, RoleRes
     private final RedisService redisService;
 
     @Override
-    public RoleResponse handle(UpdateRoleRequest request) {
-        Role role = roleService.getRoleById(request.getId());
+    public RoleGroupResponse handle(UpdateRoleGroupRequest request) {
+        RoleGroup role = roleService.getRoleById(request.getId());
         if (role == null) {
             throw new InternalException(ResponseCode.ROLE_ERROR_NOT_FOUND);
         }
@@ -69,7 +70,7 @@ public class UpdateRoleHandler extends RequestHandler<UpdateRoleRequest, RoleRes
         }
 
         if (roleService.saveRole(role) != null) {
-            return new RoleResponse(role);
+            return new RoleGroupResponse(role);
         }
 
         throw new InternalException(ResponseCode.FAILED);

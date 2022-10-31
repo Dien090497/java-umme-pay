@@ -3,7 +3,6 @@ package vn.unicloud.umeepay.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.Accessors;
-import org.hibernate.annotations.GenericGenerator;
 import vn.unicloud.umeepay.enums.UserStatus;
 
 import javax.persistence.*;
@@ -46,8 +45,8 @@ public class User extends Auditable<String> {
     private String phone;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_role_id")
-    private Role role;
+    @JoinColumn(name = "role_group_id")
+    private RoleGroup roleGroup;
 
     private Boolean isOwner = false;  // Owner or members
 

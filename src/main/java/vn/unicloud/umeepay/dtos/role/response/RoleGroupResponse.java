@@ -2,7 +2,7 @@ package vn.unicloud.umeepay.dtos.role.response;
 
 import lombok.*;
 import vn.unicloud.umeepay.core.BaseResponseData;
-import vn.unicloud.umeepay.entity.Role;
+import vn.unicloud.umeepay.entity.RoleGroup;
 import vn.unicloud.umeepay.enums.RoleStatus;
 
 import java.time.LocalDateTime;
@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class RoleResponse extends BaseResponseData {
+public class RoleGroupResponse extends BaseResponseData {
     private Long id;
     private String name;
     private String code;
@@ -23,7 +23,7 @@ public class RoleResponse extends BaseResponseData {
     private LocalDateTime modifiedAt;
     private String modifiedBy;
 
-    public RoleResponse(Role role) {
+    public RoleGroupResponse(RoleGroup role) {
         if (role == null) {
             return;
         }

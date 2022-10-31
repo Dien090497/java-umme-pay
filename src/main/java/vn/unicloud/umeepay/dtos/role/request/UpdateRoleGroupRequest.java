@@ -7,7 +7,6 @@ import org.hibernate.validator.constraints.UniqueElements;
 import vn.unicloud.umeepay.common.TrimString;
 import vn.unicloud.umeepay.core.BaseRequestData;
 import vn.unicloud.umeepay.enums.RoleStatus;
-import vn.unicloud.umeepay.enums.RoleType;
 
 import javax.validation.constraints.*;
 import java.util.List;
@@ -17,15 +16,11 @@ import java.util.List;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateRoleRequest extends BaseRequestData {
+public class UpdateRoleGroupRequest extends BaseRequestData {
 
-    @NotBlank
-    @Size(max = 20)
-    @JsonDeserialize(using = TrimString.class)
-    @Pattern(regexp = "^\\w+$", message = "Invalid code")
-    private String code;
+    @JsonIgnore
+    private Long id;
 
-    @NotBlank
     @Size(max = 100)
     @JsonDeserialize(using = TrimString.class)
     private String name;
@@ -34,13 +29,9 @@ public class CreateRoleRequest extends BaseRequestData {
     @JsonDeserialize(using = TrimString.class)
     private String description;
 
-    @NotNull
     private RoleStatus status;
 
     @UniqueElements
     private List<Long> actionIds;
-
-    @JsonIgnore
-    private RoleType scope; // Admin role or merchant role
 
 }

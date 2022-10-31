@@ -49,6 +49,6 @@ public class CreateAdminRequest extends BaseRequestData {
     @Size(max = 250)
     private String description;
 
-    private Long roleId;
+    private Long roleGroupId;
 
 }

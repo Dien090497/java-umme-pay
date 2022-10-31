@@ -12,6 +12,6 @@ import java.util.List;
 @ToString
 public class GetAllPermissionResponse extends BaseResponseData {
 
-    private List<PermissionResponse> permissions;
+    private List<PermissionGroupResponse> permissions;
 
 }

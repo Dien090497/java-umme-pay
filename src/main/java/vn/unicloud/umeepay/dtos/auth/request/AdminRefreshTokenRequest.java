@@ -1,4 +1,4 @@
-package vn.unicloud.umeepay.dtos.admin.request;
+package vn.unicloud.umeepay.dtos.auth.request;
 
 import lombok.*;
 import vn.unicloud.umeepay.core.BaseRequestData;

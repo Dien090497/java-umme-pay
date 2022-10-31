@@ -2,20 +2,16 @@ package vn.unicloud.umeepay.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import vn.unicloud.umeepay.dtos.role.request.GetListRoleRequest;
-import vn.unicloud.umeepay.entity.Administrator;
-import vn.unicloud.umeepay.entity.Permission;
-import vn.unicloud.umeepay.entity.Role;
+import vn.unicloud.umeepay.entity.PermissionGroup;
+import vn.unicloud.umeepay.entity.RoleGroup;
 import vn.unicloud.umeepay.enums.RoleType;
-import vn.unicloud.umeepay.repository.PermissionRepository;
-import vn.unicloud.umeepay.repository.RoleRepository;
-import vn.unicloud.umeepay.utils.RedisKeyUtils;
+import vn.unicloud.umeepay.repository.PermissionGroupRepository;
+import vn.unicloud.umeepay.repository.RoleGroupRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,29 +21,29 @@ import java.util.List;
 @Slf4j
 public class RoleService {
 
-    private final RoleRepository roleRepository;
+    private final RoleGroupRepository roleRepository;
 
-    private final PermissionRepository permissionRepository;
+    private final PermissionGroupRepository perGroupRepository;
 
     /**
      * ROLES
      */
 
-    public Role getRoleById(Long id) {
+    public RoleGroup getRoleById(Long id) {
         if (id == null) {
             return null;
         }
         return roleRepository.findById(id).orElse(null);
     }
 
-    public Role getRoleByCode(String code, RoleType scope) {
+    public RoleGroup getRoleByCode(String code, RoleType scope) {
         if (code == null || scope == null) {
             return null;
         }
         return roleRepository.findByCodeAndScope(code, scope).orElse(null);
     }
 
-    public Role saveRole(Role role) {
+    public RoleGroup saveRole(RoleGroup role) {
         try {
             return roleRepository.save(role);
         } catch (Exception ex) {
@@ -56,7 +52,7 @@ public class RoleService {
         return null;
     }
 
-    public Page<Role> getListRole(Specification<Role> spec, Pageable pageable) {
+    public Page<RoleGroup> getListRole(Specification<RoleGroup> spec, Pageable pageable) {
         if (spec == null || pageable == null) {
             return new PageImpl<>(new ArrayList<>());
         }
@@ -64,14 +60,7 @@ public class RoleService {
         return roleRepository.findAll(spec, pageable);
     }
 
-    public List<Administrator> getAdminsInRole(Role role) {
-        if (role == null || !role.getScope().equals(RoleType.ADMIN)) {
-            return new ArrayList<>();
-        }
-        return roleRepository.findAdminsInRole(role.getId());
-    }
-
-    public Role deleteRole(Role role) {
+    public RoleGroup deleteRole(RoleGroup role) {
         try {
             roleRepository.delete(role);
             return role;
@@ -85,19 +74,18 @@ public class RoleService {
      * PERMISSIONS
      */
 
-
-    public List<Permission> getAllPermissions(RoleType scope) {
+    public List<PermissionGroup> getAllPermissions(RoleType scope) {
         if (scope == null) {
             return null;
         }
-        return permissionRepository.findAllByScope(scope);
+        return perGroupRepository.findAllByScope(scope);
     }
 
-    public Permission savePermission(Permission per) {
+    public PermissionGroup savePermission(PermissionGroup per) {
         try {
-            return permissionRepository.save(per);
+            return perGroupRepository.save(per);
         } catch (Exception ex) {
-            log.error("Save permission failed, {}", ex.getMessage());
+            log.error("Save permission group failed, {}", ex.getMessage());
         }
         return null;
     }

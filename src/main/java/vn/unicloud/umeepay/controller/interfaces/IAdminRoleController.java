@@ -11,17 +11,17 @@ import vn.unicloud.umeepay.config.OpenApiConfig;
 import vn.unicloud.umeepay.constant.BaseConstant;
 import vn.unicloud.umeepay.core.ResponseBase;
 import vn.unicloud.umeepay.dtos.common.PageResponse;
-import vn.unicloud.umeepay.dtos.role.request.CreateRoleRequest;
-import vn.unicloud.umeepay.dtos.role.request.UpdateRoleRequest;
+import vn.unicloud.umeepay.dtos.role.request.CreateRoleGroupRequest;
+import vn.unicloud.umeepay.dtos.role.request.UpdateRoleGroupRequest;
 import vn.unicloud.umeepay.dtos.role.response.GetAllPermissionResponse;
-import vn.unicloud.umeepay.dtos.role.response.RoleDetailResponse;
-import vn.unicloud.umeepay.dtos.role.response.RoleResponse;
+import vn.unicloud.umeepay.dtos.role.response.RoleGroupDetailResponse;
+import vn.unicloud.umeepay.dtos.role.response.RoleGroupResponse;
 import vn.unicloud.umeepay.enums.RoleStatus;
 
 import javax.validation.Valid;
 
-@Tag(name = "Role Controller", description = "Thao tác với nhóm (quyền) của quản trị viên")
-@RequestMapping(value = "/api/role/cms")
+@Tag(name = "Role Group Controller", description = "Thao tác với nhóm (quyền) của quản trị viên")
+@RequestMapping(value = "/api/roleGroup/cms")
 @SecurityRequirement(name = OpenApiConfig.BEARER_SCHEME)
 public interface IAdminRoleController {
 
@@ -33,7 +33,7 @@ public interface IAdminRoleController {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             })
     @GetMapping("/v1/getAll")
-    ResponseEntity<ResponseBase<PageResponse<RoleResponse>>> getAllRoles(
+    ResponseEntity<ResponseBase<PageResponse<RoleGroupResponse>>> getAllRoleGroups(
             @RequestParam(required = false) String code,
             @RequestParam(required = false) String name,
             @RequestParam(required = false) RoleStatus status,
@@ -44,13 +44,13 @@ public interface IAdminRoleController {
     );
 
     @Operation(
-            summary = "Xem danh sách nhóm actions quản trị viên",
-            description = "- Xem danh sách nhóm nhóm actions quản trị viên",
+            summary = "Xem danh sách nhóm permissions quản trị viên",
+            description = "- Xem danh sách nhóm nhóm permissions quản trị viên",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Success"),
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             })
-    @GetMapping("/v1/getAllPermissions")
+    @GetMapping("/v1/permission/getAll")
     ResponseEntity<ResponseBase<GetAllPermissionResponse>> getAllPermissions();
 
     @Operation(
@@ -61,7 +61,7 @@ public interface IAdminRoleController {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             })
     @PostMapping("/v1/create")
-    ResponseEntity<ResponseBase<RoleResponse>> createAdminRole(@RequestBody @Valid CreateRoleRequest request);
+    ResponseEntity<ResponseBase<RoleGroupResponse>> createAdminRoleGroup(@RequestBody @Valid CreateRoleGroupRequest request);
 
     @Operation(
             summary = "Xem chi tiết nhóm quyền quản trị viên",
@@ -70,8 +70,8 @@ public interface IAdminRoleController {
                     @ApiResponse(responseCode = "200", description = "Success"),
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             })
-    @GetMapping("/v1/getDetail/{roleId}")
-    ResponseEntity<ResponseBase<RoleDetailResponse>> getRoleDetail(@PathVariable Long roleId);
+    @GetMapping("/v1/getDetail/{groupId}")
+    ResponseEntity<ResponseBase<RoleGroupDetailResponse>> getRoleGroupDetail(@PathVariable Long groupId);
 
     @Operation(
             summary = "Chỉnh sửa nhóm quyền quản trị viên",
@@ -80,8 +80,8 @@ public interface IAdminRoleController {
                     @ApiResponse(responseCode = "200", description = "Success"),
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             })
-    @PutMapping("/v1/update/{roleId}")
-    ResponseEntity<ResponseBase<RoleResponse>> updateRole(@PathVariable Long roleId, @RequestBody @Valid UpdateRoleRequest request);
+    @PutMapping("/v1/update/{groupId}")
+    ResponseEntity<ResponseBase<RoleGroupResponse>> updateRoleGroup(@PathVariable Long groupId, @RequestBody @Valid UpdateRoleGroupRequest request);
 
     @Operation(
             summary = "Xóa nhóm quyền quản trị viên",
@@ -90,8 +90,8 @@ public interface IAdminRoleController {
                     @ApiResponse(responseCode = "200", description = "Success"),
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             })
-    @DeleteMapping("/v1/delete/{roleId}")
-    ResponseEntity<ResponseBase<RoleResponse>> delete(@PathVariable Long roleId);
+    @DeleteMapping("/v1/delete/{groupId}")
+    ResponseEntity<ResponseBase<RoleGroupResponse>> deleteRoleGroup(@PathVariable Long groupId);
 
 
 }

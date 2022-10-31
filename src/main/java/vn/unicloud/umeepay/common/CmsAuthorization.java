@@ -3,7 +3,7 @@ package vn.unicloud.umeepay.common;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import vn.unicloud.umeepay.entity.Administrator;
-import vn.unicloud.umeepay.entity.Role;
+import vn.unicloud.umeepay.entity.RoleGroup;
 import vn.unicloud.umeepay.service.AdminService;
 import vn.unicloud.umeepay.service.RedisService;
 import vn.unicloud.umeepay.service.RoleService;
@@ -41,25 +41,24 @@ public class CmsAuthorization implements IAuthorization {
         Long roleId = redisService.getValue(RedisKeyUtils.getUserRoleKey(loggedInId), Long.class);
         if (roleId == null) {
             Administrator administrator = adminService.getById(loggedInId);
-            if (administrator != null && administrator.getRole() != null) {
-                roleId = administrator.getRole().getId();
+            if (administrator != null && administrator.getRoleGroup() != null) {
+                roleId = administrator.getRoleGroup().getId();
                 redisService.setValue(RedisKeyUtils.getUserRoleKey(loggedInId), roleId);
             }
         }
 
         // Get actions of that role saved in redis, if not get from DB
-
-        Role role = redisService.getValue(RedisKeyUtils.getRoleKey(roleId), Role.class);
-        if (role == null && roleId != null) {
-            role = roleService.getRoleById(roleId);
-            if (role != null) {
-                redisService.setValue(RedisKeyUtils.getRoleKey(roleId), role);
+        RoleGroup roleGr = redisService.getValue(RedisKeyUtils.getRoleKey(roleId), RoleGroup.class);
+        if (roleGr == null && roleId != null) {
+            roleGr = roleService.getRoleById(roleId);
+            if (roleGr != null) {
+                redisService.setValue(RedisKeyUtils.getRoleKey(roleId), roleGr);
             }
         }
 
-        return role != null &&
-                role.getActions() != null &&
-                role.getActions()
+        return roleGr != null &&
+                roleGr.getActions() != null &&
+                roleGr.getActions()
                         .stream()
                         .map(action -> action.getName())
                         .collect(Collectors.toList())

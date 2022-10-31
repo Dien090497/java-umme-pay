@@ -1,20 +1,18 @@
 package vn.unicloud.umeepay.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 
-@Entity
 @Getter
 @Setter
-@Accessors(chain = true)
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
+@ToString
+@Entity
 @Table(name = Action.COLLECTION_NAME)
+@Accessors(chain = true)
 public class Action {
 
     public static final String COLLECTION_NAME = "action";
@@ -27,12 +25,4 @@ public class Action {
 
     private String description;
 
-    @Override
-    public String toString() {
-        return "Action{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                '}';
-    }
 }

@@ -44,9 +44,9 @@ public class Administrator extends Auditable<String> {
 
     private String description;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "admin_role_id")
-    private Role role;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "role_group_id")
+    private RoleGroup roleGroup;
 
     private LocalDateTime blockedAt;
 

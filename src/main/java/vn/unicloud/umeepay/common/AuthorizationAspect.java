@@ -7,6 +7,7 @@ import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.AccessDeniedException;
 import vn.unicloud.umeepay.enums.ResponseCode;
 import vn.unicloud.umeepay.enums.RoleType;
 import vn.unicloud.umeepay.exception.InternalException;
@@ -45,7 +46,7 @@ public class AuthorizationAspect {
         }
 
         if (!isAuthorized) {
-            throw new InternalException(ResponseCode.ACCESS_DENIED);
+            throw new AccessDeniedException("Access denied");
         }
     }
 }
