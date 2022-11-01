@@ -31,7 +31,6 @@ public class UserService {
     private int otpExpire;
 
     /**
-     *
      * @param user
      * @return User
      */
@@ -50,7 +49,6 @@ public class UserService {
     }
 
     /**
-     *
      * @param phone
      * @return user
      */
@@ -59,6 +57,13 @@ public class UserService {
             return null;
         }
         return userRepository.findByPhone(phone).orElse(null);
+    }
+
+    public User getUserById(String id) {
+        if (id == null) {
+            return null;
+        }
+        return userRepository.findById(id).orElse(null);
     }
 
     @SneakyThrows

@@ -1,4 +1,4 @@
-package vn.unicloud.umeepay.dtos.auth;
+package vn.unicloud.umeepay.dtos.auth.request;
 
 import lombok.*;
 import lombok.experimental.Accessors;

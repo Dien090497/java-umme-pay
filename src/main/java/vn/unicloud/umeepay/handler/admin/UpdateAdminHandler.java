@@ -1,18 +1,21 @@
 package vn.unicloud.umeepay.handler.admin;
 
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import vn.unicloud.umeepay.core.RequestHandler;
 import vn.unicloud.umeepay.dtos.admin.request.UpdateAdminRequest;
 import vn.unicloud.umeepay.dtos.admin.response.AdminResponse;
 import vn.unicloud.umeepay.entity.Administrator;
+import vn.unicloud.umeepay.entity.RoleGroup;
 import vn.unicloud.umeepay.enums.OfficeType;
 import vn.unicloud.umeepay.enums.ResponseCode;
 import vn.unicloud.umeepay.exception.InternalException;
 import vn.unicloud.umeepay.service.AdminService;
 import vn.unicloud.umeepay.service.KeycloakService;
+import vn.unicloud.umeepay.service.RedisService;
+import vn.unicloud.umeepay.service.RoleService;
+import vn.unicloud.umeepay.utils.RedisKeyUtils;
 
 @Component
 @RequiredArgsConstructor
@@ -21,6 +24,10 @@ public class UpdateAdminHandler extends RequestHandler<UpdateAdminRequest, Admin
     private final KeycloakService keycloakService;
 
     private final AdminService adminService;
+
+    private final RoleService roleService;
+
+    private final RedisService redisService;
 
     @Override
     @Transactional
@@ -43,6 +50,17 @@ public class UpdateAdminHandler extends RequestHandler<UpdateAdminRequest, Admin
                 .setFullName(fullName)
                 .setStaffId(staffId)
                 .setDescription(description);
+
+        // Update role
+        if (request.getRoleGroupId() != null &&
+                !request.getRoleGroupId().equals(admin.getRoleGroup() != null ? admin.getRoleGroup().getId() : null)) {
+            RoleGroup role = roleService.getRoleById(request.getRoleGroupId());
+            if (role == null) {
+                throw new InternalException(ResponseCode.ROLE_ERROR_NOT_FOUND);
+            }
+            admin.setRoleGroup(role);
+            redisService.setValue(RedisKeyUtils.getUserRoleKey(admin.getId()), role.getId());
+        }
 
         // update keycloak user
         String userId = keycloakService.updateUser(admin.getId(), email, fullName);

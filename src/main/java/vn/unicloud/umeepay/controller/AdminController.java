@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
+import vn.unicloud.umeepay.common.Authorized;
 import vn.unicloud.umeepay.controller.interfaces.IAdminController;
 import vn.unicloud.umeepay.core.BaseController;
 import vn.unicloud.umeepay.core.ResponseBase;
@@ -19,6 +20,7 @@ import vn.unicloud.umeepay.enums.UserStatus;
 public class AdminController extends BaseController implements IAdminController {
 
     @Override
+    @Authorized(actions = {"CMS_CREATE_ADMIN", "sdfsfgsdg"})
     public ResponseEntity<ResponseBase<AdminResponse>> createAdmin(CreateAdminRequest request) {
         return this.execute(request, AdminResponse.class);
     }
