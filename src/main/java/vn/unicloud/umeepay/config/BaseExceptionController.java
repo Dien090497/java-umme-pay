@@ -4,6 +4,7 @@ package vn.unicloud.umeepay.config;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -51,6 +52,15 @@ public class BaseExceptionController {
         responseBase.setMessage(ResponseCode.INVALID_PARAM.getMessage());
 
         return new ResponseEntity<>(responseBase, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<?> handleAccessDeniedException(AccessDeniedException e) {
+        return new ResponseEntity<>(
+                new ResponseBase<>(
+                        ResponseCode.ACCESS_DENIED.getCode(),
+                        ResponseCode.ACCESS_DENIED.getMessage()),
+                HttpStatus.FORBIDDEN);
     }
 
 }
