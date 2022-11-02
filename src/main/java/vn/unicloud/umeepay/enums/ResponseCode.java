@@ -100,7 +100,14 @@ public enum ResponseCode {
     // Response message
     RESPONSE_MESSAGE_ERROR_EXISTED_CODE(1001, "Existed response code"),
 
-    RESPONSE_MESSAGE_ERROR_NOT_FOUND(1002, "Response message not found");
+    RESPONSE_MESSAGE_ERROR_NOT_FOUND(1002, "Response message not found"),
+
+    // System parameter
+    SYSTEM_PARAMETER_ERROR_NOT_FOUND(1101, "System parameter not found"),
+    SYSTEM_PARAMETER_ERROR_INVALID_VALUE(1102, "Invalid value"),
+    SYSTEM_PARAMETER_ERROR_EXISTED_NAME(1102, "System parameter with request name existed");
+
+
 
 
     private final int code;
