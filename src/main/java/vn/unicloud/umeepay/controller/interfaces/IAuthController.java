@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import vn.unicloud.umeepay.config.OpenApiConfig;
 import vn.unicloud.umeepay.core.ResponseBase;
 import vn.unicloud.umeepay.dtos.auth.request.AdminChangePasswordRequest;
+import vn.unicloud.umeepay.dtos.auth.request.AdminLogoutRequest;
 import vn.unicloud.umeepay.dtos.auth.request.AdminRefreshTokenRequest;
 import vn.unicloud.umeepay.dtos.auth.request.AdminLoginRequest;
 import vn.unicloud.umeepay.dtos.common.StatusResponse;
@@ -61,4 +62,11 @@ public interface IAuthController {
     @SecurityRequirement(name = OpenApiConfig.BEARER_SCHEME)
     ResponseEntity<ResponseBase<StatusResponse>> adminChangePassword(@Valid @RequestBody AdminChangePasswordRequest request);
 
+    @Operation(
+            summary = "Admin logout",
+            description = "- Admin logout"
+    )
+    @RequestMapping(value = "/cms/v1/logout", method = RequestMethod.POST)
+    @SecurityRequirement(name = OpenApiConfig.BEARER_SCHEME)
+    ResponseEntity<ResponseBase<StatusResponse>> adminLogout(@Valid @RequestBody AdminLogoutRequest request);
 }

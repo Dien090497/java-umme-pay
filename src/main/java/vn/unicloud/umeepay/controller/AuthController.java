@@ -7,6 +7,7 @@ import vn.unicloud.umeepay.controller.interfaces.IAuthController;
 import vn.unicloud.umeepay.core.BaseController;
 import vn.unicloud.umeepay.core.ResponseBase;
 import vn.unicloud.umeepay.dtos.auth.request.AdminChangePasswordRequest;
+import vn.unicloud.umeepay.dtos.auth.request.AdminLogoutRequest;
 import vn.unicloud.umeepay.dtos.auth.request.AdminRefreshTokenRequest;
 import vn.unicloud.umeepay.dtos.auth.request.AdminLoginRequest;
 import vn.unicloud.umeepay.dtos.common.StatusResponse;
@@ -43,5 +44,9 @@ public class AuthController extends BaseController implements IAuthController {
         return this.execute(request, StatusResponse.class);
     }
 
+    @Override
+    public ResponseEntity<ResponseBase<StatusResponse>> adminLogout(AdminLogoutRequest request) {
+        return this.execute(request, StatusResponse.class);
+    }
 
 }
