@@ -102,6 +102,7 @@ public enum ResponseCode {
 
     RESPONSE_MESSAGE_ERROR_NOT_FOUND(1002, "Response message not found");
 
+
     private final int code;
     private final String message;
 

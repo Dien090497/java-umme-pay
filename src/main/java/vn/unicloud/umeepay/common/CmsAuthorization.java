@@ -61,7 +61,6 @@ public class CmsAuthorization implements IAuthorization {
                 roleGr.getActions()
                         .stream()
                         .map(action -> action.getName())
-                        .collect(Collectors.toList())
-                        .containsAll(Arrays.asList(actions));
+                        .anyMatch(Arrays.asList(actions)::contains);
     }
 }

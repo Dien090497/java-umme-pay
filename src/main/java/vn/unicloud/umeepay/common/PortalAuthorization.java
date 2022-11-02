@@ -57,6 +57,9 @@ public class PortalAuthorization implements IAuthorization {
 
         return roleGr != null &&
                 roleGr.getActions() != null &&
-                roleGr.getActions().contains(Arrays.asList(actions));
+                roleGr.getActions()
+                        .stream()
+                        .map(action -> action.getName())
+                        .anyMatch(Arrays.asList(actions)::contains);
     }
 }
