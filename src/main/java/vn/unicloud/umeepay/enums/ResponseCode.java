@@ -108,8 +108,6 @@ public enum ResponseCode {
     SYSTEM_PARAMETER_ERROR_EXISTED_NAME(1102, "System parameter with request name existed");
 
 
-
-
     private final int code;
     private final String message;
 
