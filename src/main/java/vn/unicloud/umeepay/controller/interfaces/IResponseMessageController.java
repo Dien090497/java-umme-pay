@@ -27,7 +27,7 @@ public interface IResponseMessageController {
                     @ApiResponse(responseCode = "200", description = "Success"),
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             })
-    @GetMapping("/cms/v1/getAll")
+    @GetMapping("/v1/getAll")
     ResponseEntity<ResponseBase<ListResponseMessageResponse>> getAllResponseMessages();
 
     @Operation(
@@ -37,7 +37,7 @@ public interface IResponseMessageController {
                     @ApiResponse(responseCode = "200", description = "Success"),
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             })
-    @PostMapping("/cms/v1/create")
+    @PostMapping("/v1/create")
     ResponseEntity<ResponseBase<ResponseMessageResponse>> createResponseMessage(@RequestBody @Valid CreateResponseMessageRequest request);
 
     @Operation(
@@ -47,7 +47,7 @@ public interface IResponseMessageController {
                     @ApiResponse(responseCode = "200", description = "Success"),
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             })
-    @GetMapping("/cms/v1/getDetail/{id}")
+    @GetMapping("/v1/getDetail/{id}")
     ResponseEntity<ResponseBase<ResponseMessageResponse>> getDetailResponseMessage(@PathVariable Long id);
 
     @Operation(
@@ -57,7 +57,7 @@ public interface IResponseMessageController {
                     @ApiResponse(responseCode = "200", description = "Success"),
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             })
-    @GetMapping("/cms/v1/getByCode/{code}")
+    @GetMapping("/v1/getByCode/{code}")
     ResponseEntity<ResponseBase<ResponseMessageResponse>> getDetailResponseMessage(@PathVariable Integer code);
 
     @Operation(
@@ -67,7 +67,7 @@ public interface IResponseMessageController {
                     @ApiResponse(responseCode = "200", description = "Success"),
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             })
-    @DeleteMapping("/cms/v1/delete/{id}")
+    @DeleteMapping("/v1/delete/{id}")
     ResponseEntity<ResponseBase<ResponseMessageResponse>> deleteResponseMessage(@PathVariable Long id);
 
     @Operation(
@@ -77,7 +77,7 @@ public interface IResponseMessageController {
                     @ApiResponse(responseCode = "200", description = "Success"),
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             })
-    @PutMapping("/cms/v1/update/{id}")
+    @PutMapping("/v1/update/{id}")
     ResponseEntity<ResponseBase<ResponseMessageResponse>> updateResponseMessage(@PathVariable Long id, @RequestBody @Valid UpdateResponseMessageRequest request);
 
 }
