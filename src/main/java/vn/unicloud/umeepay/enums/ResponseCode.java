@@ -94,7 +94,13 @@ public enum ResponseCode {
     ROLE_ERROR_NOT_EMPTY(804, "There is/are user(s) in this role"),
 
     // Auth
-    AUTH_ERROR_INCORRECT_PASSWORD(901, "Incorrect password");
+    AUTH_ERROR_INCORRECT_PASSWORD(901, "Incorrect password"),
+
+
+    // Response message
+    RESPONSE_MESSAGE_ERROR_EXISTED_CODE(1001, "Existed response code"),
+
+    RESPONSE_MESSAGE_ERROR_NOT_FOUND(1002, "Response message not found");
 
 
     private final int code;
