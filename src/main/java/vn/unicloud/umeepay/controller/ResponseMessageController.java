@@ -28,6 +28,11 @@ public class ResponseMessageController extends BaseController implements IRespon
     }
 
     @Override
+    public ResponseEntity<ResponseBase<ResponseMessageResponse>> getDetailResponseMessage(Integer code) {
+        return this.execute(new GetResMessageByCodeRequest(code), ResponseMessageResponse.class);
+    }
+
+    @Override
     public ResponseEntity<ResponseBase<ResponseMessageResponse>> deleteResponseMessage(Long id) {
         return this.execute(new DeleteResponseMessageRequest(id), ResponseMessageResponse.class);
     }

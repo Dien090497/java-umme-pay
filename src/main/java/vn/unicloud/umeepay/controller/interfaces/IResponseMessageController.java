@@ -21,8 +21,8 @@ import javax.validation.Valid;
 public interface IResponseMessageController {
 
     @Operation(
-            summary = "Tạo mới response message ",
-            description = "- Tạo mới response message",
+            summary = "Xem tất cả response message ",
+            description = "- Xem tất cả response message",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Success"),
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
@@ -41,14 +41,24 @@ public interface IResponseMessageController {
     ResponseEntity<ResponseBase<ResponseMessageResponse>> createResponseMessage(@RequestBody @Valid CreateResponseMessageRequest request);
 
     @Operation(
-            summary = "Xem thông tin response message ",
-            description = "- Xem thông tin response message",
+            summary = "Xem thông tin response message với ID ",
+            description = "- Xem thông tin response message với ID",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Success"),
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             })
     @GetMapping("/cms/v1/getDetail/{id}")
     ResponseEntity<ResponseBase<ResponseMessageResponse>> getDetailResponseMessage(@PathVariable Long id);
+
+    @Operation(
+            summary = "Xem thông tin response message với response code ",
+            description = "- Xem thông tin response message với response code",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Success"),
+                    @ApiResponse(responseCode = "500", description = "Internal Server Error")
+            })
+    @GetMapping("/cms/v1/getByCode/{code}")
+    ResponseEntity<ResponseBase<ResponseMessageResponse>> getDetailResponseMessage(@PathVariable Integer code);
 
     @Operation(
             summary = "Xóa response message ",

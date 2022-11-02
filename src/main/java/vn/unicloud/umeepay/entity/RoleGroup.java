@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import org.hibernate.envers.Audited;
 import vn.unicloud.umeepay.enums.RoleStatus;
 import vn.unicloud.umeepay.enums.RoleType;
 
