@@ -74,6 +74,13 @@ public class RoleService {
      * PERMISSIONS
      */
 
+    public  PermissionGroup getPermissionGroupByName(String name, RoleType scope) {
+        if (name == null || scope == null) {
+            return null;
+        }
+        return perGroupRepository.findFirstByNameAndScope(name, scope).orElse(null );
+    }
+
     public List<PermissionGroup> getAllPermissions(RoleType scope) {
         if (scope == null) {
             return null;

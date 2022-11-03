@@ -52,8 +52,7 @@ public class UpdateAdminHandler extends RequestHandler<UpdateAdminRequest, Admin
                 .setDescription(description);
 
         // Update role
-        if (request.getRoleGroupId() != null &&
-                !request.getRoleGroupId().equals(admin.getRoleGroup() != null ? admin.getRoleGroup().getId() : null)) {
+        if (request.getRoleGroupId() != null) {
             RoleGroup role = roleService.getRoleById(request.getRoleGroupId());
             if (role == null) {
                 throw new InternalException(ResponseCode.ROLE_ERROR_NOT_FOUND);
