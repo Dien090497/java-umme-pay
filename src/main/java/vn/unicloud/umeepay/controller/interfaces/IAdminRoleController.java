@@ -25,13 +25,7 @@ import javax.validation.Valid;
 @SecurityRequirement(name = OpenApiConfig.BEARER_SCHEME)
 public interface IAdminRoleController {
 
-    @Operation(
-            summary = "Xem danh sách nhóm quyền quản trị viên",
-            description = "- Xem danh sách nhóm quyền quản trị viên",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "Success"),
-                    @ApiResponse(responseCode = "500", description = "Internal Server Error")
-            })
+    @Operation(summary = "Xem danh sách nhóm quyền quản trị viên")
     @GetMapping("/v1/getAll")
     ResponseEntity<ResponseBase<PageResponse<RoleGroupResponse>>> getAllRoleGroups(
             @RequestParam(required = false) String code,
@@ -43,53 +37,23 @@ public interface IAdminRoleController {
             @RequestParam(required = false, defaultValue = BaseConstant.DEFAULT_PAGE_SORT_BY) String sortBy
     );
 
-    @Operation(
-            summary = "Xem danh sách nhóm permissions quản trị viên",
-            description = "- Xem danh sách nhóm nhóm permissions quản trị viên",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "Success"),
-                    @ApiResponse(responseCode = "500", description = "Internal Server Error")
-            })
+    @Operation(summary = "Xem danh sách nhóm permissions quản trị viên")
     @GetMapping("/v1/permission/getAll")
     ResponseEntity<ResponseBase<GetAllPermissionResponse>> getAllPermissions();
 
-    @Operation(
-            summary = "Tạo mới nhóm quyền quản trị viên",
-            description = "- Tạo mới nhóm quyền quản trị viên",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "Success"),
-                    @ApiResponse(responseCode = "500", description = "Internal Server Error")
-            })
+    @Operation(summary = "Tạo mới nhóm quyền quản trị viên")
     @PostMapping("/v1/create")
     ResponseEntity<ResponseBase<RoleGroupResponse>> createAdminRoleGroup(@RequestBody @Valid CreateRoleGroupRequest request);
 
-    @Operation(
-            summary = "Xem chi tiết nhóm quyền quản trị viên",
-            description = "- Xem chi tiết nhóm quyền quản trị viên",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "Success"),
-                    @ApiResponse(responseCode = "500", description = "Internal Server Error")
-            })
+    @Operation(summary = "Xem chi tiết nhóm quyền quản trị viên")
     @GetMapping("/v1/getDetail/{groupId}")
     ResponseEntity<ResponseBase<RoleGroupDetailResponse>> getRoleGroupDetail(@PathVariable Long groupId);
 
-    @Operation(
-            summary = "Chỉnh sửa nhóm quyền quản trị viên",
-            description = "- Chỉnh sửa nhóm quyền quản trị viên",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "Success"),
-                    @ApiResponse(responseCode = "500", description = "Internal Server Error")
-            })
+    @Operation(summary = "Chỉnh sửa nhóm quyền quản trị viên")
     @PutMapping("/v1/update/{groupId}")
     ResponseEntity<ResponseBase<RoleGroupResponse>> updateRoleGroup(@PathVariable Long groupId, @RequestBody @Valid UpdateRoleGroupRequest request);
 
-    @Operation(
-            summary = "Xóa nhóm quyền quản trị viên",
-            description = "- Xóa nhóm quyền quản trị viên",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "Success"),
-                    @ApiResponse(responseCode = "500", description = "Internal Server Error")
-            })
+    @Operation(summary = "Xóa nhóm quyền quản trị viên")
     @DeleteMapping("/v1/delete/{groupId}")
     ResponseEntity<ResponseBase<RoleGroupResponse>> deleteRoleGroup(@PathVariable Long groupId);
 

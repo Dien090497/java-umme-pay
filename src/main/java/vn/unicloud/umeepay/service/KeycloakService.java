@@ -24,7 +24,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+import vn.unicloud.umeepay.dtos.auth.request.LogoutRequest;
+import vn.unicloud.umeepay.dtos.auth.response.LogoutResponse;
 import vn.unicloud.umeepay.dtos.response.AccessTokenResponseCustom;
+import vn.unicloud.umeepay.enums.ResponseCode;
+import vn.unicloud.umeepay.exception.InternalException;
 import vn.unicloud.umeepay.utils.CommonUtils;
 
 import javax.ws.rs.core.Response;
@@ -108,7 +112,7 @@ public class KeycloakService {
             ResponseEntity<String> keycloakResponse = restTemplate.postForEntity(url, request, String.class);
             return new ObjectMapper().readValue(keycloakResponse.getBody(), AccessTokenResponseCustom.class);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Keycloak error: {}", e.getMessage());
         }
 
         return null;
@@ -133,7 +137,7 @@ public class KeycloakService {
             ResponseEntity<String> keycloakResponse = restTemplate.postForEntity(url, request, String.class);
             return new ObjectMapper().readValue(keycloakResponse.getBody(), AccessTokenResponseCustom.class);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Keycloak error: {}", e.getMessage());
         }
 
         return null;
@@ -157,7 +161,7 @@ public class KeycloakService {
         try {
             log.info("logout response {}", restTemplate.postForEntity(url, request, Object.class));
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error("Keycloak error: {}", e.getMessage());
             return false;
         }
         return true;
@@ -194,7 +198,7 @@ public class KeycloakService {
 
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            log.error("Keycloak error: {}", ex.getMessage());
             log.error(ex.getLocalizedMessage());
         }
 
@@ -264,7 +268,7 @@ public class KeycloakService {
                 return userId;
             }
         } catch (Exception ex) {
-            log.error(ex.getLocalizedMessage());
+            log.error("Keycloak error: {}", ex.getMessage());
         }
 
         return null;
@@ -285,7 +289,7 @@ public class KeycloakService {
                     .get(roleName)
                     .toRepresentation();
         } catch (Exception ex) {
-            ex.printStackTrace();
+            log.error("Keycloak error: {}", ex.getMessage());
             return null;
         }
     }
@@ -310,8 +314,7 @@ public class KeycloakService {
                 return secret;
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
-            log.error(ex.getLocalizedMessage());
+            log.error("Keycloak error: {}", ex.getMessage());
         }
 
         return null;
@@ -356,7 +359,7 @@ public class KeycloakService {
             UserRepresentation userId = users.stream().filter(user -> user.getEmail().equals(email)).findFirst().orElse(null);
             return userId != null ? userId.getId() : null;
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getLocalizedMessage());
         }
         return null;
     }
@@ -399,8 +402,15 @@ public class KeycloakService {
             userResource.get(userId).update(user);
             return userId;
         } catch (Exception ex) {
-            ex.printStackTrace();
+            log.error("Keycloak error: {}", ex.getMessage());
             return null;
         }
+    }
+
+    public LogoutResponse logout(LogoutRequest request) {
+        if (this.invalidateToken(request.getRefreshToken())) {
+            return new LogoutResponse();
+        }
+        throw new InternalException(ResponseCode.REFRESH_TOKEN_INVALID);
     }
 }

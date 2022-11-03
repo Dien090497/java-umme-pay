@@ -14,13 +14,7 @@ import vn.unicloud.umeepay.dtos.transaction.response.GetTransactionsResponse;
 @RequestMapping(value = "/api/transaction")
 public interface ITransactionController {
 
-    @Operation(
-        summary = "Get toàn bộ transaction",
-        description = "- Get toàn bộ transaction",
-        responses = {
-            @ApiResponse(responseCode = "200", description = "Success"),
-            @ApiResponse(responseCode = "500", description = "Internal Server Error")
-        })
+    @Operation(summary = "Get toàn bộ transaction")
     @RequestMapping(value = "/v1/getAll", method = RequestMethod.GET)
     ResponseEntity<ResponseBase<GetTransactionsResponse>> getAll(
         @RequestParam(required = false, defaultValue = "0") Integer page,
@@ -32,13 +26,7 @@ public interface ITransactionController {
         @RequestParam(required = false) String toDate
     );
 
-    @Operation(
-        summary = "Download giao dịch",
-        description = "- Download giao dịch",
-        responses = {
-            @ApiResponse(responseCode = "200", description = "Success"),
-            @ApiResponse(responseCode = "500", description = "Internal Server Error")
-        })
+    @Operation(summary = "Download giao dịch")
     @RequestMapping(value = "/v1/download", method = RequestMethod.GET)
     ResponseEntity<?> download(
         @RequestParam(required = false, defaultValue = "0") Integer page,

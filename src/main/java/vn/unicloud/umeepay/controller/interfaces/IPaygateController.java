@@ -44,9 +44,6 @@ public interface IPaygateController {
     @GetMapping("/v1/depositChecking")
     ResponseEntity<ResponseBase<DepositCheckingResponse>> depositCheckingSimple(@RequestParam String virtualAccount, @RequestParam Long amount);
 
-
-
-
     @Operation(
         summary = "Cập nhật trạng thái giao dịch",
         description = "- Cập nhật trạng thái giao dịch"
@@ -96,7 +93,6 @@ public interface IPaygateController {
         @RequestHeader("x-api-time") Long timestamp,
         @Valid @RequestBody EncryptedBodyRequest request);
 
-
     /**
      *
      * @param clientId
@@ -132,7 +128,5 @@ public interface IPaygateController {
     ResponseEntity<ResponseBase<NotifyTransactionClientResponse>> notifyTransactionClient(
         @RequestHeader("x-api-client") String clientId,
         @Valid @RequestBody NotifyTransactionClientRequest request);
-
-
 
 }

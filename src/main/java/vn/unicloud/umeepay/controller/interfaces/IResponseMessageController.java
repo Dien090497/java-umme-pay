@@ -20,64 +20,28 @@ import javax.validation.Valid;
 @SecurityRequirement(name = OpenApiConfig.BEARER_SCHEME)
 public interface IResponseMessageController {
 
-    @Operation(
-            summary = "Xem tất cả response message ",
-            description = "- Xem tất cả response message",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "Success"),
-                    @ApiResponse(responseCode = "500", description = "Internal Server Error")
-            })
+    @Operation(summary = "Xem tất cả response message ")
     @GetMapping("/v1/getAll")
     ResponseEntity<ResponseBase<ListResponseMessageResponse>> getAllResponseMessages();
 
-    @Operation(
-            summary = "Tạo mới response message ",
-            description = "- Tạo mới response message",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "Success"),
-                    @ApiResponse(responseCode = "500", description = "Internal Server Error")
-            })
-    @PostMapping("/v1/create")
+    @Operation(summary = "Tạo mới response message ")
+    @PostMapping("/cms/v1/create")
     ResponseEntity<ResponseBase<ResponseMessageResponse>> createResponseMessage(@RequestBody @Valid CreateResponseMessageRequest request);
 
-    @Operation(
-            summary = "Xem thông tin response message với ID ",
-            description = "- Xem thông tin response message với ID",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "Success"),
-                    @ApiResponse(responseCode = "500", description = "Internal Server Error")
-            })
-    @GetMapping("/v1/getDetail/{id}")
+    @Operation(summary = "Xem thông tin response message với ID ")
+    @GetMapping("/cms/v1/getDetail/{id}")
     ResponseEntity<ResponseBase<ResponseMessageResponse>> getDetailResponseMessage(@PathVariable Long id);
 
-    @Operation(
-            summary = "Xem thông tin response message với response code ",
-            description = "- Xem thông tin response message với response code",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "Success"),
-                    @ApiResponse(responseCode = "500", description = "Internal Server Error")
-            })
-    @GetMapping("/v1/getByCode/{code}")
+    @Operation(summary = "Xem thông tin response message với response code")
+    @GetMapping("/cms/v1/getByCode/{code}")
     ResponseEntity<ResponseBase<ResponseMessageResponse>> getDetailResponseMessage(@PathVariable Integer code);
 
-    @Operation(
-            summary = "Xóa response message ",
-            description = "- Xóa response message",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "Success"),
-                    @ApiResponse(responseCode = "500", description = "Internal Server Error")
-            })
-    @DeleteMapping("/v1/delete/{id}")
+    @Operation(summary = "Xóa response message")
+    @DeleteMapping("/cms/v1/delete/{id}")
     ResponseEntity<ResponseBase<ResponseMessageResponse>> deleteResponseMessage(@PathVariable Long id);
 
-    @Operation(
-            summary = "Chỉnh sửa response message ",
-            description = "- Chỉnh sửa response message",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "Success"),
-                    @ApiResponse(responseCode = "500", description = "Internal Server Error")
-            })
-    @PutMapping("/v1/update/{id}")
+    @Operation(summary = "Chỉnh sửa response message")
+    @PutMapping("/cms/v1/update/{id}")
     ResponseEntity<ResponseBase<ResponseMessageResponse>> updateResponseMessage(@PathVariable Long id, @RequestBody @Valid UpdateResponseMessageRequest request);
 
 }
