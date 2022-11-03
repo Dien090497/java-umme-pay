@@ -14,7 +14,7 @@ variables:
 
 workflow:
   rules:
-    - if: $CI_COMMIT_REF_NAME == "develop"
+    - if: $CI_COMMIT_REF_NAME == "umee-dev"
       variables:
         ENV_DEPLOY: $ENV_DEV
     - if: $CI_COMMIT_REF_NAME == "umee-uat"
@@ -42,8 +42,7 @@ sonarqube-check:
   allow_failure: true
   only:
     refs:
-      - CICD
-      - develop
+      - umee-dev
       - umee-uat
       - umee-prod
       - merge_requests
@@ -85,61 +84,63 @@ build-image:
     - cd ${CI_PROJECT_DIR}
     - rm -rf build/libs $(find .gradle -name "*.zip")
   only:
-    - CICD
-    - develop
+    - umee-dev
     - umee-uat
     - umee-prod
   tags:
     - umee-pay-docker
 
-# deploy-umee-app-dev:
-#   stage: deploy
-#   image:
-#     name: public.ecr.aws/i8h0s4d4/auto-eks:latest
-#     entrypoint: [""]
-#   before_script:
-#     - export $(xargs < $ENV_UAT)
-#   script:
-#     - echo -e "$GIT_SSH_KEY"|base64 --decode  > ~/.ssh/id_rsa
-#     - chmod 600 ~/.ssh/id_rsa
-#     - echo -e "[default]\naws_access_key_id = $AWS_ACCESS_KEY_ID \naws_secret_access_key = $AWS_SECRET_ACCESS_KEY\n" > ~/.aws/credentials
-#     - aws eks --region $AWS_DEFAULT_REGION --profile default update-kubeconfig --name $AWS_EKS_NAME
-
-#     - git clone $CHART_GIT_SSH_URL /workspace
-#     - cd /workspace
-#     - git checkout $CHART_BRANCH
-
-#     - chmod +x scripts/umee-app-uat-ci.sh && ./scripts/umee-app-uat-ci.sh
-#     - kubectl apply -f kubernetes-uat/$SERVICE_NAME-app-config.yaml -n $NAME_SPACE
-
-#     - helm upgrade --install --recreate-pods $SERVICE_NAME $CHART_DIR -n $NAME_SPACE -f $CHART_DIR/values-app-uat.yaml
-#   only:
-#     - umee-uat
-#   tags:
-#     - shared-docker-runner-2
-
-deploy-umee-app-uat:
+deploy-umee-app-dev:
   stage: deploy
   image:
     name: public.ecr.aws/i8h0s4d4/auto-eks:latest
     entrypoint: [""]
   before_script:
-    - export $(xargs < $ENV_UAT)
+    - export $(xargs < $ENV_DEV)
   script:
     - echo -e "$GIT_SSH_KEY"|base64 --decode  > ~/.ssh/id_rsa
     - chmod 600 ~/.ssh/id_rsa
     - echo -e "[default]\naws_access_key_id = $AWS_ACCESS_KEY_ID \naws_secret_access_key = $AWS_SECRET_ACCESS_KEY\n" > ~/.aws/credentials
-    - aws eks --region $AWS_DEFAULT_REGION --profile default update-kubeconfig --name $AWS_EKS_NAME
+
+    - mkdir ~/.kube
+    - echo $KUBE_CONFIG |base64 --decode > ~/.kube/config
 
     - git clone $CHART_GIT_SSH_URL /workspace
     - cd /workspace
     - git checkout $CHART_BRANCH
 
-    - chmod +x scripts/umee-app-uat-ci.sh && ./scripts/umee-app-uat-ci.sh
-    - kubectl apply -f kubernetes-uat/$SERVICE_NAME-app-config.yaml -n $NAME_SPACE
+    - chmod +x scripts/umee-app-dev-ci.sh && ./scripts/umee-app-dev-ci.sh
+    - kubectl apply -f kubernetes-dev/$SERVICE_NAME-app-config.yaml -n $NAME_SPACE
 
-    - helm upgrade --install --recreate-pods $SERVICE_NAME $CHART_DIR -n $NAME_SPACE -f $CHART_DIR/values-app-uat.yaml --set image.pullPolicy=Always
+    - helm upgrade --install --recreate-pods $SERVICE_NAME $CHART_DIR -n $NAME_SPACE -f $CHART_DIR/values-app-dev.yaml
   only:
-    - umee-uat
+    - umee-dev
   tags:
     - shared-docker-runner-2
+
+#
+#deploy-umee-app-uat:
+#  stage: deploy
+#  image:
+#    name: public.ecr.aws/i8h0s4d4/auto-eks:latest
+#    entrypoint: [ "" ]
+#  before_script:
+#    - export $ENV_DEV
+#  script:
+#    - echo -e "$GIT_SSH_KEY"|base64 --decode  > ~/.ssh/id_rsa
+#    - chmod 600 ~/.ssh/id_rsa
+#    - echo -e "[default]\naws_access_key_id = $AWS_ACCESS_KEY_ID \naws_secret_access_key = $AWS_SECRET_ACCESS_KEY\n" > ~/.aws/credentials
+#    - aws eks --region $AWS_DEFAULT_REGION --profile default update-kubeconfig --name $AWS_EKS_NAME
+#
+#    - git clone $CHART_GIT_SSH_URL /workspace
+#    - cd /workspace
+#    - git checkout $CHART_BRANCH
+#
+#    - chmod +x scripts/umee-app-uat-ci.sh && ./scripts/umee-app-uat-ci.sh
+#    - kubectl apply -f kubernetes-uat/$SERVICE_NAME-app-config.yaml -n $NAME_SPACE
+#
+#    - helm upgrade --install --recreate-pods $SERVICE_NAME $CHART_DIR -n $NAME_SPACE -f $CHART_DIR/values-app-uat.yaml --set image.pullPolicy=Always
+#  only:
+#    - umee-uat
+#  tags:
+#    - shared-docker-runner-2
