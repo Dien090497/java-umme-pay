@@ -18,13 +18,7 @@ import vn.unicloud.umeepay.enums.SystemModule;
 @SecurityRequirement(name = OpenApiConfig.BEARER_SCHEME)
 public interface IAuditController {
 
-    @Operation(
-            summary = "Lấy version của 1 module",
-            description = "- Lấy version của 1 module",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "Success"),
-                    @ApiResponse(responseCode = "500", description = "Internal Server Error")
-            })
+    @Operation(summary = "Lấy version của 1 module")
     @GetMapping("/v1/currentVersion")
     ResponseEntity<ResponseBase<StatusResponse>> getCurrentVersion(@RequestParam SystemModule module);
 
