@@ -1,7 +1,9 @@
 package vn.unicloud.umeepay.enums;
 
 public enum SystemModule {
-    TRANSACTION,
-    MERCHANT,
-    USER
+
+    RESPONSE_MESSAGE,
+
+    SYSTEM_PARAMETER,
+
 }

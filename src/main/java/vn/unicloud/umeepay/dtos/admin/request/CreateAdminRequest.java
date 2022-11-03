@@ -34,12 +34,10 @@ public class CreateAdminRequest extends BaseRequestData {
     @Size(max = 100)
     private String fullName;
 
-    @NotBlank
     @JsonDeserialize(using = TrimString.class)
     @Pattern(regexp = "^0\\d{9}$", message = "Invalid phone number")
     private String phone;
 
-    @NotBlank
     @JsonDeserialize(using = TrimString.class)
     @Size(max = 15)
     private String staffId;
@@ -51,7 +49,6 @@ public class CreateAdminRequest extends BaseRequestData {
     @Size(max = 250)
     private String description;
 
-    @NotNull
-    private Long roleId;
+    private Long roleGroupId;
 
 }

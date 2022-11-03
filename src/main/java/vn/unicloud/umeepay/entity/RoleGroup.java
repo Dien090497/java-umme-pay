@@ -1,14 +1,17 @@
 package vn.unicloud.umeepay.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import org.hibernate.envers.Audited;
 import vn.unicloud.umeepay.enums.RoleStatus;
 import vn.unicloud.umeepay.enums.RoleType;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -17,19 +20,18 @@ import java.util.List;
 @Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = Role.COLLECTION_NAME)
-public class Role extends Auditable<String> {
+@Table(name = RoleGroup.COLLECTION_NAME)
+public class RoleGroup extends Auditable<String> {
 
-    public static final String COLLECTION_NAME = "role";
+    public static final String COLLECTION_NAME = "role_group";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     private String name;
 
-    @Column(unique = true, nullable = false)
     private String code;
 
     private String description;
@@ -39,18 +41,32 @@ public class Role extends Auditable<String> {
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-            name = "role_permissions",
-            joinColumns = @JoinColumn(name = "role_id"),
-            inverseJoinColumns = @JoinColumn(name = "permission_id")
+            name = "role_group_actions",
+            joinColumns = @JoinColumn(name = "role_group_id"),
+            inverseJoinColumns = @JoinColumn(name = "action_id")
     )
-    private List<Permission> permissions;
+    private List<Action> actions;
 
     @Enumerated(EnumType.STRING)
     private RoleType scope;
 
+    @OneToMany(
+            fetch = FetchType.LAZY,
+            mappedBy = "roleGroup"
+    )
+    @JsonIgnore
+    private List<User> users = new ArrayList<>();
+
+    @OneToMany(
+            fetch = FetchType.LAZY,
+            mappedBy = "roleGroup"
+    )
+    @JsonIgnore
+    private List<Administrator> admins = new ArrayList<>();
+
     @Override
     public String toString() {
-        return "AdminRole{" +
+        return "RoleGroup{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", code='" + code + '\'' +

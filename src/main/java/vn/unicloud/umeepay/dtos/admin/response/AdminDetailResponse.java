@@ -2,6 +2,7 @@ package vn.unicloud.umeepay.dtos.admin.response;
 
 import lombok.*;
 import lombok.experimental.Accessors;
+import vn.unicloud.umeepay.dtos.role.response.RoleGroupDetailResponse;
 import vn.unicloud.umeepay.entity.Administrator;
 
 import java.time.LocalDateTime;
@@ -20,6 +21,8 @@ public class AdminDetailResponse extends AdminResponse {
     private LocalDateTime blockedAt;
     private String blockedBy;
 
+    private RoleGroupDetailResponse role;
+
     public AdminDetailResponse(Administrator admin) {
         super(admin);
 
@@ -32,5 +35,9 @@ public class AdminDetailResponse extends AdminResponse {
         this.modifiedBy = admin.getModifiedBy();
         this.blockedAt = admin.getBlockedAt();
         this.blockedBy = admin.getBlockedBy();
+
+        if (admin.getRoleGroup() != null) {
+            this.role = new RoleGroupDetailResponse(admin.getRoleGroup());
+        }
     }
 }

@@ -9,6 +9,7 @@ public enum ResponseCode {
     INVALID_SESSION(4, "Invalid session"),
     UNHANDLE_REQUEST(5, "Unhandle request"),
     INVALID_REFRESH_TOKEN(6, "Invalid refresh token"),
+    ACCESS_DENIED(7, "Access denied"),
 
     // User
     EXISTED_EMAIL(100, "Existed email"),
@@ -80,7 +81,27 @@ public enum ResponseCode {
     // Test API
     HTTP_STATUS_FAILED(701, "Http Status failed"),
 
-    RESPONSE_BODY_NULL(702, "Response body null");
+    RESPONSE_BODY_NULL(702, "Response body null"),
+
+
+    // Role
+    ROLE_ERROR_EXISTED_CODE(801, "Role with request code existed"),
+
+    ROLE_ERROR_ACTION_NOT_FOUND(802, "Role action not found"),
+
+    ROLE_ERROR_NOT_FOUND(803, "Role not found"),
+
+    ROLE_ERROR_NOT_EMPTY(804, "There is/are user(s) in this role"),
+
+    // Auth
+    AUTH_ERROR_INCORRECT_PASSWORD(901, "Incorrect password"),
+
+
+    // Response message
+    RESPONSE_MESSAGE_ERROR_EXISTED_CODE(1001, "Existed response code"),
+
+    RESPONSE_MESSAGE_ERROR_NOT_FOUND(1002, "Response message not found");
+
 
     private final int code;
     private final String message;

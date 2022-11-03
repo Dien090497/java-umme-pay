@@ -1,21 +1,21 @@
 package vn.unicloud.umeepay.entity;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.Accessors;
-import vn.unicloud.umeepay.enums.RoleType;
-import vn.unicloud.umeepay.enums.SystemModule;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = Permission.COLLECTION_NAME)
 @Getter
 @Setter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 @Accessors(chain = true)
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = Permission.COLLECTION_NAME)
 public class Permission {
 
     public static final String COLLECTION_NAME = "permission";
@@ -24,13 +24,7 @@ public class Permission {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)
     private String name;
-
-    private String description;
-
-    @Enumerated(EnumType.STRING)
-    private RoleType scope;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(
@@ -40,13 +34,14 @@ public class Permission {
     )
     private List<Action> actions;
 
+    private String description;
+
     @Override
     public String toString() {
         return "Permission{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", scope=" + scope +
                 '}';
     }
 }

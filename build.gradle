@@ -115,6 +115,12 @@ dependencies {
      */
     compileOnly 'org.hibernate:hibernate-jpamodelgen'
     annotationProcessor('org.hibernate:hibernate-jpamodelgen')
+
+
+    /**
+     *  Hibernate envers
+     */
+    implementation 'org.hibernate:hibernate-envers'
 }
 
 tasks.named('test') {
