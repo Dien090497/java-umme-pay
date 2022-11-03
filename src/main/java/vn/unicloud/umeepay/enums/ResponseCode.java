@@ -95,6 +95,7 @@ public enum ResponseCode {
 
     // Auth
     AUTH_ERROR_INCORRECT_PASSWORD(901, "Incorrect password"),
+    REFRESH_TOKEN_INVALID(902, "Refresh token failed"),
 
 
     // Response message

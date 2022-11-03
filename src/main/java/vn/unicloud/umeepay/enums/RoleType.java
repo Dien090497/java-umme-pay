@@ -2,6 +2,6 @@ package vn.unicloud.umeepay.enums;
 
 public enum RoleType {
 
-    ADMIN, MERCHANT
+    ADMIN, MERCHANT, ROOT_ADMIN
 
 }
