@@ -3,6 +3,7 @@ package vn.unicloud.umeepay.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.Accessors;
+import org.hibernate.annotations.GenericGenerator;
 import vn.unicloud.umeepay.enums.UserStatus;
 
 import javax.persistence.*;
@@ -20,7 +21,11 @@ public class User extends Auditable<String> {
     public static final String COLLECTION_NAME = "user";
 
     @Id
-    @Column(unique = true, nullable = false)
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+        name = "UUID",
+        strategy = "org.hibernate.id.UUIDGenerator"
+    )
     private String id;
 
     @Enumerated(EnumType.STRING)
