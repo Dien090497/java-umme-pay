@@ -28,6 +28,7 @@ public class CmsAuthorization implements IAuthorization {
 
     private final RoleService roleService;
 
+    private final String FULL_PERMISSION_ROLE_GROUP_CODE = "CMS_FULL_PERMISSIONS";
     private final ContextService contextService;
 
     /**
@@ -65,6 +66,10 @@ public class CmsAuthorization implements IAuthorization {
             if (roleGr != null) {
                 redisService.setValue(RedisKeyUtils.getRoleKey(roleId), roleGr);
             }
+        }
+
+        if (FULL_PERMISSION_ROLE_GROUP_CODE.equals(roleGr.getCode())) {
+            return true;
         }
 
         return roleGr != null &&
