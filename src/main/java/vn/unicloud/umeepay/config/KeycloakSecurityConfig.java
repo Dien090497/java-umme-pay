@@ -45,6 +45,8 @@ public class KeycloakSecurityConfig extends KeycloakWebSecurityConfigurerAdapter
                 "/v3/api-docs/**",
                 "/swagger-resources/**",
                 "/api/auth/**",
+                "/api/audit/v1/currentVersion/**",
+                "/api/message/v1/getAll/**",
                 "/api/payment/**",
                 "/api/paygate/callback/**",
                 "/api/user/portal/v1/register/**",
