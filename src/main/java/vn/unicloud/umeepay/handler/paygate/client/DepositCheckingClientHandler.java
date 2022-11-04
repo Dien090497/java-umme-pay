@@ -1,6 +1,6 @@
 package vn.unicloud.umeepay.handler.paygate.client;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import vn.unicloud.umeepay.client.testapi.TestApiTransaction;
 import vn.unicloud.umeepay.client.testapi.paygate.request.DepositCheckingClientRequest;
@@ -9,10 +9,10 @@ import vn.unicloud.umeepay.core.RequestHandler;
 import vn.unicloud.umeepay.dtos.paygate.request.DepositCheckingRequest;
 
 @Component
+@RequiredArgsConstructor
 public class DepositCheckingClientHandler extends RequestHandler<DepositCheckingClientRequest, DepositCheckingClientResponse> {
 
-    @Autowired
-    private TestApiTransaction testApiTransaction;
+    private final TestApiTransaction testApiTransaction;
 
     @Override
     public DepositCheckingClientResponse handle(DepositCheckingClientRequest request) {

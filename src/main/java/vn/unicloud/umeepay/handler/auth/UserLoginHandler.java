@@ -4,12 +4,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
 import vn.unicloud.umeepay.core.RequestHandler;
-import vn.unicloud.umeepay.dtos.request.ClientLoginRequest;
 import vn.unicloud.umeepay.dtos.request.LoginRequest;
 import vn.unicloud.umeepay.dtos.response.AccessTokenResponseCustom;
 import vn.unicloud.umeepay.enums.ResponseCode;
 import vn.unicloud.umeepay.exception.InternalException;
-import vn.unicloud.umeepay.service.AuthService;
 import vn.unicloud.umeepay.service.KeycloakService;
 
 @Component

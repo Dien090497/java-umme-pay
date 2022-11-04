@@ -1,13 +1,81 @@
 package vn.unicloud.umeepay;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
+import vn.unicloud.umeepay.entity.PermissionGroup;
+import vn.unicloud.umeepay.entity.RoleGroup;
+import vn.unicloud.umeepay.enums.RoleStatus;
+import vn.unicloud.umeepay.enums.RoleType;
+import vn.unicloud.umeepay.service.RoleService;
+
+import java.io.InputStream;
+import java.util.List;
 
 @SpringBootApplication
-public class VietQRServiceApplication {
+@RequiredArgsConstructor
+@Slf4j
+public class VietQRServiceApplication implements CommandLineRunner {
+
+    private final RoleService roleService;
 
     public static void main(String[] args) {
         SpringApplication.run(VietQRServiceApplication.class, args);
     }
 
+    @Override
+    public void run(String... args) throws Exception {
+        importPermissionGroup();
+        createFullPermissionRoleGroup();
+    }
+
+    @Transactional
+    void importPermissionGroup() {
+        ObjectMapper mapper = new ObjectMapper();
+        log.info(" ===> Start import permission groups");
+        try {
+            mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+
+            TypeReference<List<PermissionGroup>> typeReference = new TypeReference<List<PermissionGroup>>() {
+            };
+            InputStream inputStream = TypeReference.class.getResourceAsStream("/permissions.json");
+            List<PermissionGroup> permissionGroups = mapper.readValue(inputStream, typeReference);
+
+            for (PermissionGroup permissionGroup : permissionGroups) {
+                if (roleService.getPermissionGroupByName(permissionGroup.getName(), permissionGroup.getScope()) == null) {
+                    roleService.savePermission(permissionGroup);
+                    log.info("Imported permission group {}", permissionGroup.getName());
+                }
+            }
+
+        } catch (Exception ex) {
+            log.error("Import permission group failed, {}", ex.getMessage());
+        }
+
+        log.info(" =====> Stop import permission groups");
+    }
+
+    @Transactional
+    void createFullPermissionRoleGroup() {
+        log.info(" ===> Start import full permissions role group");
+        if (roleService.getRoleByCode("CMS_FULL_PERMISSIONS", RoleType.ADMIN) == null) {
+            RoleGroup roleGroup = new RoleGroup()
+                    .setName("CMS_FULL_PERMISSIONS")
+                    .setCode("CMS_FULL_PERMISSIONS")
+                    .setScope(RoleType.ADMIN)
+                    .setDescription("Full permission role group")
+                    .setStatus(RoleStatus.ACTIVE);
+
+            RoleGroup group = roleService.saveRole(roleGroup);
+            Assert.notNull(group);
+        }
+        log.info(" ===> Stop import full permissions role group");
+    }
 }

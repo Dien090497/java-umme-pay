@@ -34,7 +34,7 @@ spring:
   redis:
     host: ${REDIS_HOST:localhost}
     port: ${REDIS_PORT:6379}
-#    password: ${REDIS_PASSWORD:123}
+    password: ${REDIS_PASSWORD:}
 
 umeepay:
   max-timestamp-diff-ms: ${MAX_TIMESTAMP_DIFF_MS:180000}
@@ -44,6 +44,9 @@ umeepay:
   timeout: ${VIETQR_TIMEOUT:120}
   bin: ${VIETQR_BIN:970452}
   actualAccount: ${VIETQR_ACTUAL_ACCOUNT:35474013}
+  hardcode-otp: true
+  otp-expire-s: 60
+  change-password-timeout: 900
   paygate:
     access: ${PAYGATE_BASIC_AUTHEN_RAW:unicloud:unicloud}
     client-id: ${PAYGATE_CLIENT_ID:c95e68e4-4f7c-464b-9a6c-aa6a4a320149}

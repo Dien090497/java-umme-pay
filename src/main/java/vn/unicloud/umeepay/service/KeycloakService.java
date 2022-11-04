@@ -3,6 +3,7 @@ package vn.unicloud.umeepay.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
+import org.apache.commons.lang3.StringUtils;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.keycloak.admin.client.CreatedResponseUtil;
 import org.keycloak.admin.client.Keycloak;
@@ -11,10 +12,10 @@ import org.keycloak.admin.client.resource.ClientsResource;
 import org.keycloak.admin.client.resource.RealmResource;
 import org.keycloak.admin.client.resource.UserResource;
 import org.keycloak.admin.client.resource.UsersResource;
-import org.keycloak.common.VerificationException;
 import org.keycloak.representations.AccessTokenResponse;
 import org.keycloak.representations.idm.ClientRepresentation;
 import org.keycloak.representations.idm.CredentialRepresentation;
+import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -23,12 +24,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+import vn.unicloud.umeepay.dtos.auth.request.LogoutRequest;
+import vn.unicloud.umeepay.dtos.auth.response.LogoutResponse;
 import vn.unicloud.umeepay.dtos.response.AccessTokenResponseCustom;
+import vn.unicloud.umeepay.enums.ResponseCode;
+import vn.unicloud.umeepay.exception.InternalException;
 import vn.unicloud.umeepay.utils.CommonUtils;
 
 import javax.ws.rs.core.Response;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Log4j2
@@ -57,28 +63,28 @@ public class KeycloakService {
     @Bean
     private void initKeycloakService() {
         keycloakAdmin = KeycloakBuilder.builder()
-            .serverUrl(authUrl)
-            .realm("master")
-            .clientId("admin-cli")
-            .username(username)
-            .password(password)
-            .resteasyClient(
-                new ResteasyClientBuilder()
-                    .connectionPoolSize(10).build()
-            )
-            .build();
+                .serverUrl(authUrl)
+                .realm("master")
+                .clientId("admin-cli")
+                .username(username)
+                .password(password)
+                .resteasyClient(
+                        new ResteasyClientBuilder()
+                                .connectionPoolSize(10).build()
+                )
+                .build();
     }
 
-    public AccessTokenResponseCustom getUserJWT(String username, String password) throws VerificationException {
+    public AccessTokenResponseCustom getUserJWT(String username, String password) {
         Keycloak keycloakUser = KeycloakBuilder.builder()
-            .serverUrl(authUrl)
-            .realm(realm)
-            .username(username)
-            .password(password)
-            .grantType("password")
-            .clientId(clientId)
-            .clientSecret(secretKey)
-            .build();
+                .serverUrl(authUrl)
+                .realm(realm)
+                .username(username)
+                .password(password)
+                .grantType("password")
+                .clientId(clientId)
+                .clientSecret(secretKey)
+                .build();
 
         AccessTokenResponse accessTokenResponse = keycloakUser.tokenManager().getAccessToken();
 
@@ -106,7 +112,7 @@ public class KeycloakService {
             ResponseEntity<String> keycloakResponse = restTemplate.postForEntity(url, request, String.class);
             return new ObjectMapper().readValue(keycloakResponse.getBody(), AccessTokenResponseCustom.class);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Keycloak error: {}", e.getMessage());
         }
 
         return null;
@@ -131,7 +137,7 @@ public class KeycloakService {
             ResponseEntity<String> keycloakResponse = restTemplate.postForEntity(url, request, String.class);
             return new ObjectMapper().readValue(keycloakResponse.getBody(), AccessTokenResponseCustom.class);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Keycloak error: {}", e.getMessage());
         }
 
         return null;
@@ -155,7 +161,7 @@ public class KeycloakService {
         try {
             log.info("logout response {}", restTemplate.postForEntity(url, request, Object.class));
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error("Keycloak error: {}", e.getMessage());
             return false;
         }
         return true;
@@ -192,11 +198,100 @@ public class KeycloakService {
 
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            log.error("Keycloak error: {}", ex.getMessage());
             log.error(ex.getLocalizedMessage());
         }
 
         return null;
+    }
+
+
+    /**
+     * Create Keycloak user with roles
+     *
+     * @param phone
+     * @param password
+     * @param email
+     * @param name
+     * @param roles
+     * @return keycloak userID
+     */
+    public String createUser(String phone, String password, String email, String name, List<String> roles) {
+        List<RoleRepresentation> roleRepresentations =
+                roles.stream()
+                        .map(this::getUserRoleRepresentation)
+                        .collect(Collectors.toList());
+
+        for (RoleRepresentation r : roleRepresentations) {
+            if (r == null) {
+                log.error("Create keycloak user failed because of invalid role name");
+                return null;
+            }
+        }
+
+        UserRepresentation user = new UserRepresentation();
+        if (name != null) {
+            user.setFirstName(name);
+        }
+        user.setEnabled(true);
+        user.setEmailVerified(false);
+        user.setUsername(phone);
+        if (email != null) {
+            user.setEmail(email);
+        }
+
+        RealmResource realmResource = keycloakAdmin.realm(realm);
+        UsersResource usersResource = realmResource.users();
+
+        try (Response response = usersResource.create(user)) {
+            log.info("Create keycloak user response: {}", response.getStatus());
+            if (response.getStatus() == 201 || response.getStatus() == 200) {
+
+                String userId = CreatedResponseUtil.getCreatedId(response);
+
+                CredentialRepresentation credentialRepresentation = new CredentialRepresentation();
+                credentialRepresentation.setTemporary(false);
+                credentialRepresentation.setType(CredentialRepresentation.PASSWORD);
+                credentialRepresentation.setValue(password);
+
+                UserResource userResource = usersResource.get(userId);
+                userResource.resetPassword(credentialRepresentation);
+
+                userResource.roles().clientLevel(keycloakAdmin
+                        .realm(realm)
+                        .clients()
+                        .findByClientId(clientId)
+                        .get(0)
+                        .getId()
+                ).add(roleRepresentations);
+
+                return userId;
+            }
+        } catch (Exception ex) {
+            log.error("Keycloak error: {}", ex.getMessage());
+        }
+
+        return null;
+    }
+
+    public RoleRepresentation getUserRoleRepresentation(String roleName) {
+        ClientRepresentation clientRep = keycloakAdmin
+                .realm(realm)
+                .clients()
+                .findByClientId(clientId)
+                .get(0);
+        try {
+            return keycloakAdmin
+                    .realm(realm)
+                    .clients()
+                    .get(clientRep.getId())
+                    .roles()
+                    .get(roleName)
+                    .toRepresentation();
+        } catch (Exception ex) {
+            log.error("Keycloak error: {}", ex.getMessage());
+            return null;
+        }
     }
 
     public String createClient(String clientId) {
@@ -219,8 +314,7 @@ public class KeycloakService {
                 return secret;
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
-            log.error(ex.getLocalizedMessage());
+            log.error("Keycloak error: {}", ex.getMessage());
         }
 
         return null;
@@ -253,7 +347,6 @@ public class KeycloakService {
 
         ResponseEntity<String> keycloakResponse = restTemplate.postForEntity(url, request, String.class);
         if (keycloakResponse.getStatusCode() == HttpStatus.OK) {
-            // JSONObject response = new JSONObject(keycloakResponse.getBody());
             return new ObjectMapper().readValue(keycloakResponse.getBody(), AccessTokenResponseCustom.class);
         }
         return null;
@@ -266,7 +359,7 @@ public class KeycloakService {
             UserRepresentation userId = users.stream().filter(user -> user.getEmail().equals(email)).findFirst().orElse(null);
             return userId != null ? userId.getId() : null;
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getLocalizedMessage());
         }
         return null;
     }
@@ -296,5 +389,28 @@ public class KeycloakService {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public String updateUser(String userId, String email, String name) {
+        try {
+            UsersResource userResource = keycloakAdmin.realm(realm).users();
+            UserRepresentation user = new UserRepresentation();
+            user.setFirstName(name);
+            if (StringUtils.isNotEmpty(email)) {
+                user.setEmail(email);
+            }
+            userResource.get(userId).update(user);
+            return userId;
+        } catch (Exception ex) {
+            log.error("Keycloak error: {}", ex.getMessage());
+            return null;
+        }
+    }
+
+    public LogoutResponse logout(LogoutRequest request) {
+        if (this.invalidateToken(request.getRefreshToken())) {
+            return new LogoutResponse();
+        }
+        throw new InternalException(ResponseCode.REFRESH_TOKEN_INVALID);
     }
 }

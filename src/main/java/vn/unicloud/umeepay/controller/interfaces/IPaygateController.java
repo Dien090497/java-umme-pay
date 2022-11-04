@@ -16,7 +16,6 @@ import vn.unicloud.umeepay.dtos.paygate.response.DepositCheckingResponse;
 import vn.unicloud.umeepay.dtos.paygate.response.InquiryCheckingResponse;
 import vn.unicloud.umeepay.dtos.paygate.response.NotifyTransactionResponse;
 import vn.unicloud.umeepay.dtos.request.EncryptedBodyRequest;
-import vn.unicloud.umeepay.dtos.response.EncryptBodyResponse;
 
 import javax.validation.Valid;
 
@@ -44,9 +43,6 @@ public interface IPaygateController {
     )
     @GetMapping("/v1/depositChecking")
     ResponseEntity<ResponseBase<DepositCheckingResponse>> depositCheckingSimple(@RequestParam String virtualAccount, @RequestParam Long amount);
-
-
-
 
     @Operation(
         summary = "Cập nhật trạng thái giao dịch",
@@ -97,7 +93,6 @@ public interface IPaygateController {
         @RequestHeader("x-api-time") Long timestamp,
         @Valid @RequestBody EncryptedBodyRequest request);
 
-
     /**
      *
      * @param clientId
@@ -133,7 +128,5 @@ public interface IPaygateController {
     ResponseEntity<ResponseBase<NotifyTransactionClientResponse>> notifyTransactionClient(
         @RequestHeader("x-api-client") String clientId,
         @Valid @RequestBody NotifyTransactionClientRequest request);
-
-
 
 }

@@ -1,7 +1,6 @@
 package vn.unicloud.umeepay.config;
 
 import lombok.extern.log4j.Log4j2;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,16 +15,16 @@ public class RedisConfig {
     private String host;
     @Value("${spring.redis.port}")
     private int port;
-//    @Value("${spring.redis.password}")
-//    private String password;
+    @Value("${spring.redis.password}")
+    private String password;
 
     @Bean
     JedisConnectionFactory jedisConnectionFactory() {
         JedisConnectionFactory jedisConFactory
-            = new JedisConnectionFactory();
+                = new JedisConnectionFactory();
         jedisConFactory.setHostName(host);
         jedisConFactory.setPort(port);
-//        jedisConFactory.setPassword(password);
+        jedisConFactory.setPassword(password);
         jedisConFactory.setUsePool(true);
         return jedisConFactory;
     }

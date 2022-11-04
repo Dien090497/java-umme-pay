@@ -3,8 +3,8 @@ package vn.unicloud.umeepay.client.testapi;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import vn.unicloud.umeepay.client.RestClient;
@@ -16,21 +16,19 @@ import vn.unicloud.umeepay.dtos.response.EncryptBodyResponse;
 import vn.unicloud.umeepay.entity.Credential;
 import vn.unicloud.umeepay.enums.ResponseCode;
 import vn.unicloud.umeepay.exception.InternalException;
-import vn.unicloud.umeepay.repository.CredentialRepository;
 import vn.unicloud.umeepay.service.CredentialService;
 import vn.unicloud.umeepay.utils.CommonUtils;
 import vn.unicloud.umeepay.utils.ModelMapperUtils;
 
 @Component
 @Log4j2
+@RequiredArgsConstructor
 public class TestApiTransaction {
-    @Autowired
-    private RestClient restClient;
-    @Autowired
-    private CredentialService credentialService;
+    private final RestClient restClient;
+    private final CredentialService credentialService;
 
 
-    public <T extends BaseRequestData, U extends BaseRequestData, I extends BaseResponseData> I testTransactionClient(String url, T request, Class<U> uClass,Class<I> iClass) {
+    public <T extends BaseRequestData, U extends BaseRequestData, I extends BaseResponseData> I testTransactionClient(String url, T request, Class<U> uClass, Class<I> iClass) {
         // get secretkey
         Credential credential = credentialService.getCredentialCacheById(request.getClientId());
         if (credential == null) {
@@ -94,7 +92,7 @@ public class TestApiTransaction {
 
         // decrypt data
         Object o = response.getBody().getData();
-        EncryptBodyResponse encryptedDataResponse = ModelMapperUtils.mapper(o,EncryptBodyResponse.class);
+        EncryptBodyResponse encryptedDataResponse = ModelMapperUtils.mapper(o, EncryptBodyResponse.class);
 
         String encryptedData = encryptedDataResponse.getData();
 
