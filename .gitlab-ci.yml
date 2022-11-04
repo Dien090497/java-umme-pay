@@ -43,8 +43,8 @@ sonarqube-check:
   only:
     refs:
       - umee-dev
-      - umee-uat
-      - umee-prod
+#      - umee-uat
+#      - umee-prod
       - merge_requests
     changes:
       - src/**/*
@@ -118,29 +118,29 @@ deploy-umee-app-dev:
   tags:
     - shared-docker-runner-2
 
-#
-#deploy-umee-app-uat:
-#  stage: deploy
-#  image:
-#    name: public.ecr.aws/i8h0s4d4/auto-eks:latest
-#    entrypoint: [ "" ]
-#  before_script:
-#    - export $ENV_DEV
-#  script:
-#    - echo -e "$GIT_SSH_KEY"|base64 --decode  > ~/.ssh/id_rsa
-#    - chmod 600 ~/.ssh/id_rsa
-#    - echo -e "[default]\naws_access_key_id = $AWS_ACCESS_KEY_ID \naws_secret_access_key = $AWS_SECRET_ACCESS_KEY\n" > ~/.aws/credentials
-#    - aws eks --region $AWS_DEFAULT_REGION --profile default update-kubeconfig --name $AWS_EKS_NAME
-#
-#    - git clone $CHART_GIT_SSH_URL /workspace
-#    - cd /workspace
-#    - git checkout $CHART_BRANCH
-#
-#    - chmod +x scripts/umee-app-uat-ci.sh && ./scripts/umee-app-uat-ci.sh
-#    - kubectl apply -f kubernetes-uat/$SERVICE_NAME-app-config.yaml -n $NAME_SPACE
-#
-#    - helm upgrade --install --recreate-pods $SERVICE_NAME $CHART_DIR -n $NAME_SPACE -f $CHART_DIR/values-app-uat.yaml --set image.pullPolicy=Always
-#  only:
-#    - umee-uat
-#  tags:
-#    - shared-docker-runner-2
+
+deploy-umee-app-uat:
+  stage: deploy
+  image:
+    name: public.ecr.aws/i8h0s4d4/auto-eks:latest
+    entrypoint: [ "" ]
+  before_script:
+    - export $ENV_DEV
+  script:
+    - echo -e "$GIT_SSH_KEY"|base64 --decode  > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+    - echo -e "[default]\naws_access_key_id = $AWS_ACCESS_KEY_ID \naws_secret_access_key = $AWS_SECRET_ACCESS_KEY\n" > ~/.aws/credentials
+    - aws eks --region $AWS_DEFAULT_REGION --profile default update-kubeconfig --name $AWS_EKS_NAME
+
+    - git clone $CHART_GIT_SSH_URL /workspace
+    - cd /workspace
+    - git checkout $CHART_BRANCH
+
+    - chmod +x scripts/umee-app-uat-ci.sh && ./scripts/umee-app-uat-ci.sh
+    - kubectl apply -f kubernetes-uat/$SERVICE_NAME-app-config.yaml -n $NAME_SPACE
+
+    - helm upgrade --install --recreate-pods $SERVICE_NAME $CHART_DIR -n $NAME_SPACE -f $CHART_DIR/values-app-uat.yaml --set image.pullPolicy=Always
+  only:
+    - umee-uat
+  tags:
+    - shared-docker-runner-2
