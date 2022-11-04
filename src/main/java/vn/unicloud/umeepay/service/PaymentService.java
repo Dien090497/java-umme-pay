@@ -2,19 +2,16 @@ package vn.unicloud.umeepay.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-//import vn.unicloud.umeepay.dtos.vietqr.request.*;
-//import vn.unicloud.umeepay.dtos.vietqr.response.*;
 import vn.unicloud.umeepay.dtos.payment.request.CancelTransactionRequest;
 import vn.unicloud.umeepay.dtos.payment.request.CreateTransactionRequest;
 import vn.unicloud.umeepay.dtos.payment.request.QueryTransactionRequest;
 import vn.unicloud.umeepay.dtos.payment.response.CancelTransactionResponse;
 import vn.unicloud.umeepay.dtos.payment.response.CreateTransactionResponse;
 import vn.unicloud.umeepay.dtos.payment.response.QueryTransactionResponse;
-import vn.unicloud.umeepay.entity.Merchant;
 import vn.unicloud.umeepay.entity.Transaction;
+import vn.unicloud.umeepay.entity.Merchant;
 import vn.unicloud.umeepay.enums.ResponseCode;
 import vn.unicloud.umeepay.enums.TransactionStatus;
 import vn.unicloud.umeepay.exception.InternalException;
@@ -69,7 +66,7 @@ public class PaymentService {
             .virtualAccount(virtualAccount)
             .status(TransactionStatus.CREATED)
             .createDateTime(LocalDateTime.now())
-            .accountNo(merchant.getAccountNo())
+//            .accountNo(merchant.getAccountNo())
             .description(content)
             .merchant(merchant)
             .timestamp(Instant.now().getEpochSecond())

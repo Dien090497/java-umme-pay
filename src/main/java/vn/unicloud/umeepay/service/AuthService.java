@@ -2,7 +2,6 @@ package vn.unicloud.umeepay.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import vn.unicloud.umeepay.dtos.request.ClientLoginRequest;
 import vn.unicloud.umeepay.dtos.response.AccessTokenResponseCustom;

@@ -7,6 +7,7 @@ import org.keycloak.adapters.springsecurity.config.KeycloakWebSecurityConfigurer
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -18,13 +19,12 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.session.RegisterSessionAuthenticationStrategy;
 import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
 import org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter;
-
-import java.nio.charset.StandardCharsets;
-import java.util.Base64;
+import vn.unicloud.umeepay.enums.RoleType;
 
 @KeycloakConfiguration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(jsr250Enabled = true)
+@ComponentScan(basePackageClasses = {KeycloakSpringBootConfigResolver.class})
 public class KeycloakSecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
 
     @Value("${umeepay.paygate.access}")
@@ -45,9 +45,16 @@ public class KeycloakSecurityConfig extends KeycloakWebSecurityConfigurerAdapter
                 "/v3/api-docs/**",
                 "/swagger-resources/**",
                 "/api/auth/**",
+                "/api/audit/v1/currentVersion/**",
+                "/api/message/v1/getAll/**",
                 "/api/payment/**",
-                "/api/paygate/callback/**")
-            .permitAll()
+                "/api/paygate/callback/**",
+                "/api/user/portal/v1/register/**",
+                "/api/user/portal/v1/changePassword/**"
+            ).permitAll()
+            .antMatchers("/api/*/cms/**").hasRole(RoleType.ADMIN.toString())
+            .antMatchers("/api/*/portal/**").hasRole(RoleType.MERCHANT.toString())
+            .antMatchers("/api/*/root/**").hasRole(RoleType.ROOT_ADMIN.toString())
             .anyRequest().authenticated()
             .and()
 //            .addFilterBefore(new BasicTokenFilter("/api/paygate/callback", Base64.getEncoder().encodeToString(basicAuth.getBytes(StandardCharsets.UTF_8))), WebAsyncManagerIntegrationFilter.class)

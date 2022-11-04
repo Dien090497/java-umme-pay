@@ -1,12 +1,14 @@
 package vn.unicloud.umeepay.client.testapi.paygate.request;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import vn.unicloud.umeepay.core.BaseRequestData;
 
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
-@Data
+@Getter
+@Setter
 public class NotifyTransactionClientRequest extends BaseRequestData {
 
     @NotBlank
@@ -25,7 +27,7 @@ public class NotifyTransactionClientRequest extends BaseRequestData {
 
     private String statusCode;
 
-//    @NotBlank
+    //    @NotBlank
     private String txnNumber;
 
     private String transferDesc;

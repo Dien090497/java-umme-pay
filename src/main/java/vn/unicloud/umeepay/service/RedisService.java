@@ -1,26 +1,26 @@
 package vn.unicloud.umeepay.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.SneakyThrows;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.TimeUnit;
 
 @Service
 @Log4j2
+@RequiredArgsConstructor
 public class RedisService {
-    @Autowired
-    ObjectMapper objectMapper;
-    @Autowired
-    RedisTemplate<String, Object> redisTemplate;
 
-    @SneakyThrows
+    private final ObjectMapper objectMapper;
+
+    private final RedisTemplate<String, Object> redisTemplate;
+
     public void setValue(String key, Object value) {
-        String hashValue = objectMapper.writeValueAsString(value);
         try {
+            String hashValue = objectMapper.writeValueAsString(value);
             redisTemplate.opsForValue().set(key, hashValue);
         } catch (Exception e) {
             e.printStackTrace();
@@ -39,9 +39,28 @@ public class RedisService {
                 target = objectMapper.readValue(temp.toString(), classValue);
             }
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            log.error("Get value error: {}", e.getMessage());
         }
         return target;
+    }
+
+    public boolean setExpire(final String key, Object value, Long expireTime) {
+        boolean result = false;
+        try {
+            ValueOperations<String, Object> operations = redisTemplate.opsForValue();
+            operations.set(key, value);
+            redisTemplate.expire(key, expireTime, TimeUnit.SECONDS);
+            result = true;
+        } catch (Exception e) {
+            // log message
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+
+    public boolean exist(String key) {
+        return Boolean.TRUE.equals(redisTemplate.hasKey(key));
     }
 
     public void deleteKey(String key) {

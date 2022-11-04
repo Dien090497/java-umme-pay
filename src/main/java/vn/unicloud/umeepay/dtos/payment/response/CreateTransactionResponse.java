@@ -1,11 +1,6 @@
 package vn.unicloud.umeepay.dtos.payment.response;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import vn.unicloud.umeepay.core.BaseResponseData;
 
 import java.time.LocalDateTime;

@@ -1,5 +1,6 @@
 package vn.unicloud.umeepay.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import vn.unicloud.umeepay.controller.interfaces.IMerchantController;
@@ -7,28 +8,32 @@ import vn.unicloud.umeepay.core.BaseController;
 import vn.unicloud.umeepay.core.ResponseBase;
 import vn.unicloud.umeepay.dtos.merchant.request.*;
 import vn.unicloud.umeepay.dtos.merchant.response.*;
+import vn.unicloud.umeepay.service.SecurityService;
 
 import java.security.Principal;
 
 @RestController
+@RequiredArgsConstructor
 public class MerchantController extends BaseController implements IMerchantController {
 
+    private final SecurityService securityService;
+
     @Override
-    public ResponseEntity<ResponseBase<GetMerchantResponse>> getMerchant(Principal principal) {
+    public ResponseEntity<ResponseBase<GetMerchantResponse>> getMerchant() {
         GetMerchantRequest request = new GetMerchantRequest();
-        request.setUserId(principal.getName());
+        request.setUserId(securityService.getUserId(getCurrentSubjectId()));
         return this.execute(request, GetMerchantResponse.class);
     }
 
     @Override
-    public ResponseEntity<ResponseBase<CreateMerchantResponse>> create(Principal principal, CreateMerchantRequest request) {
-        request.setUserId(principal.getName());
+    public ResponseEntity<ResponseBase<CreateMerchantResponse>> create(CreateMerchantRequest request) {
+        request.setUserId(securityService.getUserId(getCurrentSubjectId()));
         return this.execute(request, CreateMerchantResponse.class);
     }
 
     @Override
-    public ResponseEntity<ResponseBase<UpdateMerchantResponse>> update(Principal principal, UpdateMerchantRequest request) {
-        request.setUserId(principal.getName());
+    public ResponseEntity<ResponseBase<UpdateMerchantResponse>> update(UpdateMerchantRequest request) {
+        request.setUserId(securityService.getUserId(getCurrentSubjectId()));
         return this.execute(request, UpdateMerchantResponse.class);
     }
 
@@ -38,8 +43,8 @@ public class MerchantController extends BaseController implements IMerchantContr
     }
 
     @Override
-    public ResponseEntity<ResponseBase<UpdateWebhookResponse>> updateWebhook(Principal principal, UpdateWebhookRequest request) {
-        request.setUserId(principal.getName());
+    public ResponseEntity<ResponseBase<UpdateWebhookResponse>> updateWebhook(UpdateWebhookRequest request) {
+        request.setUserId(securityService.getUserId(getCurrentSubjectId()));
         return this.execute(request, UpdateWebhookResponse.class);
     }
 }

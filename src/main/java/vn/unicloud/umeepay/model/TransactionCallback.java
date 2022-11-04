@@ -2,7 +2,7 @@ package vn.unicloud.umeepay.model;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;;
+import lombok.ToString;
 
 @Getter
 @Setter

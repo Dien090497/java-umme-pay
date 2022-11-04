@@ -3,8 +3,9 @@ package vn.unicloud.umeepay.dtos.user.request;
 import lombok.*;
 import vn.unicloud.umeepay.core.BaseRequestData;
 
-import javax.validation.constraints.NotEmpty;
-
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 @Getter
 @Setter
@@ -14,14 +15,19 @@ import javax.validation.constraints.NotEmpty;
 @NoArgsConstructor
 public class CreateUserRequest extends BaseRequestData {
 
-    private String fullName;
+    @NotBlank
+    private String sessionId;
 
-    @NotEmpty(message = "Password may not be empty")
+    @NotBlank
+    @Size(min = 6, max = 6)
+    private String otp;
+
+    @NotBlank
+    @Pattern(regexp = "\\d{10}", message = "Invalid phone number")
+    private String phone;
+
+    @NotBlank
+    @Size(min = 6, max = 100)
     private String password;
 
-    @NotEmpty(message = "Email may be not empty")
-    private String email;
-
-    @NotEmpty(message = "Phone may be not empty")
-    private String phone;
 }

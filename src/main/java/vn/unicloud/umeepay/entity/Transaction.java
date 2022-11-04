@@ -7,9 +7,7 @@ import org.hibernate.annotations.GenericGenerator;
 import vn.unicloud.umeepay.enums.TransactionStatus;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Entity
 @Table(name = Transaction.COLLECTION_NAME)

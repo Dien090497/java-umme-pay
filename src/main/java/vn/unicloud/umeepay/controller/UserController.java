@@ -6,23 +6,44 @@ import org.springframework.web.bind.annotation.RestController;
 import vn.unicloud.umeepay.controller.interfaces.IUserController;
 import vn.unicloud.umeepay.core.BaseController;
 import vn.unicloud.umeepay.core.ResponseBase;
-import vn.unicloud.umeepay.dtos.user.request.CreateUserRequest;
-import vn.unicloud.umeepay.dtos.user.response.CreateUserResponse;
+import vn.unicloud.umeepay.dtos.common.StatusResponse;
+import vn.unicloud.umeepay.dtos.user.request.*;
+import vn.unicloud.umeepay.dtos.user.response.CheckOTPResponse;
+import vn.unicloud.umeepay.dtos.user.response.CheckPhoneResponse;
+import vn.unicloud.umeepay.dtos.user.response.UserResponse;
 
 import javax.servlet.http.HttpServletRequest;
-import java.security.Principal;
 
 @RestController
 @Slf4j
 public class UserController extends BaseController implements IUserController {
 
     @Override
-    public ResponseEntity<ResponseBase<CreateUserResponse>> register(HttpServletRequest context, CreateUserRequest request) {
-        request.setContext(context);
-        return this.execute(request, CreateUserResponse.class);
+    public ResponseEntity<ResponseBase<CheckPhoneResponse>> checkPhoneRegister(String phone) {
+        return this.execute(new CheckPhoneRegisterRequest(phone), CheckPhoneResponse.class);
     }
 
-//    @Override
+    @Override
+    public ResponseEntity<ResponseBase<UserResponse>> register(CreateUserRequest request) {
+        return this.execute(request, UserResponse.class);
+    }
+
+    @Override
+    public ResponseEntity<ResponseBase<CheckPhoneResponse>> checkPhone(String phone) {
+        return this.execute(new CheckPhoneRequest(phone), CheckPhoneResponse.class);
+    }
+
+    @Override
+    public ResponseEntity<ResponseBase<CheckOTPResponse>> checkOTP(CheckOTPRequest request) {
+        return this.execute(request, CheckOTPResponse.class);
+    }
+
+    @Override
+    public ResponseEntity<ResponseBase<StatusResponse>> changePassword(ChangePasswordRequest request) {
+        return this.execute(request, StatusResponse.class);
+    }
+
+    //    @Override
 //    public ResponseEntity<ResponseBase<VerifyEmailResponse>> verifyEmail(HttpServletRequest context, String token, String email) {
 //        VerifyEmailRequest request = new VerifyEmailRequest(token, email);
 //        request.setContext(context);

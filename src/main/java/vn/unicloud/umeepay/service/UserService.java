@@ -3,51 +3,93 @@ package vn.unicloud.umeepay.service;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.keycloak.representations.AccessToken;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-import vn.unicloud.umeepay.dtos.user.request.CreateUserRequest;
-import vn.unicloud.umeepay.dtos.user.response.CreateUserResponse;
+import vn.unicloud.umeepay.constant.BaseConstant;
+import vn.unicloud.umeepay.dtos.user.response.CheckPhoneResponse;
 import vn.unicloud.umeepay.entity.User;
 import vn.unicloud.umeepay.enums.ResponseCode;
 import vn.unicloud.umeepay.exception.InternalException;
+import vn.unicloud.umeepay.model.OTPKey;
 import vn.unicloud.umeepay.repository.UserRepository;
+import vn.unicloud.umeepay.utils.CommonUtils;
+import vn.unicloud.umeepay.utils.RedisKeyUtils;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
 public class UserService {
 
-    private final KeycloakService keycloakService;
-
     private final UserRepository userRepository;
 
-    @SneakyThrows
-    public CreateUserResponse createUser(CreateUserRequest request) {
-        User user = new User();
-        user.setEmail(request.getEmail().trim());
-        user.setFullName(request.getFullName().trim());
-        user.setPhone(request.getPhone().trim());
-        String userId = keycloakService.createUser(user.getPhone(), request.getPassword(), user.getEmail(), user.getFullName());
-        if (userId == null) {
-            throw new InternalException(ResponseCode.CREATE_USER_FAILED);
+    private final RedisService redisService;
+
+    @Value("${umeepay.hardcode-otp:true}")
+    private boolean hardCodeOTP;
+
+    @Value("${umeepay.otp-expire-s:60}")
+    private int otpExpire;
+
+    /**
+     * @param user
+     * @return User
+     */
+    public User saveUser(User user) {
+        if (user == null) {
+            return null;
         }
-        user.setId(userId);
 
         try {
-            userRepository.save(user);
-        } catch (Exception e) {
-            e.printStackTrace();
-            keycloakService.deleteUser(userId);
-            throw new InternalException(ResponseCode.CREATE_USER_FAILED);
+            return userRepository.save(user);
+        } catch (Exception ex) {
+            log.error("Save user error. {}", ex.getMessage());
         }
 
-        return new CreateUserResponse(true);
+        return null;
     }
 
+    /**
+     * @param phone
+     * @return user
+     */
+    public User getUserByPhone(String phone) {
+        if (phone == null) {
+            return null;
+        }
+        return userRepository.findByPhone(phone).orElse(null);
+    }
+
+    public User getUserById(String id) {
+        if (id == null) {
+            return null;
+        }
+        return userRepository.findById(id).orElse(null);
+    }
+
+    public User getUserBySubjectId(String id) {
+        if (id == null) {
+            return null;
+        }
+        return userRepository.findFirstBySubjectId(id).orElse(null);
+    }
+
+    @SneakyThrows
+    public CheckPhoneResponse checkPhone(String phone) {
+        String otpKey = RedisKeyUtils.getOtpKey(phone);
+        if (redisService.exist(otpKey)) {
+            log.error("Existed OTP");
+            throw new InternalException(ResponseCode.EXISTED_OTP);
+        }
+
+        String sessionId = CommonUtils.generateUUID();
+        String otp = CommonUtils.getOTP(hardCodeOTP);
+        // TODO: Send otp
+        OTPKey key = new OTPKey(otp, phone, sessionId);
+        log.debug("OTP info: {}", key);
+
+        redisService.setValue(otpKey, key);
+        redisService.setExpire(otpKey, otpExpire);
+
+        return new CheckPhoneResponse(sessionId, otpExpire);
+    }
 }
