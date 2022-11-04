@@ -32,7 +32,7 @@ public class User extends Auditable<String> {
     @Builder.Default
     private UserStatus status = UserStatus.ACTIVE;
 
-    @ManyToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "merchant_id", referencedColumnName = "id")
     @JsonIgnore
     private Merchant merchant;

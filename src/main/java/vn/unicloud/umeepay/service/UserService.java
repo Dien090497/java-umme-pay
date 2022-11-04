@@ -66,6 +66,13 @@ public class UserService {
         return userRepository.findById(id).orElse(null);
     }
 
+    public User getUserBySubjectId(String id) {
+        if (id == null) {
+            return null;
+        }
+        return userRepository.findFirstBySubjectId(id).orElse(null);
+    }
+
     @SneakyThrows
     public CheckPhoneResponse checkPhone(String phone) {
         String otpKey = RedisKeyUtils.getOtpKey(phone);
