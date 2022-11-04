@@ -26,21 +26,21 @@ public interface IMerchantController {
         description = "- Get merchant, yêu cầu từ user"
     )
     @GetMapping("/portal/v1/getMerchant")
-    ResponseEntity<ResponseBase<GetMerchantResponse>> getMerchant(Principal principal);
+    ResponseEntity<ResponseBase<GetMerchantResponse>> getMerchant();
 
     @Operation(
         summary = "Tạo mới merchant",
         description = "- Tạo mới merchant, yêu cầu từ user"
     )
-    @PostMapping("/cms/v1/createMerchant")
-    ResponseEntity<ResponseBase<CreateMerchantResponse>> create(Principal principal, @Valid @RequestBody CreateMerchantRequest request);
+    @PostMapping("/portal/v1/createMerchant")
+    ResponseEntity<ResponseBase<CreateMerchantResponse>> create(@Valid @RequestBody CreateMerchantRequest request);
 
     @Operation(
         summary = "Cập nhật thông tin merchant",
         description = "- Cập nhật thông tin merchant"
     )
     @PutMapping("/cms/v1/updateMerchant")
-    ResponseEntity<ResponseBase<UpdateMerchantResponse>> update(Principal principal, @Valid @RequestBody UpdateMerchantRequest request);
+    ResponseEntity<ResponseBase<UpdateMerchantResponse>> update(@Valid @RequestBody UpdateMerchantRequest request);
 
     @Operation(
         summary = "Cập nhật thông tin merchant",
@@ -54,5 +54,5 @@ public interface IMerchantController {
         description = "- Cập nhật thông tin merchant"
     )
     @PutMapping("/portal/v1/updateWebhook")
-    ResponseEntity<ResponseBase<UpdateWebhookResponse>> updateWebhook(Principal principal, @Valid @RequestBody UpdateWebhookRequest request);
+    ResponseEntity<ResponseBase<UpdateWebhookResponse>> updateWebhook(@Valid @RequestBody UpdateWebhookRequest request);
 }
