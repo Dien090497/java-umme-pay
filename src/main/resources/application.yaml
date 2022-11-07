@@ -44,7 +44,7 @@ umeepay:
   timeout: ${VIETQR_TIMEOUT:120}
   bin: ${VIETQR_BIN:970452}
   actualAccount: ${VIETQR_ACTUAL_ACCOUNT:35474013}
-  hardcode-otp: true
+  hardcode-otp: ${UMEE_PAY_HARDCODE_OTP:true}
   otp-expire-s: 60
   change-password-timeout: 900
   paygate:
