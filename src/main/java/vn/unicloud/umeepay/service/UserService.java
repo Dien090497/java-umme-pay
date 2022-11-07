@@ -85,7 +85,7 @@ public class UserService {
         String otp = CommonUtils.getOTP(hardCodeOTP);
         // TODO: Send otp
         OTPKey key = new OTPKey(otp, phone, sessionId);
-        log.debug("OTP info: {}", key);
+        log.debug("Phone: {}, OTP info: {}", key.getPhone(), key.getOtp());
 
         redisService.setValue(otpKey, key);
         redisService.setExpire(otpKey, otpExpire);
