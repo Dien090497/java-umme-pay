@@ -27,6 +27,7 @@ public class GetListRoleGroupHandler extends RequestHandler<GetListRoleGroupRequ
                 .setPageSize(result.getSize())
                 .setPageNumber(result.getNumber())
                 .setTotalSize(result.getTotalElements())
+                .setTotalPage(result.getTotalPages())
                 .setItems(result.getContent()
                         .stream()
                         .map(role -> new RoleGroupResponse(role))

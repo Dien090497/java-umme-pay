@@ -24,12 +24,10 @@ public class Document {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String fileName;
+
     @Enumerated(EnumType.STRING)
     private DocumentType type;
-
-    @ManyToOne
-    @JoinColumn(name = "profile_id", referencedColumnName = "id")
-    private Profile profile;
 
     private String url;
 
@@ -37,6 +35,7 @@ public class Document {
     public String toString() {
         return "Document{" +
                 "id=" + id +
+                "fileName=" + fileName +
                 ", type=" + type +
                 ", url='" + url + '\'' +
                 '}';

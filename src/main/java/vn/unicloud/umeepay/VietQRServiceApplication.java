@@ -10,13 +10,16 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import vn.unicloud.umeepay.entity.PermissionGroup;
-import vn.unicloud.umeepay.entity.RoleGroup;
-import vn.unicloud.umeepay.enums.RoleStatus;
-import vn.unicloud.umeepay.enums.RoleType;
+import vn.unicloud.umeepay.entity.*;
+import vn.unicloud.umeepay.enums.*;
+import vn.unicloud.umeepay.repository.MerchantRepository;
+import vn.unicloud.umeepay.repository.UserRepository;
+import vn.unicloud.umeepay.service.AuditService;
+import vn.unicloud.umeepay.service.MerchantService;
 import vn.unicloud.umeepay.service.RoleService;
 
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.List;
 
 @SpringBootApplication

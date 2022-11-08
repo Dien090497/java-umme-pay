@@ -18,4 +18,8 @@ public class BaseConstant {
 
     public static final Integer LOGIN_FAILED_TIMEOUT = 30; // seconds
 
+    public static final String DEFAULT_DATE_FORMAT = "dd/MM/yyyy";
+
+    public static final String DEFAULT_DATETIME_FORMAT = "dd/MM/yyyy HH:mm:ss";
+
 }
