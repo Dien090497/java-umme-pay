@@ -10,6 +10,7 @@ import vn.unicloud.umeepay.entity.Administrator;
 import vn.unicloud.umeepay.entity.RoleGroup;
 import vn.unicloud.umeepay.enums.OfficeType;
 import vn.unicloud.umeepay.enums.ResponseCode;
+import vn.unicloud.umeepay.enums.RoleStatus;
 import vn.unicloud.umeepay.exception.InternalException;
 import vn.unicloud.umeepay.service.AdminService;
 import vn.unicloud.umeepay.service.KeycloakService;
@@ -57,6 +58,11 @@ public class UpdateAdminHandler extends RequestHandler<UpdateAdminRequest, Admin
             if (role == null) {
                 throw new InternalException(ResponseCode.ROLE_ERROR_NOT_FOUND);
             }
+
+            if (!RoleStatus.ACTIVE.equals(role.getStatus())) {
+                throw new InternalException(ResponseCode.ROLE_ERROR_CLOSED);
+            }
+
             admin.setRoleGroup(role);
             redisService.setValue(RedisKeyUtils.getUserRoleKey(admin.getId()), role.getId());
         }
