@@ -4,6 +4,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import vn.unicloud.umeepay.constant.BaseConstant;
 import vn.unicloud.umeepay.dtos.user.response.CheckPhoneResponse;
@@ -14,6 +18,8 @@ import vn.unicloud.umeepay.model.OTPKey;
 import vn.unicloud.umeepay.repository.UserRepository;
 import vn.unicloud.umeepay.utils.CommonUtils;
 import vn.unicloud.umeepay.utils.RedisKeyUtils;
+
+import java.util.ArrayList;
 
 @Service
 @Slf4j
@@ -91,5 +97,19 @@ public class UserService {
         redisService.setExpire(otpKey, otpExpire);
 
         return new CheckPhoneResponse(sessionId, otpExpire);
+    }
+
+    /**
+     * Get merchant members
+     * @param spec
+     * @param pageable
+     * @return
+     */
+    public Page<User> getAllUsers(Specification<User> spec, Pageable pageable) {
+        if (spec == null || pageable == null) {
+            return new PageImpl<>(new ArrayList<>());
+        }
+
+        return userRepository.findAll(spec, pageable);
     }
 }

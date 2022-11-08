@@ -32,8 +32,7 @@ public class Profile {
     )
     private String id;
 
-    @OneToOne
-    @JoinColumn(name = "merchant_id", referencedColumnName = "id")
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "profile")
     private Merchant merchant;
 
     private String name;
@@ -72,9 +71,15 @@ public class Profile {
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Ekyc ownerEkyc;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "profile")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
+    @JoinColumn(name="profile_id",referencedColumnName = "id")
     private List<Document> documents;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
+    @JoinColumn(name="profile_id", referencedColumnName = "id")
+    private List<BusinessOwner> owners;
 
     @Override
     public String toString() {

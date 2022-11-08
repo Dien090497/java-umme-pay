@@ -71,6 +71,8 @@ public enum ResponseCode {
 
     TRANSACTION_EXPIRED(413, "Transaction expired"),
 
+    INVALID_MERCHANT_STATUS (414, "Invalid current merchant status"),
+
     // Paygate
     INVALID_CERTIFICATE(501, "Invalid certificate"),
 

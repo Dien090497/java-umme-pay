@@ -4,6 +4,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import vn.unicloud.umeepay.dtos.merchant.request.*;
@@ -23,6 +27,7 @@ import vn.unicloud.umeepay.utils.CommonUtils;
 import vn.unicloud.umeepay.utils.ModelMapperUtils;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.UUID;
 
 @Service
@@ -42,7 +47,9 @@ public class MerchantService {
     @Transactional
     public CreateMerchantResponse createMerchant(CreateMerchantRequest request) {
         User user = userRepository.findById(request.getUserId()).orElseThrow(
-                () -> {throw new InternalException(ResponseCode.USER_NOT_FOUND);}
+                () -> {
+                    throw new InternalException(ResponseCode.USER_NOT_FOUND);
+                }
         );
         Merchant merchant = merchantRepository.findFirstByUserId(request.getUserId());
         if (merchant != null) {
@@ -110,5 +117,21 @@ public class MerchantService {
 
     public Merchant saveMerchant(Merchant merchant) {
         return merchantRepository.save(merchant);
+    }
+
+    public Page<Merchant> getAllMerchant(Specification<Merchant> spec, Pageable page) {
+        if (spec == null || page == null) {
+            return new PageImpl<>(new ArrayList<>());
+        }
+
+        return merchantRepository.findAll(spec, page);
+    }
+
+    public Merchant getMerchantById(String id) {
+        if (id == null) {
+            return null;
+        }
+
+        return merchantRepository.findById(id).orElse(null);
     }
 }
