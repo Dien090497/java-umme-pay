@@ -70,7 +70,6 @@
           }
         ]
       },
-
       {
         "name": "CMS_MESSAGE_MANAGEMENT",
         "description": "Quản lý Response message",
@@ -93,7 +92,6 @@
           }
         ]
       },
-
       {
         "name": "CMS_BANK_MANAGEMENT",
         "description": "Quản lý danh mục ngân hàng",
@@ -185,8 +183,8 @@
     "scope": "ADMIN",
     "permissions": [
       {
-        "name": "CMS_FEE_MANAGEMENT",
-        "description": "Quản lý phí đối tác",
+        "name": "CMS_FEE_SETUP",
+        "description": "Thiết lập biểu phí đối tác",
         "actions": [
           {
             "name": "CMS_FEE_ACCESS",
@@ -207,10 +205,16 @@
           {
             "name": "CMS_FEE_APPROVE",
             "description": "Duyệt/Từ chối duyệt biểu phí"
-          },
+          }
+        ]
+      },
+      {
+        "name": "CMS_FEE_REPORT",
+        "description": "Báo cáo phí đối tác",
+        "actions": [
           {
             "name": "CMS_FEE_REPORT",
-            "description": "Báo cáo phí"
+            "description": "Báo cái phí đối tác"
           }
         ]
       }
@@ -277,8 +281,8 @@
     ]
   },
   {
-    "name": "PORTAL_PAYMENT_MANAGEMENT",
-    "description": "Quản trị thanh toán",
+    "name": "PORTAL_SERVICE_MANAGEMENT",
+    "description": "Quản trị dịch vụ",
     "scope": "MERCHANT",
     "permissions": [
       {
@@ -312,27 +316,27 @@
         ]
       },
       {
-        "name": "PORTAL_BUDGET_MANAGEMENT",
+        "name": "PORTAL_TRANSFER_MANAGEMENT",
         "description": "Quản lý ngân sách",
         "actions": [
           {
-            "name": "PORTAL_BUDGET_ACCESS",
+            "name": "PORTAL_TRANSFER_ACCESS",
             "description": "Truy cập trang chuyển tiền"
           },
           {
-            "name": "PORTAL_BUDGET_APPROVE_TRANSFER",
+            "name": "PORTAL_TRANSFER_APPROVE",
             "description": "Duyệt lệnh chuyển tiền"
           },
           {
-            "name": "PORTAL_BUDGET_SINGLE_TRANSFER",
+            "name": "PORTAL_TRANSFER_SINGLE",
             "description": "Chuyển tiền đơn"
           },
           {
-            "name": "PORTAL_BUDGET_BATCH_TRANSFER",
+            "name": "PORTAL_TRANSFER_BATCH",
             "description": "Chuyển tiền theo lô"
           },
           {
-            "name": "PORTAL_BUDGET_RECEIVED_MANAGEMENT",
+            "name": "PORTAL_TRANSFER_RECEIVED_MANAGEMENT",
             "description": "Quản lý danh sách thụ hưởng"
           }
         ]
@@ -365,7 +369,6 @@
           }
         ]
       },
-
       {
         "name": "PORTAL_REPORT",
         "description": "Quản lý thống kê",
