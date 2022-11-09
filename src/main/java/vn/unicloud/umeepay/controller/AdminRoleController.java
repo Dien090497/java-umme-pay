@@ -19,13 +19,13 @@ import vn.unicloud.umeepay.enums.RoleType;
 public class AdminRoleController extends BaseController implements IAdminRoleController {
 
     @Override
-    public ResponseEntity<ResponseBase<PageResponse<RoleGroupResponse>>> getAllRoleGroups(String code,
-                                                                                          String name,
-                                                                                          RoleStatus status,
-                                                                                          Integer page,
-                                                                                          Integer pageSize,
-                                                                                          Sort.Direction sortDirection,
-                                                                                          String sortBy) {
+    public ResponseEntity<ResponseBase<PageResponse<RoleGroupResponse>>> getAllAdminRoleGroups(String code,
+                                                                                               String name,
+                                                                                               RoleStatus status,
+                                                                                               Integer page,
+                                                                                               Integer pageSize,
+                                                                                               Sort.Direction sortDirection,
+                                                                                               String sortBy) {
 
         GetListRoleGroupRequest request = new GetListRoleGroupRequest()
                 .setCode(code)
@@ -38,7 +38,7 @@ public class AdminRoleController extends BaseController implements IAdminRoleCon
     }
 
     @Override
-    public ResponseEntity<ResponseBase<GetAllPermissionResponse>> getAllPermissions() {
+    public ResponseEntity<ResponseBase<GetAllPermissionResponse>> getAllAdminPermissions() {
         GetAllPermissionRequest request = new GetAllPermissionRequest(RoleType.ADMIN);
         return this.execute(request, GetAllPermissionResponse.class);
     }
@@ -46,6 +46,37 @@ public class AdminRoleController extends BaseController implements IAdminRoleCon
     @Override
     public ResponseEntity<ResponseBase<RoleGroupResponse>> createAdminRoleGroup(CreateRoleGroupRequest request) {
         request.setScope(RoleType.ADMIN);
+        return this.execute(request, RoleGroupResponse.class);
+    }
+
+    @Override
+    public ResponseEntity<ResponseBase<PageResponse<RoleGroupResponse>>> getAllMerchantRoleGroups(String code,
+                                                                                                  String name,
+                                                                                                  RoleStatus status,
+                                                                                                  Integer page,
+                                                                                                  Integer pageSize,
+                                                                                                  Sort.Direction sortDirection,
+                                                                                                  String sortBy) {
+
+        GetListRoleGroupRequest request = new GetListRoleGroupRequest()
+                .setCode(code)
+                .setName(name)
+                .setStatus(status)
+                .setScope(RoleType.MERCHANT) // Get only merchant roles
+                .setPageable(PageRequest.of(page, pageSize, Sort.by(sortDirection, sortBy)));
+
+        return this.execute(request, (Class) PageResponse.class);
+    }
+
+    @Override
+    public ResponseEntity<ResponseBase<GetAllPermissionResponse>> getAllMerchantPermissions() {
+        GetAllPermissionRequest request = new GetAllPermissionRequest(RoleType.MERCHANT);
+        return this.execute(request, GetAllPermissionResponse.class);
+    }
+
+    @Override
+    public ResponseEntity<ResponseBase<RoleGroupResponse>> createMerchantRoleGroup(CreateRoleGroupRequest request) {
+        request.setScope(RoleType.MERCHANT);
         return this.execute(request, RoleGroupResponse.class);
     }
 
