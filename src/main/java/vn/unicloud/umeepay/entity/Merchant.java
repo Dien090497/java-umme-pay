@@ -75,6 +75,9 @@ public class Merchant extends Auditable<String> {
     @JsonIgnore
     private BankAccount bankAccount;
 
+    @Enumerated(EnumType.STRING)
+    private MerchantStatus previousStatus;
+
     @Override
     public String toString() {
         return "Merchant{" +
