@@ -134,4 +134,11 @@ public class MerchantService {
 
         return merchantRepository.findById(id).orElse(null);
     }
+
+    public Merchant getMerchantByUserId(String userId) {
+        if (userId == null) {
+            return null;
+        }
+        return merchantRepository.findByUserId(userId).orElse(null);
+    }
 }

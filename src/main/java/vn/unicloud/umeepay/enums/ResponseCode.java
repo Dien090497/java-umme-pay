@@ -73,6 +73,9 @@ public enum ResponseCode {
 
     INVALID_MERCHANT_STATUS (414, "Invalid current merchant status"),
 
+    INACTIVE_MERCHANT (415, "Merchant is current inactive"),
+
+
     // Paygate
     INVALID_CERTIFICATE(501, "Invalid certificate"),
 

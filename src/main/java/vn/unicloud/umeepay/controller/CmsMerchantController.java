@@ -8,6 +8,7 @@ import vn.unicloud.umeepay.controller.interfaces.ICmsMerchantController;
 import vn.unicloud.umeepay.core.BaseController;
 import vn.unicloud.umeepay.core.ResponseBase;
 import vn.unicloud.umeepay.dtos.common.PageResponse;
+import vn.unicloud.umeepay.dtos.common.StatusResponse;
 import vn.unicloud.umeepay.dtos.merchant.request.*;
 import vn.unicloud.umeepay.dtos.merchant.response.MerchantDetailResponse;
 import vn.unicloud.umeepay.dtos.merchant.response.MerchantResponse;
@@ -77,6 +78,18 @@ public class CmsMerchantController extends BaseController implements ICmsMerchan
                 .setPageable(PageRequest.of(page, pageSize, Sort.by(sortDirection, sortBy)));
 
         return this.execute(request, (Class) PageResponse.class);
+    }
+
+    @Override
+    public ResponseEntity<ResponseBase<StatusResponse>> blockMerchantMember(String memberId) {
+        CmsBlockMerchantMemberRequest request = new CmsBlockMerchantMemberRequest(memberId);
+        return this.execute(request, StatusResponse.class);
+    }
+
+    @Override
+    public ResponseEntity<ResponseBase<StatusResponse>> unblockMerchantMember(String memberId) {
+        CmsUnblockMerchantMemberRequest request = new CmsUnblockMerchantMemberRequest(memberId);
+        return this.execute(request, StatusResponse.class);
     }
 
 

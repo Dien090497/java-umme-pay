@@ -58,6 +58,8 @@ public class User extends Auditable<String> {
     @Column(name = "subject_id", unique = true)
     private String subjectId;
 
+    private boolean blockedCluster; // Bị khóa theo nhóm nếu owner bị inactive
+
     @Override
     public String toString() {
         return "User{" +

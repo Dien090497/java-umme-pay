@@ -11,6 +11,7 @@ import vn.unicloud.umeepay.config.OpenApiConfig;
 import vn.unicloud.umeepay.constant.BaseConstant;
 import vn.unicloud.umeepay.core.ResponseBase;
 import vn.unicloud.umeepay.dtos.common.PageResponse;
+import vn.unicloud.umeepay.dtos.common.StatusResponse;
 import vn.unicloud.umeepay.dtos.merchant.request.CmsDisapproveMerchantRequest;
 import vn.unicloud.umeepay.dtos.merchant.response.MerchantDetailResponse;
 import vn.unicloud.umeepay.dtos.merchant.response.MerchantResponse;
@@ -74,11 +75,26 @@ public interface ICmsMerchantController {
     ResponseEntity<ResponseBase<PageResponse<UserResponse>>> getAllMembers(
             @PathVariable String merchantId,
             @RequestParam(required = false) String username,
-            @RequestParam(required = false)UserStatus status,
+            @RequestParam(required = false) UserStatus status,
             @RequestParam(required = false, defaultValue = BaseConstant.DEFAULT_PAGE_NUMBER_STRING) Integer page,
             @RequestParam(required = false, defaultValue = BaseConstant.DEFAULT_PAGE_SIZE_STRING) Integer pageSize,
             @RequestParam(required = false, defaultValue = BaseConstant.DEFAULT_PAGE_SORT_DIRECTION) Sort.Direction sortDirection,
             @RequestParam(required = false, defaultValue = BaseConstant.DEFAULT_PAGE_SORT_BY) String sortBy
-            );
+    );
+
+    @Operation(
+            summary = "Vô hiệu hóa thành viên đối tác",
+            description = "- Vô hiệu hóa thành viên đối tác"
+    )
+    @PutMapping(value = "/v1/blockMember/{memberId}")
+    ResponseEntity<ResponseBase<StatusResponse>> blockMerchantMember(@PathVariable String memberId);
+
+    @Operation(
+            summary = "Kích hoạt thành viên đối tác",
+            description = "- Vô hiệu hóa thành viên đối tác"
+    )
+    @PutMapping(value = "/v1/unblockMember/{memberId}")
+    ResponseEntity<ResponseBase<StatusResponse>> unblockMerchantMember(@PathVariable String memberId);
+
 
 }
