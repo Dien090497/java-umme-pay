@@ -4,7 +4,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
-import vn.unicloud.umeepay.controller.interfaces.IAdminRoleController;
+import vn.unicloud.umeepay.controller.interfaces.ICmsRoleController;
 import vn.unicloud.umeepay.core.BaseController;
 import vn.unicloud.umeepay.core.ResponseBase;
 import vn.unicloud.umeepay.dtos.common.PageResponse;
@@ -16,7 +16,7 @@ import vn.unicloud.umeepay.enums.RoleStatus;
 import vn.unicloud.umeepay.enums.RoleType;
 
 @RestController
-public class AdminRoleController extends BaseController implements IAdminRoleController {
+public class CmsRoleController extends BaseController implements ICmsRoleController {
 
     @Override
     public ResponseEntity<ResponseBase<PageResponse<RoleGroupResponse>>> getAllAdminRoleGroups(String code,

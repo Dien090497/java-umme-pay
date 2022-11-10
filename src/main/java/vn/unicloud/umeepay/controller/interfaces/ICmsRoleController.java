@@ -1,7 +1,6 @@
 package vn.unicloud.umeepay.controller.interfaces;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Sort;
@@ -23,7 +22,7 @@ import javax.validation.Valid;
 @Tag(name = "[CMS] Role Group Controller", description = "Thao tác với nhóm quyền")
 @RequestMapping(value = "/api/roleGroup/cms")
 @SecurityRequirement(name = OpenApiConfig.BEARER_SCHEME)
-public interface IAdminRoleController {
+public interface ICmsRoleController {
 
     @Operation(summary = "Xem danh sách nhóm quyền quản trị viên")
     @GetMapping("/v1/getAll/admin")
