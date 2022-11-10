@@ -21,7 +21,6 @@ public class PermissionGroup {
     public static final String COLLECTION_NAME = "permission_group";
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)

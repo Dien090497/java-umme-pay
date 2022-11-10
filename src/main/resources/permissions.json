@@ -1,114 +1,136 @@
 [
   {
+    "id": 1,
     "name": "CMS_SYSTEM_MANAGEMENT",
     "description": "Quản trị hệ thống",
     "scope": "ADMIN",
     "permissions": [
       {
+        "id": 1,
         "name": "CMS_ADMIN_MANAGEMENT",
         "description": "Quản lý quản trị viên hệ thống",
         "actions": [
+
           {
-            "name": "CMS_ADMIN_ACCESS",
-            "description": "Truy cập trang quản trị viên"
-          },
-          {
+            "id": 2,
             "name": "CMS_ADMIN_CREATE",
             "description": "Tạo mới quản trị viên"
           },
           {
+            "id": 3,
             "name": "CMS_ADMIN_UPDATE",
             "description": "Chỉnh sửa thông tin quản trị viên"
           },
           {
+            "id": 4,
             "name": "CMS_ADMIN_DELETE",
             "description": "Xóa quản trị viên"
           },
           {
+            "id": 5,
             "name": "CMS_ADMIN_BLOCK",
             "description": "Tạm khóa quản trị viên"
           },
           {
+            "id": 6,
             "name": "CMS_ADMIN_UNBLOCK",
             "description": "Mở khóa quản trị viên"
           }
         ]
       },
       {
+        "id": 2,
         "name": "CMS_ADMIN_ROLE_MANAGEMENT",
         "description": "Quản lý nhóm quyền quản trị viên",
         "actions": [
           {
+            "id": 7,
             "name": "CMS_ADMIN_ROLE_ACCESS",
             "description": "Truy cập trang quản trị quyền quản trị viên"
           },
           {
+            "id": 8,
             "name": "CMS_ADMIN_ROLE_CREATE",
             "description": "Tạo mới quản trị viên"
           },
           {
+            "id": 9,
             "name": "CMS_ADMIN_ROLE_UPDATE",
             "description": "Chỉnh sửa quyền quản trị viên"
           },
           {
+            "id": 10,
             "name": "CMS_ADMIN_ROLE_DELETE",
             "description": "Xóa quyền quản trị viên"
           }
         ]
       },
       {
+        "id": 3,
         "name": "CMS_PARAMETER_MANAGEMENT",
         "description": "Quản lý tham số hệ thống",
         "actions": [
           {
+            "id": 11,
             "name": "CMS_PARAMETER_ACCESS",
             "description": "Truy cập trang quản trị tham số hệ thống"
           },
           {
+            "id": 12,
             "name": "CMS_PARAMETER_UPDATE",
             "description": "Chỉnh sửa tham số hệ thống"
           }
         ]
       },
       {
+        "id": 4,
         "name": "CMS_MESSAGE_MANAGEMENT",
         "description": "Quản lý Response message",
         "actions": [
           {
+            "id": 13,
             "name": "CMS_MESSAGE_ACCESS",
             "description": "Truy cập trang quản lý Response message"
           },
           {
+            "id": 14,
             "name": "CMS_MESSAGE_CREATE",
             "description": "Taọ mới response message"
           },
           {
+            "id": 15,
             "name": "CMS_MESSAGE_UPDATE",
             "description": "Chỉnh sửa response message"
           },
           {
+            "id": 16,
             "name": "CMS_MESSAGE_DELETE",
             "description": "Xóa response message"
           }
         ]
       },
       {
+        "id": 5,
         "name": "CMS_BANK_MANAGEMENT",
         "description": "Quản lý danh mục ngân hàng",
         "actions": [
           {
+            "id": 17,
             "name": "CMS_BANK_ACCESS",
             "description": "Truy cập danh mục mã ngân hàng"
           },
           {
+            "id": 18,
             "name": "CMS_BACK_CREATE",
             "description": "Thêm danh mục mã ngân hàng"
           },
           {
+            "id": 19,
             "name": "CMS_BANK_UPDATE",
             "description": "Chỉnh sửa danh mục mã ngân hàng"
           },
           {
+            "id": 20,
             "name": "CMS_BANK_DELETE",
             "description": "Xóa danh mục mã ngân hàng"
           }
@@ -117,59 +139,72 @@
     ]
   },
   {
+    "id": 2,
     "name": "CMS_MERCHANT_MANAGEMENT",
     "description": "Quản trị đối tác",
     "scope": "ADMIN",
     "permissions": [
       {
+        "id": 6,
         "name": "CMS_MERCHANT_MANAGEMENT",
         "description": "Quản lý đối tác",
         "actions": [
           {
+            "id": 21,
             "name": "CMS_MERCHANT_ACCESS",
             "description": "Truy cập trang quản trị đối tác"
           },
           {
+            "id": 22,
             "name": "CMS_MERCHANT_APPROVE",
             "description": "Duyệt/Từ chối duyệt đối tác"
           }
         ]
       },
       {
+        "id": 7,
         "name": "CMS_MEMBER_MANAGEMENT",
         "description": "Quản lý thành viên đối tác",
         "actions": [
           {
+            "id": 23,
             "name": "CMS_MEMBER_ACCESS",
             "description": "Truy cập trang quản lý thành viên đối tác"
           },
           {
+            "id": 24,
             "name": "CMS_MEMBER_BLOCK",
             "description": "Vô hiệu hóa thành viên"
           },
           {
+            "id": 25,
             "name": "CMS_MEMBER_UNBLOCK",
             "description": "Kích hoạt thành viên"
           }
         ]
       },
       {
+        "id": 8,
         "name": "CMS_MERCHANT_ROLE_MANAGEMENT",
         "description": "Quản lý quyền đối tác",
         "actions": [
           {
+            "id": 26,
             "name": "CMS_MERCHANT_ROLE_ACCESS",
             "description": "Truy cập trang quản lý quyền đối tác"
           },
           {
+            "id": 27,
             "name": "CMS_MERCHANT_ROLE_CREATE",
             "description": "Tạo mới quyền đối tác"
           },
           {
+            "id": 28,
             "name": "CMS_MERCHANT_ROLE_UPDATE",
             "description": "Chỉnh sửa quền đối tác"
           },
           {
+            "id": 29,
             "name": "CMS_MERCHANT_ROLE_DELETE",
             "description": "Xóa quyền đối tác"
           }
@@ -178,41 +213,50 @@
     ]
   },
   {
+    "id": 3,
     "name": "CMS_FEE_MANAGEMENT",
     "description": "Quản trị phí",
     "scope": "ADMIN",
     "permissions": [
       {
+        "id": 9,
         "name": "CMS_FEE_SETUP",
         "description": "Thiết lập biểu phí đối tác",
         "actions": [
           {
+            "id": 30,
             "name": "CMS_FEE_ACCESS",
             "description": "Truy cập trang quản lý phí"
           },
           {
+            "id": 31,
             "name": "CMS_FEE_CREATE",
             "description": "Thiết lập biểu phí"
           },
           {
+            "id": 32,
             "name": "CMS_FEE_UPDATE",
             "description": "Chỉnh sửa biểu phí"
           },
           {
+            "id": 33,
             "name": "CMS_FEE_DELETE",
             "description": "Xóa biểu phí"
           },
           {
+            "id": 34,
             "name": "CMS_FEE_APPROVE",
             "description": "Duyệt/Từ chối duyệt biểu phí"
           }
         ]
       },
       {
+        "id": 10,
         "name": "CMS_FEE_REPORT",
         "description": "Báo cáo phí đối tác",
         "actions": [
           {
+            "id": 35,
             "name": "CMS_FEE_REPORT",
             "description": "Báo cái phí đối tác"
           }
@@ -221,23 +265,28 @@
     ]
   },
   {
+    "id": 4,
     "name": "CMS_TRANSACTION_MANAGEMENT",
     "description": "Quản trị giao dịch",
     "scope": "ADMIN",
     "permissions": [
       {
+        "id": 11,
         "name": "CMS_TRANSACTION_MANAGEMENT",
         "description": "Quản lý phí giao dịch đối tác",
         "actions": [
           {
+            "id": 36,
             "name": "CMS_TRANSACTION_ACCESS",
             "description": "Truy cập trang quản lý giao dịch đối tác"
           },
           {
+            "id": 37,
             "name": "CMS_TRANSACTION_RECEIVED",
             "description": "Truy cập trang danh sách giao dịch nhận tiền đến"
           },
           {
+            "id": 38,
             "name": "CMS_TRANSACTION_BANK",
             "description": "Truy cập trang Danh sách giao dịch theo sao kê của bank"
           }
@@ -246,33 +295,40 @@
     ]
   },
   {
+    "id": 5,
     "name": "PORTAL_ACCESS_MANAGEMENT",
     "description": "Quản trị người dùng",
     "scope": "MERCHANT",
     "permissions": [
       {
+        "id": 12,
         "name": "PORTAL_ACCESS_MANAGEMENT",
         "description": "Quản lý truy cập",
         "actions": [
           {
+            "id": 39,
             "name": "PORTAL_ACCESS_DASHBOARD",
             "description": "Truy cập dashboard"
           },
           {
+            "id": 40,
             "name": "PORTAL_ACCESS_BUDGET",
             "description": "Quản lý số dư"
           },
           {
+            "id": 41,
             "name": "PORTAL_CREATE_PAYMENT",
             "description": "Thanh toán mới"
           }
         ]
       },
       {
+        "id": 13,
         "name": "PORTAL_MEMBER_MANAGEMENT",
         "description": "Quản lý thành viên",
         "actions": [
           {
+            "id": 42,
             "name": "PORTAL_MEMBER_MANAGEMENT",
             "description": "Quản lý thành viên"
           }
@@ -281,99 +337,121 @@
     ]
   },
   {
+    "id": 6,
     "name": "PORTAL_SERVICE_MANAGEMENT",
     "description": "Quản trị dịch vụ",
     "scope": "MERCHANT",
     "permissions": [
       {
+        "id": 14,
         "name": "PORTAL_PAYMENT_MANAGEMENT",
         "description": "Quản lý thanh toán",
         "actions": [
           {
+            "id": 43,
             "name": "PORTAL_PAYMENT_PAYLINK",
             "description": "Thanh toán paylink"
           },
           {
+            "id": 44,
             "name": "PORTAL_PAYMENT_PAYPAGE",
             "description": "Thanh toán paypage"
           },
           {
+            "id": 45,
             "name": "PORTAL_PAYMENT_PAYPOS",
             "description": "Thanh toán paypos"
           },
           {
+            "id": 46,
             "name": "PORTAL_PAYMENT_PAYBOX",
             "description": "Thanh toán paybox"
           },
           {
+            "id": 47,
             "name": "PORTAL_PAYMENT_PAYBUTTON",
             "description": "Thanh toán paybutton"
           },
           {
+            "id": 48,
             "name": "PORTAL_PAYMENT_SUBSRIPTION",
             "description": "Thanh toán Pay Subsription"
           }
         ]
       },
       {
+        "id": 15,
         "name": "PORTAL_TRANSFER_MANAGEMENT",
         "description": "Quản lý chuyển tiền",
         "actions": [
           {
+            "id": 49,
             "name": "PORTAL_TRANSFER_ACCESS",
             "description": "Truy cập trang chuyển tiền"
           },
           {
+            "id": 50,
             "name": "PORTAL_TRANSFER_APPROVE",
             "description": "Duyệt lệnh chuyển tiền"
           },
           {
+            "id": 51,
             "name": "PORTAL_TRANSFER_SINGLE",
             "description": "Chuyển tiền đơn"
           },
           {
+            "id": 52,
             "name": "PORTAL_TRANSFER_BATCH",
             "description": "Chuyển tiền theo lô"
           },
           {
+            "id": 53,
             "name": "PORTAL_TRANSFER_RECEIVED_MANAGEMENT",
             "description": "Quản lý danh sách thụ hưởng"
           }
         ]
       },
       {
+        "id": 16,
         "name": "PORTAL_TRANSACTION_MANAGEMENT",
         "description": "Quản lý giao dịch",
         "actions": [
           {
+            "id": 54,
             "name": "PORTAL_TRANSACTION_CANCEL",
             "description": "Hoàn giao dịch"
           },
           {
+            "id": 55,
             "name": "PORTAL_TRANSACTION_RECEIVED",
             "description": "Truy cập trang danh sách giao dịch nhận tiền đến"
           },
           {
+            "id": 56,
             "name": "PORTAL_TRANSACTION_BANK",
             "description": "Truy cập trang Danh sách giao dịch theo sao kê của bank"
           }
         ]
       },
       {
+        "id": 17,
         "name": "PORTAL_FEE_MANAGEMENT",
         "description": "Quản lý phí",
         "actions": [
           {
+            "id": 57,
             "name": "PORTAL_FEE_MANAGEMENT",
             "description": "Báo cáo phí"
           }
         ]
       },
       {
+        "id": 18,
         "name": "PORTAL_REPORT",
         "description": "Quản lý thống kê",
         "actions": [
           {
+            "id": 58,
             "name": "PORTAL_REPORT",
             "description": "Thống kê"
           }
