@@ -19,7 +19,7 @@ import vn.unicloud.umeepay.enums.SystemParameterType;
 
 import javax.validation.Valid;
 
-@Tag(name = "System parameter Controller", description = "Thao tác với tham số hệ thống")
+@Tag(name = "[CMS] System parameter Controller", description = "Thao tác với tham số hệ thống")
 @RequestMapping(value = "/api/parameter")
 @SecurityRequirement(name = OpenApiConfig.BEARER_SCHEME)
 public interface ISystemParamController {
