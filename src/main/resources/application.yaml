@@ -68,3 +68,12 @@ keycloak:
 keycloak-client:
   username: ${KEYCLOAK_CLIENT_USERNAME:admin}
   password: ${KEYCLOAK_CLIENT_PASSWORD:Aqswde123@}
+
+
+# ===============================
+# Ekyc
+# ===============================
+ekyc:
+  endpoint: ${EKYC_ENDPOINT:https://ekyc-dashboard-dev.hcm.unicloud.ai}
+  apiKey: ${EKYC_API_KEY:PY0iidLm+wwPSUPySO16RYsGoT/dDidQYg+iKB/oyH0=}
+  apiKeyHeader: ${EKYC_API_KEY_HEADER:api-key}

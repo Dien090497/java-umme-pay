@@ -40,7 +40,6 @@ public class ProfileResponse extends BaseResponseData {
 
     private String companyPhone;
 
-
     private IdentifyInfo repIdInfo;
 
     private IdentifyInfo ownerIdInfo;

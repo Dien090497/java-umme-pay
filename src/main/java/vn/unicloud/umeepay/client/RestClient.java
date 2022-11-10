@@ -22,8 +22,8 @@ public class RestClient implements IRestClient {
 
     public RestClient(RestTemplateBuilder restTemplateBuilder) {
         this.restTemplate = restTemplateBuilder
-            .setReadTimeout(Duration.of(3, ChronoUnit.SECONDS))
-            .setConnectTimeout(Duration.of(3, ChronoUnit.SECONDS))
+            .setReadTimeout(Duration.of(60, ChronoUnit.SECONDS))
+            .setConnectTimeout(Duration.of(60, ChronoUnit.SECONDS))
             .build();
     }
 
