@@ -38,7 +38,6 @@ public class PermissionGroup {
             joinColumns = @JoinColumn(name = "permission_group_id"),
             inverseJoinColumns = @JoinColumn(name = "permission_id")
     )
-    @JsonIgnore
     private List<Permission> permissions;
 
     @Override

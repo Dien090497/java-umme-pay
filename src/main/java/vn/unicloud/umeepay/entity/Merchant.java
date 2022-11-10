@@ -34,9 +34,13 @@ public class Merchant extends Auditable<String> {
     private MerchantStatus status;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    @JsonIgnore
+    @JoinTable(name = "merchant_users")
     private User user;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "merchant_id", referencedColumnName = "id")
+    @JsonIgnore
+    private List<User> members;
 
     private String accountNo;
 
@@ -51,30 +55,28 @@ public class Merchant extends Auditable<String> {
 
     private String name;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "approved_by_id", referencedColumnName = "id")
     private Administrator approvedBy;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "merchant_members",
-            joinColumns = @JoinColumn(name = "merchant_id"),
-            inverseJoinColumns = @JoinColumn(name = "member_id")
-    )
-    @JsonIgnore
-    private List<User> members;
+    private String disapprovedReason; // lý do từ chối duyệt (nếu có)
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "merchant")
     @JsonIgnore
     private Credential credential;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "merchant")
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "profile_id")
     @JsonIgnore
     private Profile profile;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "merchant")
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "bank_account_id")
     @JsonIgnore
     private BankAccount bankAccount;
+
+    @Enumerated(EnumType.STRING)
+    private MerchantStatus previousStatus;
 
     @Override
     public String toString() {
@@ -86,4 +88,5 @@ public class Merchant extends Auditable<String> {
                 ", webhookApiKey='" + webhookApiKey + '\'' +
                 '}';
     }
+
 }

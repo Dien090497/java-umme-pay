@@ -25,6 +25,11 @@ public class IdentifyInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private String frontUrl;
+
+    private String backUrl;
+
     private String name;
 
     @Enumerated(EnumType.STRING)

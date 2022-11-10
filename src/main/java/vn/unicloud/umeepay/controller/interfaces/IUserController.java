@@ -12,28 +12,28 @@ import vn.unicloud.umeepay.dtos.user.response.*;
 
 import javax.validation.Valid;
 
-@RequestMapping("/api/portal/user")
+@RequestMapping("/api/user")
 @Tag(name = "User controller", description = "thao tác với user")
 public interface IUserController {
 
     @Operation(summary = "Xác thực số điện thoại")
-    @GetMapping("/v1/register/checkPhone")
+    @GetMapping("/portal/v1/register/checkPhone")
     ResponseEntity<ResponseBase<CheckPhoneResponse>> checkPhoneRegister(@RequestParam String phone);
 
     @Operation(summary = "Tạo tài khoản người dùng")
-    @PostMapping("/v1/register/submit")
+    @PostMapping("/portal/v1/register/submit")
     ResponseEntity<ResponseBase<UserResponse>> register(@RequestBody @Valid CreateUserRequest request);
 
     @Operation(summary = "Check Phone để thay đổi password")
-    @PostMapping("/v1/changePassword/checkPhone")
+    @PostMapping("/portal/v1/changePassword/checkPhone")
     ResponseEntity<ResponseBase<CheckPhoneResponse>> checkPhone(@RequestParam String phone);
 
     @Operation(summary = "Kiểm tra OTP")
-    @PostMapping("/v1/changePassword/checkOTP")
+    @PostMapping("/portal/v1/changePassword/checkOTP")
     ResponseEntity<ResponseBase<CheckOTPResponse>> checkOTP(@RequestBody @Valid CheckOTPRequest request);
 
     @Operation(summary = "Đổi mật khẩu")
-    @PostMapping("/v1/changePassword/submit")
+    @PostMapping("/portal/v1/changePassword/submit")
     ResponseEntity<ResponseBase<StatusResponse>> changePassword(@RequestBody @Valid ChangePasswordRequest request);
 
 //    @Operation(

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -15,10 +16,13 @@ import vn.unicloud.umeepay.core.ResponseData;
 import vn.unicloud.umeepay.dtos.request.EncryptedBodyRequest;
 import vn.unicloud.umeepay.dtos.response.EncryptBodyResponse;
 import vn.unicloud.umeepay.entity.Credential;
+import vn.unicloud.umeepay.entity.RoleGroup;
+import vn.unicloud.umeepay.entity.User;
 import vn.unicloud.umeepay.enums.ResponseCode;
 import vn.unicloud.umeepay.exception.InternalException;
 import vn.unicloud.umeepay.repository.CredentialRepository;
 import vn.unicloud.umeepay.utils.CommonUtils;
+import vn.unicloud.umeepay.utils.RedisKeyUtils;
 
 @Service
 @Log4j2
@@ -37,6 +41,10 @@ public class SecurityService {
     private final CredentialRepository credentialRepository;
 
     private final CredentialService credentialService;
+
+    private final RedisService redisService;
+
+    private final UserService userService;
 
     private final ObjectMapper objectMapper;
 
@@ -130,7 +138,7 @@ public class SecurityService {
         String encryptData = CommonUtils.encryptAES(jsonString, secretKey);
         encryptBodyResponse.setData(encryptData);
 
-        //encrypt header validation;
+        // encrypt header validation
         String xApiValidate = CommonUtils.md5(xApiClient
                 + xApiTime
                 + encryptData
@@ -180,6 +188,20 @@ public class SecurityService {
             .headers(responseHeaders)
             .body(new ResponseBase<>(encryptData));
 
+    }
+
+    public String getUserId(String subjectId) {
+        String userId = redisService.getValue(RedisKeyUtils.getUserSubjectKey(subjectId), String.class);
+        if (StringUtils.isBlank(userId)) {
+            User user = userService.getUserBySubjectId(subjectId);
+            if (user == null) {
+                throw new InternalException(ResponseCode.USER_NOT_FOUND);
+            }
+            userId = user.getId();
+            redisService.setValue(RedisKeyUtils.getUserSubjectKey(subjectId), userId);
+            return userId;
+        }
+        return userId;
     }
 
 }

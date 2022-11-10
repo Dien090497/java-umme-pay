@@ -4,12 +4,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import vn.unicloud.umeepay.entity.Administrator;
 import vn.unicloud.umeepay.entity.RoleGroup;
+import vn.unicloud.umeepay.enums.RoleType;
 import vn.unicloud.umeepay.service.AdminService;
+import vn.unicloud.umeepay.service.ContextService;
 import vn.unicloud.umeepay.service.RedisService;
 import vn.unicloud.umeepay.service.RoleService;
 import vn.unicloud.umeepay.utils.RedisKeyUtils;
 
 import java.util.Arrays;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -25,6 +28,9 @@ public class CmsAuthorization implements IAuthorization {
 
     private final RoleService roleService;
 
+    private final String FULL_PERMISSION_ROLE_GROUP_CODE = "CMS_FULL_PERMISSIONS";
+    private final ContextService contextService;
+
     /**
      * @param loggedInId : logged in admin's id
      * @param actions:   Actions in the @Authorized annotation
@@ -35,6 +41,12 @@ public class CmsAuthorization implements IAuthorization {
     public boolean authorize(String loggedInId, String... actions) {
         if (loggedInId == null || actions == null) {
             return false;
+        }
+
+        // Allow all for root admin
+        Set<String> loggedRole = contextService.getLoggedInUserRoles();
+        if (loggedRole.contains(RoleType.ROOT_ADMIN.toString())) {
+            return true;
         }
 
         // Get current user - roleId mapping saved in redis, if not get from DB
@@ -54,6 +66,10 @@ public class CmsAuthorization implements IAuthorization {
             if (roleGr != null) {
                 redisService.setValue(RedisKeyUtils.getRoleKey(roleId), roleGr);
             }
+        }
+
+        if (FULL_PERMISSION_ROLE_GROUP_CODE.equals(roleGr.getCode())) {
+            return true;
         }
 
         return roleGr != null &&

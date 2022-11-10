@@ -9,6 +9,7 @@ import vn.unicloud.umeepay.dtos.admin.response.AdminResponse;
 import vn.unicloud.umeepay.entity.Administrator;
 import vn.unicloud.umeepay.entity.RoleGroup;
 import vn.unicloud.umeepay.enums.ResponseCode;
+import vn.unicloud.umeepay.enums.RoleStatus;
 import vn.unicloud.umeepay.enums.RoleType;
 import vn.unicloud.umeepay.exception.InternalException;
 import vn.unicloud.umeepay.service.AdminService;
@@ -54,6 +55,11 @@ public class CreateAdminHandler extends RequestHandler<CreateAdminRequest, Admin
             if (role == null) {
                 throw new InternalException(ResponseCode.ROLE_ERROR_NOT_FOUND);
             }
+
+            if (!RoleStatus.ACTIVE.equals(role.getStatus())) {
+                throw new InternalException(ResponseCode.ROLE_ERROR_CLOSED);
+            }
+
             admin.setRoleGroup(role);
         }
 

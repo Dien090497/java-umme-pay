@@ -10,6 +10,8 @@ import vn.unicloud.umeepay.dtos.auth.request.AdminChangePasswordRequest;
 import vn.unicloud.umeepay.dtos.auth.request.AdminLogoutRequest;
 import vn.unicloud.umeepay.dtos.auth.request.AdminRefreshTokenRequest;
 import vn.unicloud.umeepay.dtos.auth.request.AdminLoginRequest;
+import vn.unicloud.umeepay.dtos.auth.request.*;
+import vn.unicloud.umeepay.dtos.auth.response.LogoutResponse;
 import vn.unicloud.umeepay.dtos.common.StatusResponse;
 import vn.unicloud.umeepay.dtos.request.*;
 import vn.unicloud.umeepay.dtos.response.*;
@@ -25,6 +27,16 @@ public class AuthController extends BaseController implements IAuthController {
     }
 
     @Override
+    public ResponseEntity<ResponseBase<AccessTokenResponseCustom>> refreshToken(RefreshTokenRequest request) {
+        return this.execute(request, AccessTokenResponseCustom.class);
+    }
+
+    @Override
+    public ResponseEntity<ResponseBase<LogoutResponse>> logout(LogoutRequest request) {
+        return this.execute(request, LogoutResponse.class);
+    }
+
+    @Override
     public ResponseEntity<ResponseBase<AccessTokenResponseCustom>> clientLogin(@Valid @RequestBody ClientLoginRequest request) {
         return this.execute(request, AccessTokenResponseCustom.class);
     }
@@ -35,7 +47,12 @@ public class AuthController extends BaseController implements IAuthController {
     }
 
     @Override
-    public ResponseEntity<ResponseBase<AccessTokenResponseCustom>> adminRefreshToken(AdminRefreshTokenRequest request) {
+    public ResponseEntity<ResponseBase<AccessTokenResponseCustom>> rootLogin(RootAdminLoginRequest request) {
+        return this.execute(request, AccessTokenResponseCustom.class);
+    }
+
+    @Override
+    public ResponseEntity<ResponseBase<AccessTokenResponseCustom>> refreshToken(AdminRefreshTokenRequest request) {
         return this.execute(request, AccessTokenResponseCustom.class);
     }
 

@@ -3,6 +3,7 @@ package vn.unicloud.umeepay.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.Accessors;
+import org.hibernate.annotations.GenericGenerator;
 import vn.unicloud.umeepay.enums.UserStatus;
 
 import javax.persistence.*;
@@ -20,14 +21,18 @@ public class User extends Auditable<String> {
     public static final String COLLECTION_NAME = "user";
 
     @Id
-    @Column(unique = true, nullable = false)
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+        name = "UUID",
+        strategy = "org.hibernate.id.UUIDGenerator"
+    )
     private String id;
 
     @Enumerated(EnumType.STRING)
     @Builder.Default
     private UserStatus status = UserStatus.ACTIVE;
 
-    @ManyToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "merchant_id", referencedColumnName = "id")
     @JsonIgnore
     private Merchant merchant;
@@ -52,6 +57,8 @@ public class User extends Auditable<String> {
 
     @Column(name = "subject_id", unique = true)
     private String subjectId;
+
+    private boolean blockedCluster; // Bị khóa theo nhóm nếu owner bị inactive
 
     @Override
     public String toString() {

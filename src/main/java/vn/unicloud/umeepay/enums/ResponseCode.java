@@ -71,6 +71,11 @@ public enum ResponseCode {
 
     TRANSACTION_EXPIRED(413, "Transaction expired"),
 
+    INVALID_MERCHANT_STATUS (414, "Invalid current merchant status"),
+
+    INACTIVE_MERCHANT (415, "Merchant is current inactive"),
+
+
     // Paygate
     INVALID_CERTIFICATE(501, "Invalid certificate"),
 
@@ -93,8 +98,11 @@ public enum ResponseCode {
 
     ROLE_ERROR_NOT_EMPTY(804, "There is/are user(s) in this role"),
 
+    ROLE_ERROR_CLOSED(805, "Role is closed"),
+
     // Auth
     AUTH_ERROR_INCORRECT_PASSWORD(901, "Incorrect password"),
+    REFRESH_TOKEN_INVALID(902, "Refresh token failed"),
 
 
     // Response message

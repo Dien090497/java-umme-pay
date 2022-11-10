@@ -25,6 +25,7 @@ public class GetListAdminHandler extends RequestHandler<GetListAdminRequest, Pag
                 .setPageNumber(result.getNumber())
                 .setPageSize(result.getSize())
                 .setTotalSize(result.getTotalElements())
+                .setTotalPage(result.getTotalPages())
                 .setItems(result.getContent()
                         .stream()
                         .map(admin -> new AdminResponse(admin))

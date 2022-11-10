@@ -20,7 +20,6 @@ import vn.unicloud.umeepay.enums.UserStatus;
 public class AdminController extends BaseController implements IAdminController {
 
     @Override
-    @Authorized(actions = {"CMS_CREATE_ADMIN", "sdfsfgsdg"})
     public ResponseEntity<ResponseBase<AdminResponse>> createAdmin(CreateAdminRequest request) {
         return this.execute(request, AdminResponse.class);
     }

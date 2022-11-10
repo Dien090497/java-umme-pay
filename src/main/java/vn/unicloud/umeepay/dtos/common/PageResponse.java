@@ -19,5 +19,6 @@ public class PageResponse<T> extends BaseResponseData {
     private int pageNumber = 0;
     private int pageSize = 0;
     private Long totalSize = 0L;
+    private int totalPage = 0;
     private List<T> items = new ArrayList<>();
 }
