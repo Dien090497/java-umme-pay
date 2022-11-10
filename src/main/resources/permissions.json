@@ -317,7 +317,7 @@
       },
       {
         "name": "PORTAL_TRANSFER_MANAGEMENT",
-        "description": "Quản lý ngân sách",
+        "description": "Quản lý chuyển tiền",
         "actions": [
           {
             "name": "PORTAL_TRANSFER_ACCESS",
