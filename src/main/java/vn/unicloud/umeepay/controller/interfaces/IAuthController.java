@@ -76,4 +76,11 @@ public interface IAuthController {
     @SecurityRequirement(name = OpenApiConfig.BEARER_SCHEME)
     ResponseEntity<ResponseBase<StatusResponse>> adminChangePassword(@Valid @RequestBody AdminChangePasswordRequest request);
 
+    @Operation(
+            summary = "Admin logout",
+            description = "- Admin logout"
+    )
+    @RequestMapping(value = "/cms/v1/logout", method = RequestMethod.POST)
+    @SecurityRequirement(name = OpenApiConfig.BEARER_SCHEME)
+    ResponseEntity<ResponseBase<StatusResponse>> adminLogout(@Valid @RequestBody AdminLogoutRequest request);
 }
