@@ -1,8 +1,9 @@
-package vn.unicloud.umeepay.controller.interfaces;
+package vn.unicloud.umeepay.controller;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
+import vn.unicloud.umeepay.controller.interfaces.ISystemParamController;
 import vn.unicloud.umeepay.core.BaseController;
 import vn.unicloud.umeepay.core.ResponseBase;
 import vn.unicloud.umeepay.dtos.paramter.request.CreateSystemParamRequest;
