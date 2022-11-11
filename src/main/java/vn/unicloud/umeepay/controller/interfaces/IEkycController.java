@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import vn.unicloud.umeepay.config.OpenApiConfig;
 import vn.unicloud.umeepay.core.ResponseBase;
-import vn.unicloud.umeepay.dtos.ekyc.request.DetectCardRequest;
+import vn.unicloud.umeepay.dtos.ekyc.request.UploadCardRequest;
 import vn.unicloud.umeepay.dtos.ekyc.response.EkycResponse;
 
 import javax.validation.Valid;
@@ -21,7 +21,7 @@ import javax.validation.Valid;
 public interface IEkycController {
 
     @Operation(summary = "OCR CMND, CCCD, Passport,.. với ekyc")
-    @PostMapping(value = "/v1/detectCard", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    ResponseEntity<ResponseBase<EkycResponse>> detectCard(@ModelAttribute @Valid DetectCardRequest request);
+    @PostMapping(value = "/v1/uploadCard", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    ResponseEntity<ResponseBase<EkycResponse>> detectCard(@ModelAttribute @Valid UploadCardRequest request);
 
 }

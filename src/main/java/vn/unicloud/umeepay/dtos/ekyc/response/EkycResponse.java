@@ -2,11 +2,11 @@ package vn.unicloud.umeepay.dtos.ekyc.response;
 
 import lombok.*;
 import lombok.experimental.Accessors;
-import vn.unicloud.umeepay.core.BaseResponse;
 import vn.unicloud.umeepay.core.BaseResponseData;
 import vn.unicloud.umeepay.entity.Ekyc;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 
 @Getter
@@ -18,10 +18,6 @@ import java.time.LocalDate;
 public class EkycResponse extends BaseResponseData {
 
     private Long id;
-
-    private String frontUrl;
-
-    private String backUrl;
 
     private String name;
 
@@ -65,14 +61,14 @@ public class EkycResponse extends BaseResponseData {
 
     private String idLogicMessage;
 
+    private LocalDateTime createAt;
+
     public EkycResponse(Ekyc ekyc) {
         if (ekyc == null) {
             return;
         }
         this.id = ekyc.getId();
-        this.frontUrl = ekyc.getFrontUrl();
-        this.backUrl = ekyc.getBackUrl();
-        this.name = ekyc.getBackUrl();
+        this.name = ekyc.getName();
         this.street = ekyc.getStreet();
         this.hometown = ekyc.getHometown();
         this.district = ekyc.getDistrict();
@@ -89,11 +85,11 @@ public class EkycResponse extends BaseResponseData {
         this.passportType = ekyc.getPassportType();
         this.issueBy = ekyc.getIssueBy();
         this.issueDate = ekyc.getIssueDate();
-        this.documentId = ekyc.getDocumentId();
         this.optionalData = ekyc.getOptionalData();
         this.idCheck = ekyc.getIdCheck();
         this.idLogic = ekyc.getIdLogic();
         this.idLogicMessage = ekyc.getIdLogicMessage();
+        this.createAt = ekyc.getCreateAt();
     }
 
 }

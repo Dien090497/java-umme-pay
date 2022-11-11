@@ -1,28 +1,22 @@
-package vn.unicloud.umeepay.entity;
+package vn.unicloud.umeepay.client.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
-import lombok.experimental.Accessors;
-import vn.unicloud.umeepay.enums.Gender;
-import vn.unicloud.umeepay.enums.IdentifyType;
 
-import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@Entity
+/**
+ * User for mapping from API EKYC Service
+ */
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Accessors(chain = true)
 @ToString
-@Table(name = IdentifyInfo.COLLECTION_NAME)
-public class IdentifyInfo {
+public class EkycClientResponse {
 
-    public static final String COLLECTION_NAME = "identity_info";
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String frontUrl;
@@ -45,6 +39,7 @@ public class IdentifyInfo {
 
     private String national;
 
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate birthday;
 
     private String ethnicity;
@@ -59,9 +54,12 @@ public class IdentifyInfo {
 
     private String passportType;
 
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate issueDate;
 
     private String issueBy;
+
+    private String documentId;
 
     private String optionalData;
 
@@ -70,7 +68,8 @@ public class IdentifyInfo {
     private String idLogic;
 
     private String idLogicMessage;
-    
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSz")
     private LocalDateTime createAt;
 
 }

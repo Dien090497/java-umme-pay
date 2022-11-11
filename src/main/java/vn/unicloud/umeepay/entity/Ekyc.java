@@ -1,11 +1,8 @@
 package vn.unicloud.umeepay.entity;
 
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import lombok.experimental.Accessors;
-import vn.unicloud.umeepay.enums.Gender;
-import vn.unicloud.umeepay.enums.IdentifyType;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -27,10 +24,6 @@ public class Ekyc {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String frontUrl;
-
-    private String backUrl;
-
     private String name;
 
     private String address;
@@ -47,7 +40,6 @@ public class Ekyc {
 
     private String national;
 
-    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate birthday;
 
     private String ethnicity;
@@ -62,12 +54,9 @@ public class Ekyc {
 
     private String passportType;
 
-    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate issueDate;
 
     private String issueBy;
-
-    private String documentId;
 
     private String optionalData;
 
@@ -76,5 +65,7 @@ public class Ekyc {
     private String idLogic;
 
     private String idLogicMessage;
+
+    private LocalDateTime createAt;
 
 }

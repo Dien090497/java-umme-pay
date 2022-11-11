@@ -28,13 +28,25 @@ spring:
     database-platform: org.hibernate.dialect.MySQL8Dialect
     properties:
       hibernate.dialect: org.hibernate.dialect.MySQL8Dialect
+      hibernate:
+        format_sql: true
     hibernate:
       ddl-auto: update
       use-new-id-generator-mappings: false
+    show-sql: true
   redis:
     host: ${REDIS_HOST:localhost}
     port: ${REDIS_PORT:6379}
     password: ${REDIS_PASSWORD:}
+
+  # ===============================
+  # File upload servlet
+  # ===============================
+  servlet:
+    multipart:
+      max-file-size: ${FILE_UPLOAD_MAX_SIZE:2MB}
+      max-request-size: ${REQUEST_UPLOAD_MAX_SIZE:10MB}
+
 
 umeepay:
   max-timestamp-diff-ms: ${MAX_TIMESTAMP_DIFF_MS:180000}
@@ -74,6 +86,6 @@ keycloak-client:
 # Ekyc
 # ===============================
 ekyc:
-  endpoint: ${EKYC_ENDPOINT:https://ekyc-dashboard-dev.hcm.unicloud.ai}
-  apiKey: ${EKYC_API_KEY:PY0iidLm+wwPSUPySO16RYsGoT/dDidQYg+iKB/oyH0=}
+  endpoint: ${EKYC_ENDPOINT:http://10.30.2.37:8089}
+  apiKey: ${EKYC_API_KEY:TmnH6pvM5qajdmU9XV2xEJNiohwaRjlGATnn+qwWpK0=}
   apiKeyHeader: ${EKYC_API_KEY_HEADER:api-key}

@@ -15,7 +15,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-public class DetectCardRequest extends BaseRequestData implements Serializable {
+public class UploadCardRequest extends BaseRequestData implements Serializable {
 
     @NotNull
     private String merchantId;
