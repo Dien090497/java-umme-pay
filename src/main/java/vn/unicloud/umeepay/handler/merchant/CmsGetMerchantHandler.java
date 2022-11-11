@@ -23,6 +23,7 @@ public class CmsGetMerchantHandler extends RequestHandler<CmsGetMerchantRequest,
         if (merchant == null) {
             throw new InternalException(ResponseCode.MERCHANT_NOT_FOUND);
         }
+
         return new MerchantDetailResponse(merchant);
     }
 }
