@@ -10,18 +10,14 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import vn.unicloud.umeepay.common.IKeycloakClientService;
 import vn.unicloud.umeepay.entity.*;
 import vn.unicloud.umeepay.enums.*;
 import vn.unicloud.umeepay.exception.InternalException;
-import vn.unicloud.umeepay.repository.MerchantRepository;
-import vn.unicloud.umeepay.repository.UserRepository;
-import vn.unicloud.umeepay.service.AuditService;
-import vn.unicloud.umeepay.service.MerchantService;
 import vn.unicloud.umeepay.service.RoleService;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
 import java.util.List;
 
 @SpringBootApplication
@@ -30,6 +26,7 @@ import java.util.List;
 public class VietQRServiceApplication implements CommandLineRunner {
 
     private final RoleService roleService;
+    private final IKeycloakClientService keycloakService;
 
     public static void main(String[] args) {
         SpringApplication.run(VietQRServiceApplication.class, args);
@@ -39,6 +36,9 @@ public class VietQRServiceApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
         importPermissionGroup();
         createFullPermissionRoleGroup();
+
+        String token = keycloakService.getToken();
+        System.out.println(token);
     }
 
     @Transactional

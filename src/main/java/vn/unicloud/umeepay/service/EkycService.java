@@ -75,7 +75,7 @@ public class EkycService {
             String detectUrl = EKYC_ENDPOINT + "/api/ekyc/v1/detect-card/sides";
             MultiValueMap<String, Object> requestEntity = new LinkedMultiValueMap<>();
             requestEntity.add("imageFront", front.getResource());
-            requestEntity.add("imageBack", front.getResource());
+            requestEntity.add("imageBack", back.getResource());
 
             Ekyc ekyc = callEkycApi(detectUrl, HttpMethod.POST, headers, requestEntity);
             return ekyc;
@@ -125,8 +125,8 @@ public class EkycService {
                 requestEntity,
                 (Class) ResponseBase.class);
 
+        log.info("[EKYC-SERVICE] Detect Response {}", detectResponse.getBody());
         HashMap mapResponse = (HashMap) detectResponse.getBody().getData();
-        log.info("[EKYC-SERVICE] Detect Response {}", mapResponse);
         if (mapResponse != null) {
             EkycClientResponse ekycResponse = objectMapper.convertValue(mapResponse.get("ekycIdCardEntity"), EkycClientResponse.class);
             Ekyc ekycResult = modelMapper.map(ekycResponse, Ekyc.class);

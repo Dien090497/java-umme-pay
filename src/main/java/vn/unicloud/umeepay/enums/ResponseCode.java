@@ -113,8 +113,11 @@ public enum ResponseCode {
     // System parameter
     SYSTEM_PARAMETER_ERROR_NOT_FOUND(1101, "System parameter not found"),
     SYSTEM_PARAMETER_ERROR_INVALID_VALUE(1102, "Invalid system parameter value"),
-    SYSTEM_PARAMETER_ERROR_EXISTED_NAME(1102, "System parameter with request name existed");
+    SYSTEM_PARAMETER_ERROR_EXISTED_NAME(1102, "System parameter with request name existed"),
 
+
+    // Storage
+    STORAGE_ERROR_UPLOAD_FAILED(1201, "Upload file to storage failed");
 
     private final int code;
     private final String message;

@@ -21,7 +21,7 @@ import vn.unicloud.umeepay.service.StorageService;
 @Component
 @Slf4j
 @RequiredArgsConstructor
-public class DetectCardHandler extends RequestHandler<UploadCardRequest, EkycResponse> {
+public class UploadCardHandler extends RequestHandler<UploadCardRequest, EkycResponse> {
 
     private final EkycService ekycService;
 
