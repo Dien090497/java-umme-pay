@@ -4,8 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.keycloak.TokenVerifier;
-import org.keycloak.representations.AccessToken;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -17,13 +15,9 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.multipart.MultipartFile;
 import vn.unicloud.umeepay.client.RestClient;
 import vn.unicloud.umeepay.client.response.UploadFileClientResponse;
-import vn.unicloud.umeepay.common.IKeycloakClientService;
 import vn.unicloud.umeepay.core.ResponseBase;
 import vn.unicloud.umeepay.enums.ResponseCode;
-import vn.unicloud.umeepay.enums.UserStatus;
 import vn.unicloud.umeepay.exception.InternalException;
-import vn.unicloud.umeepay.utils.CommonUtils;
-import vn.unicloud.umeepay.utils.RedisKeyUtils;
 
 import java.io.InputStream;
 
@@ -43,8 +37,6 @@ public class StorageService {
 
     private final RedisService redisService;
 
-    private final IKeycloakClientService keycloakService;
-
     private final RestClient restClient;
 
     private final ObjectMapper objectMapper;
@@ -56,18 +48,15 @@ public class StorageService {
         return null;
     }
 
-    @SneakyThrows
     public String uploadFile(MultipartFile file) {
         if (file == null) {
             return null;
         }
 
-        String token = keycloakService.getToken();
-
         log.error("Upload file to storage: {}", file.getOriginalFilename());
         String uploadFileUrl = STORAGE_ENDPOINT + "/static/v1";
         HttpHeaders headers = new HttpHeaders();
-        headers.setBearerAuth(token);
+        headers.add("X-API-KEY", "KEY");
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
         MultiValueMap<String, Object> requestEntity = new LinkedMultiValueMap<>();

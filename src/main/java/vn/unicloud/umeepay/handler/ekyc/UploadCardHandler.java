@@ -70,10 +70,10 @@ public class UploadCardHandler extends RequestHandler<UploadCardRequest, EkycRes
             if (ekycResult == null && idInfo == null) {
                 throw new InternalException(ResponseCode.FAILED);
             }
-            String frontUrl = storageService.uploadFile(request.getImageFront());
-            String backUrl = storageService.uploadFile(request.getImageBack());
-            idInfo.setFrontUrl(frontUrl);
-            idInfo.setBackUrl(backUrl);
+//            String frontUrl = storageService.uploadFile(request.getImageFront());
+//            String backUrl = storageService.uploadFile(request.getImageBack());
+//            idInfo.setFrontUrl(frontUrl);
+//            idInfo.setBackUrl(backUrl);
 
             Ekyc savedEkyc = ekycService.save(ekycResult);
             Merchant savedMerchant = merchantService.saveMerchant(merchant);

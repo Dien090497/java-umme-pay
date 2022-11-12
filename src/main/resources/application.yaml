@@ -94,8 +94,8 @@ keycloak-client:
 # Ekyc
 # ===============================
 ekyc:
-  endpoint: ${EKYC_ENDPOINT:http://10.30.2.37:8089}
-  apiKey: ${EKYC_API_KEY:kcVaN3jFy7jtvHwrdE5wxvpO2DFB7SFCB/R9KeuHH7I=}
+  endpoint: ${EKYC_ENDPOINT:https://ekyc-dashboard-dev.hcm.unicloud.ai}
+  apiKey: ${EKYC_API_KEY:WNpQ5zb8qp4nFH35nhTFyDBgcZfSJSuj}
   apiKeyHeader: ${EKYC_API_KEY_HEADER:api-key}
 
 

@@ -62,6 +62,12 @@ public class EkycService {
         return ekycRepository.save(ekyc);
     }
 
+    /**
+     * Detect CMND/CCCD
+     * @param front
+     * @param back
+     * @return
+     */
     public Ekyc detectIdCard(MultipartFile front, MultipartFile back) {
         if (front == null || front.isEmpty() || back == null || back.isEmpty()) {
             return null;
@@ -86,6 +92,11 @@ public class EkycService {
         return null;
     }
 
+    /**
+     * Detect PASSPORT
+     * @param image
+     * @return
+     */
     public Ekyc detectCard(MultipartFile image) {
         if (image == null || image.isEmpty()) {
             return null;
