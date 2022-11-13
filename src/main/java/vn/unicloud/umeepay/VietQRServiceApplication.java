@@ -12,14 +12,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import vn.unicloud.umeepay.entity.*;
 import vn.unicloud.umeepay.enums.*;
-import vn.unicloud.umeepay.repository.MerchantRepository;
-import vn.unicloud.umeepay.repository.UserRepository;
-import vn.unicloud.umeepay.service.AuditService;
-import vn.unicloud.umeepay.service.MerchantService;
+import vn.unicloud.umeepay.exception.InternalException;
 import vn.unicloud.umeepay.service.RoleService;
 
+import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
 import java.util.List;
 
 @SpringBootApplication
@@ -40,26 +37,20 @@ public class VietQRServiceApplication implements CommandLineRunner {
     }
 
     @Transactional
-    void importPermissionGroup() {
+    void importPermissionGroup() throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         log.info(" ===> Start import permission groups");
-        try {
-            mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
 
-            TypeReference<List<PermissionGroup>> typeReference = new TypeReference<List<PermissionGroup>>() {
-            };
-            InputStream inputStream = TypeReference.class.getResourceAsStream("/permissions.json");
-            List<PermissionGroup> permissionGroups = mapper.readValue(inputStream, typeReference);
+        TypeReference<List<PermissionGroup>> typeReference = new TypeReference<List<PermissionGroup>>() {};
+        InputStream inputStream = TypeReference.class.getResourceAsStream("/permissions.json");
+        List<PermissionGroup> permissionGroups = mapper.readValue(inputStream, typeReference);
 
-            for (PermissionGroup permissionGroup : permissionGroups) {
-                if (roleService.getPermissionGroupByName(permissionGroup.getName(), permissionGroup.getScope()) == null) {
-                    roleService.savePermission(permissionGroup);
-                    log.info("Imported permission group {}", permissionGroup.getName());
-                }
+        for (PermissionGroup permissionGroup : permissionGroups) {
+            if (roleService.savePermission(permissionGroup) == null) {
+                throw new InternalException(ResponseCode.FAILED);
             }
-
-        } catch (Exception ex) {
-            log.error("Import permission group failed, {}", ex.getMessage());
+            log.info("Imported permission group {}", permissionGroup.getName());
         }
 
         log.info(" =====> Stop import permission groups");

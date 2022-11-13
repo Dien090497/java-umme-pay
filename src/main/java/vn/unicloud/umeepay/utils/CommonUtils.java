@@ -237,4 +237,16 @@ public class CommonUtils {
         long number = ThreadLocalRandom.current().nextInt(99999999);
         return String.format("%08d", number);
     }
+
+    public static boolean isNumeric(String strNum) {
+        if (strNum == null) {
+            return false;
+        }
+        try {
+            double d = Double.parseDouble(strNum);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
+    }
 }

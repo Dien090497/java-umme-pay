@@ -36,6 +36,15 @@ spring:
     port: ${REDIS_PORT:6379}
     password: ${REDIS_PASSWORD:}
 
+  # ===============================
+  # File upload servlet size
+  # ===============================
+  servlet:
+    multipart:
+      max-file-size: ${FILE_UPLOAD_MAX_SIZE:10MB}
+      max-request-size: ${REQUEST_UPLOAD_MAX_SIZE:20MB}
+
+
 umeepay:
   max-timestamp-diff-ms: ${MAX_TIMESTAMP_DIFF_MS:180000}
   public-key: ${UMEE_PAY_PUBLIC_KEY:MIGeMA0GCSqGSIb3DQEBAQUAA4GMADCBiAKBgG2ex/aa8Km4Oy8rU5ARHkV7lGfWDGJnB1HHpU8mPaZTr8adCyM1hmXSil7r5S6GCnpChfECr1GdSckQXvgXoVVCkKXw1AGPPf9dc8XBFTho+j+YMC1Gz5xn7O7MMuof/9U+/6BbZXLVDcykMNcq3Bh4iem+J0kwpt/H36Z02VqhAgMBAAE=}
@@ -68,3 +77,29 @@ keycloak:
 keycloak-client:
   username: ${KEYCLOAK_CLIENT_USERNAME:umeepay_admin}
   password: ${KEYCLOAK_CLIENT_PASSWORD:Aqswde123@@}
+  authz:
+    storage:
+      tokenExpire: 300
+      endpoint: ${KEYCLOAK_STORAGE_ENDPOINT:https://idp-dev.hcm.unicloud.ai}
+      secret: ${KEYCLOAK_STORAGE_SECRET:DffVV3FKjGvvLNnAUCg9ES0XTjDlUyyP}
+      realm: ${KEYCLOAK_STORAGE_REALM:pay-gate}
+      resource: ${KEYCLOAK_STORAGE_RESOURCE:umee-pay-service}
+      bearerOnly: true
+      useResourceRoleMappings: true
+
+# ===============================
+# Ekyc
+# ===============================
+ekyc:
+  endpoint: ${EKYC_ENDPOINT:https://ekyc-dashboard-dev.hcm.unicloud.ai}
+  apiKey: ${EKYC_API_KEY:Hs7KRlTyfv8e6vmzKXeNf0FGjgSdBUoU}
+  apiKeyHeader: ${EKYC_API_KEY_HEADER:api-key}
+
+
+# ===============================
+# File upload servlet size
+# ===============================
+storage:
+  endpoint: ${STORAGE_ENDPOINT:https://rd-api.hcm.unicloud.ai/storage}
+  bucket: ${STORAGE_BUCKET:ekyc-dashboard-cms}
+  path: ${STORAGE_PATH:test}

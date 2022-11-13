@@ -1,16 +1,12 @@
 package vn.unicloud.umeepay.entity;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.Accessors;
-import vn.unicloud.umeepay.enums.Gender;
-import vn.unicloud.umeepay.enums.IdentifyType;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -19,6 +15,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Accessors(chain = true)
 @Table(name = Ekyc.COLLECTION_NAME)
+@ToString
 public class Ekyc {
 
     public static final String COLLECTION_NAME = "ekyc";
@@ -33,37 +30,46 @@ public class Ekyc {
 
     private String name;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "gender", length = 6)
-    private Gender gender;
+    private String address;
 
-    private String idNumber;
+    private String street;
 
-    @Enumerated(EnumType.STRING)
-    private IdentifyType type;
+    private String hometown;
+
+    private String district;
+
+    private String province;
+
+    private String country;
+
+    private String national;
+
+    private LocalDate birthday;
+
+    private String ethnicity;
+
+    private String religion;
+
+    private String sex;
+
+    private String no;
+
+    private String idType;
+
+    private String passportType;
 
     private LocalDate issueDate;
 
     private String issueBy;
 
-    private String address;
+    private String optionalData;
 
-    private String nation;
+    private String idCheck;
 
-    @Override
-    public String toString() {
-        return "Ekyc{" +
-                "id=" + id +
-                ", frontUrl='" + frontUrl + '\'' +
-                ", backUrl='" + backUrl + '\'' +
-                ", name='" + name + '\'' +
-                ", gender=" + gender +
-                ", idNumber='" + idNumber + '\'' +
-                ", type=" + type +
-                ", issueDate=" + issueDate +
-                ", issueBy='" + issueBy + '\'' +
-                ", address='" + address + '\'' +
-                ", nation='" + nation + '\'' +
-                '}';
-    }
+    private String idLogic;
+
+    private String idLogicMessage;
+
+    private LocalDateTime createAt;
+
 }

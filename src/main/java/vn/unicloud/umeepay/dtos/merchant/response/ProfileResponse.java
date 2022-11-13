@@ -1,5 +1,6 @@
 package vn.unicloud.umeepay.dtos.merchant.response;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import lombok.experimental.Accessors;
 import vn.unicloud.umeepay.core.BaseResponseData;
@@ -39,13 +40,16 @@ public class ProfileResponse extends BaseResponseData {
 
     private String companyPhone;
 
-
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private IdentifyInfo repIdInfo;
 
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private IdentifyInfo ownerIdInfo;
 
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private List<Document> documents;
 
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private List<BusinessOwner> owners;
 
     public ProfileResponse(Profile profile) {

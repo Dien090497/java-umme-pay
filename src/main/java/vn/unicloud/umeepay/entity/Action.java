@@ -20,7 +20,6 @@ public class Action {
     public static final String COLLECTION_NAME = "action";
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;

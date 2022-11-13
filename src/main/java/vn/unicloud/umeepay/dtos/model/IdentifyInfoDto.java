@@ -26,11 +26,11 @@ public class IdentifyInfoDto {
 
     private String name;
 
-    private Gender gender;
+    private String sex;
 
-    private String idNumber;
+    private String no;
 
-    private IdentifyType type;
+    private String type;
 
     private LocalDate issueDate;
 
@@ -38,20 +38,20 @@ public class IdentifyInfoDto {
 
     private String address;
 
-    private String nation;
+    private String national;
 
     public IdentifyInfoDto(IdentifyInfo identifyInfo) {
         this.id = identifyInfo.getId();
         this.frontUrl = identifyInfo.getFrontUrl();
         this.backUrl = identifyInfo.getBackUrl();
         this.name = identifyInfo.getName();
-        this.gender = identifyInfo.getGender();
-        this.idNumber = identifyInfo.getIdNumber();
-        this.type = identifyInfo.getType();
+        this.sex = identifyInfo.getSex();
+        this.no = identifyInfo.getNo();
+        this.type = identifyInfo.getIdType();
         this.issueDate = identifyInfo.getIssueDate();
         this.issueBy = identifyInfo.getIssueBy();
         this.address = identifyInfo.getAddress();
-        this.nation = identifyInfo.getNation();
+        this.national = identifyInfo.getNational();
     }
 
 }

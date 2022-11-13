@@ -25,11 +25,11 @@ public class EkycDto {
 
     private String name;
 
-    private Gender gender;
+    private String sex;
 
-    private String idNumber;
+    private String no;
 
-    private IdentifyType type;
+    private String idType;
 
     private LocalDate issueDate;
 
@@ -37,20 +37,20 @@ public class EkycDto {
 
     private String address;
 
-    private String nation;
+    private String national;
 
     public EkycDto(Ekyc ekyc) {
         this.id = ekyc.getId();
         this.frontUrl = ekyc.getFrontUrl();
         this.backUrl = ekyc.getBackUrl();
         this.name = ekyc.getName();
-        this.gender = ekyc.getGender();
-        this.idNumber = ekyc.getIdNumber();
-        this.type = ekyc.getType();
+        this.sex = ekyc.getSex();
+        this.no = ekyc.getNo();
+        this.idType = ekyc.getIdType();
         this.issueDate = ekyc.getIssueDate();
         this.issueBy = ekyc.getIssueBy();
         this.address = ekyc.getAddress();
-        this.nation = ekyc.getNation();
+        this.national = ekyc.getNational();
     }
 
 }
