@@ -56,15 +56,15 @@ umeepay:
 # Keycloak Config
 # ===============================
 keycloak:
-  realm: ${KEYCLOAK_REALM:umeepay}
-  auth-server-url: ${KEYCLOAK_AUTH_SERVER_URL:https://idp-ca-dev.hcm.unicloud.ai/auth}
+  realm: ${KEYCLOAK_REALM:umee-local}
+  auth-server-url: ${KEYCLOAK_AUTH_SERVER_URL:https://idp-dev.hcm.unicloud.ai}
   ssl-required: ${KEYCLOAK_SSL_REQUIRED:external}
   resource: ${KEYCLOAK_RESOURCE:umee-pay}
   credentials:
-    secret: ${KEYCLOAK_CREDENTIALS_SECRET:iHWZS8rcsMmSGyewHAYY1KvwQUr07V6I}
+    secret: ${KEYCLOAK_CREDENTIALS_SECRET:AB452t8yc9x2z91A63R14Of0LH97hyIg}
   use-resource-role-mappings: true
   bearer-only: true
 
 keycloak-client:
-  username: ${KEYCLOAK_CLIENT_USERNAME:admin}
-  password: ${KEYCLOAK_CLIENT_PASSWORD:Aqswde123@}
+  username: ${KEYCLOAK_CLIENT_USERNAME:umeepay_admin}
+  password: ${KEYCLOAK_CLIENT_PASSWORD:Aqswde123@@}

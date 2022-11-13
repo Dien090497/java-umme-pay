@@ -51,6 +51,7 @@ public class CheckOTPHandler extends RequestHandler<CheckOTPRequest, CheckOTPRes
         if (otpKey == null ||
             !Objects.equals(otpKey.getSessionId(), request.getSessionId()) ||
             !Objects.equals(otpKey.getPhone(), request.getPhone()) ||
+            !Objects.equals(otpKey.getSignature(), CommonUtils.md5(request.getPhone())) ||
             !Objects.equals(otpKey.getOtp(), request.getOtp())) {
             log.error("Invalid OTP");
             throw new InternalException(ResponseCode.OTP_INVALID);

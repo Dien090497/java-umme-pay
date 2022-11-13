@@ -74,6 +74,8 @@ public enum ResponseCode {
     INVALID_MERCHANT_STATUS (414, "Invalid current merchant status"),
 
     INACTIVE_MERCHANT (415, "Merchant is current inactive"),
+    INVALID_ENTERPRISE_INFO (416, "Invalid enterprise info"),
+    INVALID_PERSONAL_INFO (417, "Invalid personal info"),
 
 
     // Paygate

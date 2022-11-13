@@ -30,6 +30,8 @@ public class Merchant extends Auditable<String> {
     )
     private String id;
 
+    private String merchantCode;
+
     @Enumerated(EnumType.STRING)
     private MerchantStatus status;
 
@@ -48,7 +50,6 @@ public class Merchant extends Auditable<String> {
 
     private String webhookApiKey;
 
-
     private LocalDateTime requestAt;
 
     private LocalDateTime approvedAt;
@@ -61,19 +62,17 @@ public class Merchant extends Auditable<String> {
 
     private String disapprovedReason; // lý do từ chối duyệt (nếu có)
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "merchant")
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
     private Credential credential;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "profile_id")
     @JsonIgnore
     private Profile profile;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "bank_account_id")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "merchant")
     @JsonIgnore
-    private BankAccount bankAccount;
+    private List<BankAccount> bankAccounts;
 
     @Enumerated(EnumType.STRING)
     private MerchantStatus previousStatus;

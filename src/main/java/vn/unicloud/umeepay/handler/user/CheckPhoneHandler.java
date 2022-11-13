@@ -33,6 +33,6 @@ public class CheckPhoneHandler extends RequestHandler<CheckPhoneRequest, CheckPh
             throw new InternalException(ResponseCode.PHONE_NUMBER_INVALID);
         }
 
-        return userService.checkPhone(requestPhone);
+        return userService.checkPhone(requestPhone, CommonUtils.md5(requestPhone));
     }
 }

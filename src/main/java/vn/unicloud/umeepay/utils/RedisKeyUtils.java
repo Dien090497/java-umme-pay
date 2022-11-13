@@ -10,6 +10,8 @@ public class RedisKeyUtils {
 
     private static final String CHANGE_PASSWORD_SESSION = "UPAY_CHANGE_PASSWORD_SESSION_";
 
+    private static final String VERIFY_BANK_SESSION = "UPAY_VERIFY_BANK_SESSION_";
+
     private static final String UMPAY_REDIS_PREFIX_USER_ROLE = "UPAY_USER_ROLE_";
 
     private static final String UMPAY_REDIS_PREFIX_ROLE = "UPAY_ROLE_";
@@ -30,6 +32,10 @@ public class RedisKeyUtils {
 
     public static String getChangePasswordSession(String id) {
         return CHANGE_PASSWORD_SESSION + id;
+    }
+
+    public static String getVerifyBankSession(String id) {
+        return VERIFY_BANK_SESSION + id;
     }
 
     public static String getUserRoleKey(String userId) {

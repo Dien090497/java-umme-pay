@@ -6,6 +6,7 @@ import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.keycloak.TokenVerifier;
 import org.keycloak.representations.AccessToken;
+import vn.unicloud.umeepay.enums.Branch;
 import vn.unicloud.umeepay.enums.TransactionStatus;
 
 import javax.crypto.Cipher;
@@ -30,6 +31,10 @@ public class CommonUtils {
 
     public static String generateUUID() {
         return UUID.randomUUID().toString();
+    }
+
+    public static String buildLinkBankSignature(Branch branch, String accountNo, String accountName) {
+        return String.format("%s|%s|%s", branch.toString(), accountNo, accountName);
     }
 
     public static String getOTP(boolean isHardCode) {
@@ -226,5 +231,10 @@ public class CommonUtils {
             return "12345678";
         }
         return RandomStringUtils.randomAlphanumeric(size);
+    }
+
+    public static String getRandomMerchantCode() {
+        long number = ThreadLocalRandom.current().nextInt(99999999);
+        return String.format("%08d", number);
     }
 }

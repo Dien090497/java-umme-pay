@@ -45,36 +45,31 @@ public class MerchantService {
     private final CredentialRepository credentialRepository;
 
     @Transactional
-    public CreateMerchantResponse createMerchant(CreateMerchantRequest request) {
-        User user = userRepository.findById(request.getUserId()).orElseThrow(
-                () -> {
-                    throw new InternalException(ResponseCode.USER_NOT_FOUND);
-                }
-        );
-        Merchant merchant = merchantRepository.findFirstByUserId(request.getUserId());
+    public CreateMerchantResponse createMerchant(User user) {
+        if (user == null) {
+            throw new InternalException(ResponseCode.INVALID_USER_STATUS);
+        }
+        Merchant merchant = merchantRepository.findFirstByUserId(user.getId());
         if (merchant != null) {
             throw new InternalException(ResponseCode.MERCHANT_ALREADY_CREATED);
         }
+        Credential credential = Credential.builder()
+            .clientId(UUID.randomUUID().toString())
+            .createdAt(LocalDateTime.now())
+            .secretKey(CommonUtils.getEncryptKey(128))
+            .status(KeyStatus.ACTIVE)
+            .publicKey(umeePayPublicKey)
+            .build();
         merchant = Merchant.builder()
-                .accountNo(request.getAccountNo())
-                .status(MerchantStatus.ACTIVE)
-                .name(request.getMerchantName())
-                .user(user)
-                .build();
+            .merchantCode(CommonUtils.getRandomMerchantCode())
+            .status(MerchantStatus.CREATED)
+            .name(user.getPhone())
+            .credential(credential)
+            .user(user)
+            .build();
 
         merchant = merchantRepository.save(merchant);
-        Credential credential = Credential.builder()
-                .clientId(UUID.randomUUID().toString())
-                .createdAt(LocalDateTime.now())
-                .secretKey(CommonUtils.getEncryptKey(128))
-                .status(KeyStatus.ACTIVE)
-                .publicKey(umeePayPublicKey)
-                .merchant(merchant)
-                .build();
-        credentialRepository.save(credential);
-        merchant = merchantRepository.findFirstByUserId(request.getUserId());
-        MerchantDto merchantDto = ModelMapperUtils.mapper(merchant, MerchantDto.class);
-        return new CreateMerchantResponse(true, merchantDto);
+        return new CreateMerchantResponse(true, new MerchantDto(merchant));
     }
 
     public GetMerchantResponse getMerchant(GetMerchantRequest request) {
@@ -82,7 +77,8 @@ public class MerchantService {
         if (merchant == null) {
             throw new InternalException(ResponseCode.MERCHANT_NOT_FOUND);
         }
-        return new GetMerchantResponse(true, ModelMapperUtils.mapper(merchant, MerchantDto.class));
+        log.debug("Profile: {}", merchant.getProfile());
+        return new GetMerchantResponse(new MerchantDto(merchant));
     }
 
     public UpdateMerchantResponse updateMerchant(UpdateMerchantRequest request) {
@@ -96,8 +92,8 @@ public class MerchantService {
         if (StringUtils.isNoneBlank(request.getAccountNo())) {
             merchant.setAccountNo(request.getAccountNo());
         }
-        merchantRepository.save(merchant);
-        return new UpdateMerchantResponse(true);
+        merchant = merchantRepository.save(merchant);
+        return new UpdateMerchantResponse(new MerchantDto(merchant));
     }
 
     public GetMerchantCredentialResponse getMerchantCredential(GetMerchantCredentialRequest request) {
@@ -139,6 +135,6 @@ public class MerchantService {
         if (userId == null) {
             return null;
         }
-        return merchantRepository.findByUserId(userId).orElse(null);
+        return merchantRepository.findFirstByUserId(userId);
     }
 }

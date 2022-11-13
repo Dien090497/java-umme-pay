@@ -11,7 +11,7 @@ import vn.unicloud.umeepay.dtos.model.MerchantDto;
 @Setter
 @ToString
 @AllArgsConstructor
-public class UpdateMerchantResponse extends BaseResponseData {
+public class SubmitProfileInfoResponse extends BaseResponseData {
 
     private MerchantDto merchant;
 

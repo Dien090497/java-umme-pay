@@ -6,6 +6,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import vn.unicloud.umeepay.constant.BaseConstant;
 import vn.unicloud.umeepay.core.RequestHandler;
+import vn.unicloud.umeepay.dtos.merchant.response.CreateMerchantResponse;
+import vn.unicloud.umeepay.dtos.merchant.response.MerchantResponse;
 import vn.unicloud.umeepay.dtos.user.request.CreateUserRequest;
 import vn.unicloud.umeepay.dtos.user.response.UserResponse;
 import vn.unicloud.umeepay.entity.Merchant;
@@ -39,7 +41,6 @@ public class CreateUserHandler extends RequestHandler<CreateUserRequest, UserRes
     private final RedisService redisService;
 
     @Override
-    @Transactional
     public UserResponse handle(CreateUserRequest request) {
         String requestPhone = request.getPhone().trim();
         String requestPassword = request.getPassword();
@@ -86,11 +87,15 @@ public class CreateUserHandler extends RequestHandler<CreateUserRequest, UserRes
             throw new InternalException(ResponseCode.CREATE_USER_FAILED);
         }
 
-        Merchant merchant = Merchant.builder()
-            .status(MerchantStatus.CREATED)
-            .build();
-
-        merchantService.saveMerchant(merchant);
+        try {
+            log.debug("Try to create merchant for userId = {}", userId);
+            merchantService.createMerchant(user);
+        } catch (Exception e) {
+            log.error("Create merchant error, {}", e.getMessage());
+            keycloakService.deleteUser(userId);
+            userService.deleteUser(user.getId());
+            throw new InternalException(ResponseCode.CREATE_USER_FAILED);
+        }
 
         return new UserResponse(createdUser);
     }

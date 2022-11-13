@@ -1,33 +1,31 @@
-package vn.unicloud.umeepay.dtos.merchant.response;
+package vn.unicloud.umeepay.dtos.model;
 
 import lombok.*;
-import lombok.experimental.Accessors;
-import vn.unicloud.umeepay.core.BaseResponseData;
 import vn.unicloud.umeepay.entity.*;
 import vn.unicloud.umeepay.enums.BusinessProduct;
 import vn.unicloud.umeepay.enums.BusinessType;
 import vn.unicloud.umeepay.enums.RevenueType;
+
 import java.util.List;
 
 @Getter
 @Setter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@Accessors(chain = true)
-@ToString
-public class ProfileResponse extends BaseResponseData {
+public class ProfileDto {
 
-    private String id;
+    private BusinessType businessType; // Loại hình kinh doanh
 
-    private BusinessType businessType;
+    private List<BusinessProduct> businessSectors; // Lĩnh vực kinh doanh
 
-    private List<BusinessProduct> businessSectors;
-
-    private String businessItems;
+    private String businessItems; // Các mặt hàng kinh doanh
 
     private Long transactionMaxAmount;
 
     private RevenueType revenueType;
+
+    private String contactEmail;
 
     private String websiteUrl;
 
@@ -39,36 +37,48 @@ public class ProfileResponse extends BaseResponseData {
 
     private String companyPhone;
 
+    private IdentifyInfoDto representativeInfo;
 
-    private IdentifyInfo repIdInfo;
+    private IdentifyInfoDto ownerInfo;
 
-    private IdentifyInfo ownerIdInfo;
+    private EkycDto repEkyc;
+
+    private EkycDto ownerEkyc;
 
     private List<Document> documents;
 
     private List<BusinessOwner> owners;
 
-    public ProfileResponse(Profile profile) {
-        if (profile == null) {
-            return;
-        }
-
-        this.id = profile.getId();
+    public ProfileDto(Profile profile) {
         this.businessType = profile.getBusinessType();
         this.businessSectors = profile.getBusinessSectors();
         this.businessItems = profile.getBusinessItems();
         this.transactionMaxAmount = profile.getTransactionMaxAmount();
         this.revenueType = profile.getRevenueType();
+        this.contactEmail = profile.getContactEmail();
         this.websiteUrl = profile.getWebsiteUrl();
         this.storeAddress = profile.getStoreAddress();
         this.companyName = profile.getCompanyName();
         this.companyAddress = profile.getCompanyAddress();
         this.companyPhone = profile.getCompanyPhone();
-        this.owners = profile.getOwners();
-        this.repIdInfo = profile.getRepresentativeInfo();
-        this.ownerIdInfo = profile.getOwnerInfo();
+        IdentifyInfo identifyInfo = profile.getRepresentativeInfo();
+        if (identifyInfo != null) {
+            this.representativeInfo = new IdentifyInfoDto(identifyInfo);
+        }
+        identifyInfo = profile.getOwnerInfo();
+        if (identifyInfo != null) {
+            this.ownerInfo = new IdentifyInfoDto(identifyInfo);
+        }
+        Ekyc ekyc = profile.getRepEkyc();
+        if (repEkyc != null) {
+            this.repEkyc = new EkycDto(ekyc);
+        }
+        ekyc = profile.getOwnerEkyc();
+        if (ekyc != null) {
+            this.ownerEkyc = new EkycDto(ekyc);
+        }
         this.documents = profile.getDocuments();
-
+        this.owners = profile.getOwners();
     }
 
 }

@@ -34,6 +34,6 @@ public class CheckPhoneRegisterHandler extends RequestHandler<CheckPhoneRegister
             throw new InternalException(ResponseCode.EXISTED_PHONE);
         }
 
-        return userService.checkPhone(requestPhone);
+        return userService.checkPhone(requestPhone, CommonUtils.md5(requestPhone));
     }
 }
