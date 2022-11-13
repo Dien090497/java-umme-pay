@@ -33,10 +33,10 @@ public class Credential {
     @Enumerated(EnumType.STRING)
     private KeyStatus status;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "merchant_id", referencedColumnName = "id")
-    @JsonIgnore
-    private Merchant merchant;
+//    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    @JoinColumn(name = "merchant_id", referencedColumnName = "id")
+//    @JsonIgnore
+//    private Merchant merchant;
 
     @Builder.Default
     private LocalDateTime createdAt = LocalDateTime.now();

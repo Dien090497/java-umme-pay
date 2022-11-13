@@ -54,6 +54,10 @@ public class UserService {
         return null;
     }
 
+    public void deleteUser(String userId) {
+        userRepository.deleteById(userId);
+    }
+
     /**
      * @param phone
      * @return user
@@ -80,7 +84,7 @@ public class UserService {
     }
 
     @SneakyThrows
-    public CheckPhoneResponse checkPhone(String phone) {
+    public CheckPhoneResponse checkPhone(String phone, String signature) {
         String otpKey = RedisKeyUtils.getOtpKey(phone);
         if (redisService.exist(otpKey)) {
             log.error("Existed OTP");
@@ -90,7 +94,7 @@ public class UserService {
         String sessionId = CommonUtils.generateUUID();
         String otp = CommonUtils.getOTP(hardCodeOTP);
         // TODO: Send otp
-        OTPKey key = new OTPKey(otp, phone, sessionId);
+        OTPKey key = new OTPKey(otp, phone, sessionId, signature);
         log.debug("Phone: {}, OTP info: {}", key.getPhone(), key.getOtp());
 
         redisService.setValue(otpKey, key);

@@ -2,8 +2,15 @@ package vn.unicloud.umeepay.dtos.merchant.response;
 
 import lombok.*;
 import lombok.experimental.Accessors;
+import vn.unicloud.umeepay.dtos.model.BankAccountDto;
 import vn.unicloud.umeepay.dtos.user.response.UserResponse;
+import vn.unicloud.umeepay.entity.BankAccount;
 import vn.unicloud.umeepay.entity.Merchant;
+import vn.unicloud.umeepay.entity.Profile;
+import vn.unicloud.umeepay.entity.User;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -13,7 +20,7 @@ public class MerchantDetailResponse extends MerchantResponse {
 
     private ProfileResponse profile;
 
-    private BankAccountResponse bankAccount;
+    private List<BankAccountDto> bankAccounts;
 
     private UserResponse owner;
 
@@ -23,16 +30,19 @@ public class MerchantDetailResponse extends MerchantResponse {
             return;
         }
 
-        this.owner = merchant.getUser() != null
-                ? new UserResponse(merchant.getUser())
+        User user = merchant.getUser();
+        this.owner = user != null
+                ? new UserResponse(user)
                 : null;
 
-        this.profile = merchant.getProfile() != null
-                ? new ProfileResponse(merchant.getProfile())
+        Profile profile = merchant.getProfile();
+        this.profile = profile != null
+                ? new ProfileResponse(profile)
                 : null;
 
-        this.bankAccount = merchant.getBankAccount() != null
-                ? new BankAccountResponse(merchant.getBankAccount())
+        List<BankAccount> bankAccount = merchant.getBankAccounts();
+        this.bankAccounts = bankAccount != null
+                ? bankAccount.stream().map(BankAccountDto::new).collect(Collectors.toList())
                 : null;
     }
 }

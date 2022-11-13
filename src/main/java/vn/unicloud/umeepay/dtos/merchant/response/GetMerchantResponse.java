@@ -13,8 +13,6 @@ import vn.unicloud.umeepay.dtos.model.MerchantDto;
 @AllArgsConstructor
 public class GetMerchantResponse extends BaseResponseData {
 
-    private boolean success;
-
     private MerchantDto merchant;
 
 }

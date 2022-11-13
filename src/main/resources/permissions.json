@@ -10,7 +10,11 @@
         "name": "CMS_ADMIN_MANAGEMENT",
         "description": "Quản lý quản trị viên hệ thống",
         "actions": [
-
+          {
+            "id": 1,
+            "name": "CMS_ADMIN_ACCESS",
+            "description": "Truy cập trang quản trị viên"
+          },
           {
             "id": 2,
             "name": "CMS_ADMIN_CREATE",

@@ -17,6 +17,7 @@ public class CreateMerchantHandler extends RequestHandler<CreateMerchantRequest,
 
     @Override
     public CreateMerchantResponse handle(CreateMerchantRequest request) {
-        return merchantService.createMerchant(request);
+//        return merchantService.createMerchant(request.getUserId());
+        return null;
     }
 }

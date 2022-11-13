@@ -13,15 +13,10 @@ import org.springframework.util.Assert;
 import vn.unicloud.umeepay.entity.*;
 import vn.unicloud.umeepay.enums.*;
 import vn.unicloud.umeepay.exception.InternalException;
-import vn.unicloud.umeepay.repository.MerchantRepository;
-import vn.unicloud.umeepay.repository.UserRepository;
-import vn.unicloud.umeepay.service.AuditService;
-import vn.unicloud.umeepay.service.MerchantService;
 import vn.unicloud.umeepay.service.RoleService;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
 import java.util.List;
 
 @SpringBootApplication

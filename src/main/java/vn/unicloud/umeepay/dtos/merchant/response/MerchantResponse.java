@@ -5,6 +5,7 @@ import lombok.experimental.Accessors;
 import vn.unicloud.umeepay.core.BaseResponseData;
 import vn.unicloud.umeepay.dtos.admin.response.AdminResponse;
 import vn.unicloud.umeepay.entity.Merchant;
+import vn.unicloud.umeepay.enums.BusinessProduct;
 import vn.unicloud.umeepay.enums.BusinessType;
 import vn.unicloud.umeepay.enums.MerchantStatus;
 import vn.unicloud.umeepay.enums.RevenueType;
@@ -12,6 +13,7 @@ import vn.unicloud.umeepay.enums.RevenueType;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -47,7 +49,7 @@ public class MerchantResponse extends BaseResponseData {
 
     private BusinessType businessType;
 
-    private String businessSector;
+    private List<BusinessProduct> businessSector;
 
     private String businessItems;
 
@@ -77,7 +79,7 @@ public class MerchantResponse extends BaseResponseData {
 
         if (merchant.getProfile() != null) {
             this.businessType = merchant.getProfile().getBusinessType();
-            this.businessSector = merchant.getProfile().getBusinessSector();
+            this.businessSector = merchant.getProfile().getBusinessSectors();
             this.businessItems = merchant.getProfile().getBusinessItems();
         }
 

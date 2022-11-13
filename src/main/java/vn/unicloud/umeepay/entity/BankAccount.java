@@ -29,7 +29,7 @@ public class BankAccount {
     )
     private String id;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "merchant_id", referencedColumnName = "id")
     private Merchant merchant;
 

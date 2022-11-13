@@ -14,5 +14,6 @@ public class OTPKey {
     private String otp;
     private String phone;
     private String sessionId;
+    private String signature;
 
 }

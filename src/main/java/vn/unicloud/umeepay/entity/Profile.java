@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.GenericGenerator;
+import vn.unicloud.umeepay.enums.BusinessProduct;
 import vn.unicloud.umeepay.enums.BusinessType;
 import vn.unicloud.umeepay.enums.RevenueType;
 
@@ -32,15 +33,18 @@ public class Profile {
     )
     private String id;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "profile")
-    private Merchant merchant;
-
-    private String name;
+//    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    @JoinColumn(name = "merchant_id", referencedColumnName = "id")
+//    @JsonIgnore
+//    private Merchant merchant;
 
     @Enumerated(EnumType.STRING)
     private BusinessType businessType; // Loại hình kinh doanh
 
-    private String businessSector; // Lĩnh vực kinh doanh
+    @Column(name = "business_sectors")
+    @ElementCollection
+    @JoinTable(name = "profile_business_sectors", joinColumns = @JoinColumn(name = "profile_id"))
+    private List<BusinessProduct> businessSectors; // Lĩnh vực kinh doanh
 
     private String businessItems; // Các mặt hàng kinh doanh
 
@@ -48,6 +52,8 @@ public class Profile {
 
     @Enumerated(EnumType.STRING)
     private RevenueType revenueType;
+
+    private String contactEmail;
 
     private String websiteUrl;
 
@@ -85,9 +91,8 @@ public class Profile {
     public String toString() {
         return "Profile{" +
                 "id='" + id + '\'' +
-                ", name='" + name + '\'' +
                 ", businessType=" + businessType +
-                ", businessSector='" + businessSector + '\'' +
+                ", businessSector='" + businessSectors + '\'' +
                 ", businessItems='" + businessItems + '\'' +
                 ", transactionMaxAmount=" + transactionMaxAmount +
                 ", revenueType=" + revenueType +

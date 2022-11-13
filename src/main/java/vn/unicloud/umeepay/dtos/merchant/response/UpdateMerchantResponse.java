@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import vn.unicloud.umeepay.core.BaseResponseData;
+import vn.unicloud.umeepay.dtos.model.MerchantDto;
 
 @Getter
 @Setter
@@ -12,6 +13,6 @@ import vn.unicloud.umeepay.core.BaseResponseData;
 @AllArgsConstructor
 public class UpdateMerchantResponse extends BaseResponseData {
 
-    private boolean success;
+    private MerchantDto merchant;
 
 }

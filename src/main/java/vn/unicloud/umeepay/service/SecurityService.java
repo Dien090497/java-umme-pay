@@ -191,10 +191,12 @@ public class SecurityService {
     }
 
     public String getUserId(String subjectId) {
+        log.debug("SubjectId: {}", subjectId);
         String userId = redisService.getValue(RedisKeyUtils.getUserSubjectKey(subjectId), String.class);
         if (StringUtils.isBlank(userId)) {
             User user = userService.getUserBySubjectId(subjectId);
             if (user == null) {
+                log.error("User not found");
                 throw new InternalException(ResponseCode.USER_NOT_FOUND);
             }
             userId = user.getId();

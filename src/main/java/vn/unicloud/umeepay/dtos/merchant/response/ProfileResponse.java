@@ -1,9 +1,11 @@
 package vn.unicloud.umeepay.dtos.merchant.response;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import lombok.experimental.Accessors;
 import vn.unicloud.umeepay.core.BaseResponseData;
 import vn.unicloud.umeepay.entity.*;
+import vn.unicloud.umeepay.enums.BusinessProduct;
 import vn.unicloud.umeepay.enums.BusinessType;
 import vn.unicloud.umeepay.enums.RevenueType;
 import java.util.List;
@@ -18,11 +20,9 @@ public class ProfileResponse extends BaseResponseData {
 
     private String id;
 
-    private String name;
-
     private BusinessType businessType;
 
-    private String businessSector;
+    private List<BusinessProduct> businessSectors;
 
     private String businessItems;
 
@@ -40,13 +40,16 @@ public class ProfileResponse extends BaseResponseData {
 
     private String companyPhone;
 
-
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private IdentifyInfo repIdInfo;
 
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private IdentifyInfo ownerIdInfo;
 
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private List<Document> documents;
 
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private List<BusinessOwner> owners;
 
     public ProfileResponse(Profile profile) {
@@ -55,9 +58,8 @@ public class ProfileResponse extends BaseResponseData {
         }
 
         this.id = profile.getId();
-        this.name = profile.getName();
         this.businessType = profile.getBusinessType();
-        this.businessSector = profile.getBusinessSector();
+        this.businessSectors = profile.getBusinessSectors();
         this.businessItems = profile.getBusinessItems();
         this.transactionMaxAmount = profile.getTransactionMaxAmount();
         this.revenueType = profile.getRevenueType();
