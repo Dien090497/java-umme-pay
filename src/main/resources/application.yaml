@@ -95,6 +95,8 @@ ekyc:
   endpoint: ${EKYC_ENDPOINT:https://ekyc-dashboard-dev.hcm.unicloud.ai}
   apiKey: ${EKYC_API_KEY:Hs7KRlTyfv8e6vmzKXeNf0FGjgSdBUoU}
   apiKeyHeader: ${EKYC_API_KEY_HEADER:api-key}
+  ocrCardPath: ${EKYC_OCR_CARD_PATH:/api/ekyc/v1/idcard/front}
+  ocrIdPath: ${EKYC_OCR_ID_PATH:/api/ekyc/v1/detect-card/sides}
 
 
 # ===============================
@@ -104,6 +106,8 @@ storage:
   endpoint: ${STORAGE_ENDPOINT:https://rd-api.hcm.unicloud.ai/storage}
   bucket: ${STORAGE_BUCKET:ekyc-dashboard-cms}
   path: ${STORAGE_PATH:test}
+  uploadPrivatePath: ${STORAGE_PATH:/files}
+  uploadPublicPath: ${STORAGE_PATH:/static/upload/public}
 
 # ===============================
 # Swagger UI & Open API Docs

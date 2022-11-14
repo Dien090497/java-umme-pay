@@ -40,10 +40,6 @@ public class CmsBlockMerchantMemberHandler extends RequestHandler<CmsBlockMercha
             throw new InternalException(ResponseCode.INVALID_USER_STATUS);
         }
 
-        /**
-         * Get merchant of blocked user
-         * if user is merchant owner, then blocked merchant and all the rest members of this merchant
-         */
         Merchant merchant = merchantService.getMerchantByUserId(user.getId());
         if (merchant == null) {
             log.error("There is no merchant for user: {}", user.getId());
@@ -52,14 +48,6 @@ public class CmsBlockMerchantMemberHandler extends RequestHandler<CmsBlockMercha
 
         boolean isOwner = user.getId().equals(merchant.getUser().getId());
         if (isOwner) {
-            merchant.getMembers().stream().forEach(member -> {
-                if (UserStatus.INACTIVE.equals(member.getStatus())) {
-                    return;
-                }
-                member.setStatus(UserStatus.INACTIVE);
-                member.setBlockedCluster(true);
-            });
-
             // Update merchant status
             MerchantStatus currentStatus = merchant.getStatus();
             merchant.setPreviousStatus(currentStatus);

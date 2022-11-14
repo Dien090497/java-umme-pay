@@ -23,5 +23,6 @@ public class UploadFileClientResponse {
 
     private String contentType;
 
+    private String previewUrl;
 
 }

@@ -32,10 +32,16 @@ public class StorageService {
     @Value("${storage.bucket}")
     private String STORAGE_BUCKET;
 
+    @Value("${storage.uploadPrivatePath}")
+    private String STORAGE_UPLOAD_PRIVATE_PATH;
+
+    @Value("${storage.uploadPublicPath}")
+    private String STORAGE_UPLOAD_PUBLIC_PATH;
+
     @Value("${storage.path}")
     private String STORAGE_PATH;
 
-    private final RedisService redisService;
+    private String FILE_TYPE_ID_CARD = "ID_CARD";
 
     private final RestClient restClient;
 
@@ -53,8 +59,8 @@ public class StorageService {
             return null;
         }
 
-        log.error("Upload file to storage: {}", file.getOriginalFilename());
-        String uploadFileUrl = STORAGE_ENDPOINT + "/static/v1";
+        log.info("Upload file to storage: {}", file.getOriginalFilename());
+        String uploadFileUrl = STORAGE_ENDPOINT + STORAGE_UPLOAD_PRIVATE_PATH;
         HttpHeaders headers = new HttpHeaders();
         headers.add("X-API-KEY", "KEY");
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
@@ -81,6 +87,40 @@ public class StorageService {
         } catch (Exception ex) {
             ex.printStackTrace();
             log.error("Upload file to storage failed {}", ex.getMessage());
+        }
+        throw new InternalException(ResponseCode.FAILED.STORAGE_ERROR_UPLOAD_FAILED);
+    }
+
+    public String uploadFilePublic(MultipartFile file) {
+        if (file == null) {
+            return null;
+        }
+
+        log.info("Upload file to public storage: {}", file.getOriginalFilename());
+        String uploadFileUrl = STORAGE_ENDPOINT + STORAGE_UPLOAD_PUBLIC_PATH;
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+
+        MultiValueMap<String, Object> requestEntity = new LinkedMultiValueMap<>();
+        requestEntity.add("bucket", STORAGE_BUCKET);
+        requestEntity.add("fileType", FILE_TYPE_ID_CARD);
+        requestEntity.add("file", file.getResource());
+
+        try {
+            ResponseEntity<ResponseBase<Object>> response =
+                    restClient.callAPI(uploadFileUrl, HttpMethod.POST, headers, requestEntity, (Class) ResponseBase.class);
+
+            if (response != null &&
+                    response.getBody() != null &&
+                    response.getBody().getCode() == 0 &&
+                    response.getBody().getData() != null) {
+                UploadFileClientResponse dataResponse = objectMapper.convertValue(response.getBody().getData(), UploadFileClientResponse.class);
+                return dataResponse.getPreviewUrl();
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            log.error("Upload file to public storage failed {}", ex.getMessage());
         }
         throw new InternalException(ResponseCode.FAILED.STORAGE_ERROR_UPLOAD_FAILED);
     }

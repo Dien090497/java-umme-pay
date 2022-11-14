@@ -65,10 +65,10 @@ public class Profile {
 
     private String companyPhone;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private IdentifyInfo representativeInfo;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private IdentifyInfo ownerInfo;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

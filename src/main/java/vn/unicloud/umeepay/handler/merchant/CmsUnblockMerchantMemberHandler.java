@@ -40,12 +40,6 @@ public class CmsUnblockMerchantMemberHandler extends RequestHandler<CmsUnblockMe
             throw new InternalException(ResponseCode.INVALID_USER_STATUS);
         }
 
-        /**
-         * Get merchant of unblocked user
-         * if user is merchant owner, then unblocked merchant all the rest members,
-         * who was blocked when owner blocked before (blockCluster = true)
-         */
-
         Merchant merchant = merchantService.getMerchantByUserId(user.getId());
         if (merchant == null) {
             log.error("There is no merchant for user: {}", user.getId());
@@ -54,23 +48,16 @@ public class CmsUnblockMerchantMemberHandler extends RequestHandler<CmsUnblockMe
 
         boolean isOwner = user.getId().equals(merchant.getUser().getId());
         if (isOwner) {
-            merchant.getMembers().stream().forEach(member -> {
-                if (UserStatus.INACTIVE.equals(member.getStatus()) && member.isBlockedCluster()) {
-                    member.setStatus(UserStatus.ACTIVE);
-                    member.setBlockedCluster(false);
-                }
-            });
-
             // Update merchant status
             MerchantStatus currentStatus = merchant.getStatus();
-            merchant.setStatus(merchant.getPreviousStatus());
+            merchant.setStatus(merchant.getPreviousStatus() != null
+                    ? merchant.getPreviousStatus()
+                    : MerchantStatus.ACTIVE);
             merchant.setPreviousStatus(currentStatus);
 
             if (merchantService.saveMerchant(merchant) == null) {
                 throw new InternalException(ResponseCode.FAILED);
             }
-        } else if (MerchantStatus.INACTIVE.equals(merchant.getStatus())) {
-            throw new InternalException(ResponseCode.INACTIVE_MERCHANT);
         }
 
         user.setStatus(UserStatus.ACTIVE);
