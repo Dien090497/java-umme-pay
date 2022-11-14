@@ -42,6 +42,12 @@ public class EkycService {
     @Value("${ekyc.apiKey}")
     private String EKYC_API_KEY;
 
+    @Value("${ekyc.ocrCardPath}")
+    private String EKYC_OCR_CARD_PATH;
+
+    @Value("${ekyc.ocrIdPath}")
+    private String EKYC_OCR_ID_PATH;
+
     private final ModelMapper modelMapper;
 
     private final EkycRepository ekycRepository;
@@ -64,6 +70,7 @@ public class EkycService {
 
     /**
      * Detect CMND/CCCD
+     *
      * @param front
      * @param back
      * @return
@@ -78,7 +85,7 @@ public class EkycService {
             headers.add(EKYC_API_KEY_HEADER, EKYC_API_KEY);
             headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
-            String detectUrl = EKYC_ENDPOINT + "/api/ekyc/v1/detect-card/sides";
+            String detectUrl = EKYC_ENDPOINT + EKYC_OCR_ID_PATH;
             MultiValueMap<String, Object> requestEntity = new LinkedMultiValueMap<>();
             requestEntity.add("imageFront", front.getResource());
             requestEntity.add("imageBack", back.getResource());
@@ -94,6 +101,7 @@ public class EkycService {
 
     /**
      * Detect PASSPORT
+     *
      * @param image
      * @return
      */
@@ -107,7 +115,7 @@ public class EkycService {
             headers.add(EKYC_API_KEY_HEADER, EKYC_API_KEY);
             headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
-            String detectUrl = EKYC_ENDPOINT + "/api/ekyc/v1/idcard/front";
+            String detectUrl = EKYC_ENDPOINT + EKYC_OCR_CARD_PATH;
             MultiValueMap<String, Object> requestEntity = new LinkedMultiValueMap<>();
             requestEntity.add("image", image.getResource());
 

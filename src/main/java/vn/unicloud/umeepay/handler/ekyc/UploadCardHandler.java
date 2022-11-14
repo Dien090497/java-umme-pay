@@ -49,6 +49,13 @@ public class UploadCardHandler extends RequestHandler<UploadCardRequest, EkycRes
                     }
                     ekycResult = ekycService.detectIdCard(request.getImageFront(), request.getImageBack());
                     idInfo = modelMapper.map(ekycResult, IdentifyInfo.class);
+
+                    // Override previous EKYC information
+                    Ekyc prevRepEkyc = merchant.getProfile().getRepEkyc();
+                    if (prevRepEkyc != null && ekycResult != null) {
+                        ekycResult.setId(prevRepEkyc.getId());
+                    }
+
                     merchant.getProfile().setRepEkyc(ekycResult);
                     merchant.getProfile().setRepresentativeInfo(idInfo);
                     break;
@@ -59,6 +66,13 @@ public class UploadCardHandler extends RequestHandler<UploadCardRequest, EkycRes
                     }
                     ekycResult = ekycService.detectIdCard(request.getImageFront(), request.getImageBack());
                     idInfo = modelMapper.map(ekycResult, IdentifyInfo.class);
+
+                    // Override previous EKYC information
+                    Ekyc prevOwnerEkyc = merchant.getProfile().getOwnerEkyc();
+                    if (prevOwnerEkyc != null && ekycResult != null) {
+                        ekycResult.setId(prevOwnerEkyc.getId());
+                    }
+
                     merchant.getProfile().setOwnerEkyc(ekycResult);
                     merchant.getProfile().setOwnerInfo(idInfo);
                     break;
@@ -67,13 +81,16 @@ public class UploadCardHandler extends RequestHandler<UploadCardRequest, EkycRes
                     break;
             }
 
-            if (ekycResult == null && idInfo == null) {
+            if (ekycResult == null || idInfo == null) {
                 throw new InternalException(ResponseCode.FAILED);
             }
-//            String frontUrl = storageService.uploadFile(request.getImageFront());
-//            String backUrl = storageService.uploadFile(request.getImageBack());
-//            idInfo.setFrontUrl(frontUrl);
-//            idInfo.setBackUrl(backUrl);
+            String frontUrl = storageService.uploadFilePublic(request.getImageFront());
+            String backUrl = storageService.uploadFilePublic(request.getImageBack());
+            idInfo.setFrontUrl(frontUrl);
+            idInfo.setBackUrl(backUrl);
+
+            ekycResult.setFrontUrl(frontUrl);
+            ekycResult.setBackUrl(frontUrl);
 
             Ekyc savedEkyc = ekycService.save(ekycResult);
             Merchant savedMerchant = merchantService.saveMerchant(merchant);
