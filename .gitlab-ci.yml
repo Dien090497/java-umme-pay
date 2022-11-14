@@ -92,6 +92,9 @@ build-image:
 
 deploy-umee-app-dev:
   stage: deploy
+  variables:
+    TYPE: -app
+    ENV: dev
   image:
     name: public.ecr.aws/i8h0s4d4/auto-eks:latest
     entrypoint: [""]
@@ -109,10 +112,10 @@ deploy-umee-app-dev:
     - cd /workspace
     - git checkout $CHART_BRANCH
 
-    - chmod +x scripts/umee-app-dev-ci.sh && ./scripts/umee-app-dev-ci.sh
-    - kubectl apply -f kubernetes-dev/$SERVICE_NAME-app-config.yaml -n $NAME_SPACE
+    - chmod +x scripts/$ENV/umee$TYPE-ci.sh && ./scripts/$ENV/umee$TYPE-ci.sh
+    - kubectl apply -f configMap/$ENV/$SERVICE_NAME$TYPE.yaml -n $NAME_SPACE
 
-    - helm upgrade --install --recreate-pods $SERVICE_NAME $CHART_DIR -n $NAME_SPACE -f $CHART_DIR/values-app-dev.yaml
+    - helm upgrade --install --recreate-pods $SERVICE_NAME $CHART_DIR -n $NAME_SPACE -f values/$ENV/$SERVICE_NAME$TYPE.yaml
   only:
     - umee-dev
   tags:
