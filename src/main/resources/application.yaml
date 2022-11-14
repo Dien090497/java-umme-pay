@@ -1,4 +1,5 @@
 server:
+  path: ${SERVER_REWRITE_PATH:}
   port: ${SERVER_PORT:1124}
 
 #Local MongoDB Configuration
@@ -103,3 +104,20 @@ storage:
   endpoint: ${STORAGE_ENDPOINT:https://rd-api.hcm.unicloud.ai/storage}
   bucket: ${STORAGE_BUCKET:ekyc-dashboard-cms}
   path: ${STORAGE_PATH:test}
+
+# ===============================
+# Swagger UI & Open API Docs
+# ===============================
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+    enabled: ${SPRING_DOC_ENABLED:true}
+  swagger-ui:
+    enabled: ${SWAGGER_UI_ENABLED:true}
+    operations-sorter: alpha
+    tags-sorter: alpha
+    url: ${server.path}/v3/api-docs
+    oauth2-redirect-url: ${server.path}/swagger-ui/oauth2-redirect.html
+    config-url: ${springdoc.swagger-ui.url}/swagger-config
+    disable-swagger-default-url: true
+  server-url: ${SPRING_DOC_SERVER_URL:http://localhost:1124}

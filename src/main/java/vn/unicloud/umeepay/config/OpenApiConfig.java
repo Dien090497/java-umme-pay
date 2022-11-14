@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Configuration
 public class OpenApiConfig {
@@ -23,10 +24,15 @@ public class OpenApiConfig {
 
     public final static String BEARER_SCHEME = "Bearer";
 
+    @Value("${springdoc.server-url}")
+    String serverUrl;
+
     @Bean
     public OpenAPI openAPiConfig() {
-
+        Server server = new Server();
+        server.setUrl(serverUrl);
         return new OpenAPI()
+                .servers(List.of(server))
                 .info(new Info()
                         .title(API_TITLE)
                         .description(API_DESCRIPTION)
