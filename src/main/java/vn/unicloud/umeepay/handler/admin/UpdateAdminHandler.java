@@ -68,9 +68,9 @@ public class UpdateAdminHandler extends RequestHandler<UpdateAdminRequest, Admin
         }
 
         // update keycloak user
-        String userId = keycloakService.updateUser(admin.getId(), email, fullName);
+        String keycloakUserId = keycloakService.updateUser(admin.getSubjectId(), email, fullName);
 
-        if (userId != null && adminService.saveAdmin(admin) != null) {
+        if (keycloakUserId != null && adminService.saveAdmin(admin) != null) {
             return new AdminResponse(admin);
         }
 

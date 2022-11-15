@@ -75,4 +75,15 @@ public class AdminService {
         return adminRepository.findAll(spec, pageable);
     }
 
+    public Administrator getBySubjectId(String subjectId) {
+        try {
+            return adminRepository
+                    .findFirstBySubjectId(subjectId)
+                    .orElse(null);
+        } catch (Exception ex) {
+            log.error("Get administrator by SubjectId failed, {}", ex.getMessage());
+        }
+        return null;
+    }
+
 }

@@ -68,16 +68,16 @@ public class CreateAdminHandler extends RequestHandler<CreateAdminRequest, Admin
 
         //create key cloak user
         List<String> adminRoles = Arrays.asList(RoleType.ADMIN.toString());
-        String adminId = keycloakService.createUser(admin.getUsername(), password, admin.getEmail(), admin.getFullName(), adminRoles);
-        if (adminId == null) {
+        String subjectId = keycloakService.createUser(admin.getUsername(), password, admin.getEmail(), admin.getFullName(), adminRoles);
+        if (subjectId == null) {
             throw new InternalException(ResponseCode.CREATE_USER_FAILED);
         }
 
-        admin.setId(adminId);
+        admin.setSubjectId(subjectId);
 
         Administrator savedAdmin = adminService.saveAdmin(admin);
         if (savedAdmin == null) {
-            keycloakService.deleteUser(adminId);
+            keycloakService.deleteUser(subjectId);
             throw new InternalException(ResponseCode.CREATE_USER_FAILED);
         }
 

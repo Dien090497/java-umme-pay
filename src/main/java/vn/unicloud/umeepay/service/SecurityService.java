@@ -15,6 +15,7 @@ import vn.unicloud.umeepay.core.ResponseBase;
 import vn.unicloud.umeepay.core.ResponseData;
 import vn.unicloud.umeepay.dtos.request.EncryptedBodyRequest;
 import vn.unicloud.umeepay.dtos.response.EncryptBodyResponse;
+import vn.unicloud.umeepay.entity.Administrator;
 import vn.unicloud.umeepay.entity.Credential;
 import vn.unicloud.umeepay.entity.RoleGroup;
 import vn.unicloud.umeepay.entity.User;
@@ -45,6 +46,8 @@ public class SecurityService {
     private final RedisService redisService;
 
     private final UserService userService;
+
+    private final AdminService adminService;
 
     private final ObjectMapper objectMapper;
 
@@ -204,6 +207,27 @@ public class SecurityService {
             return userId;
         }
         return userId;
+    }
+
+    /**
+     * Get Admin DB Id by subject Id from redis, or else get from DB
+     * @param subjectId
+     * @return
+     */
+    public String getAdminId(String subjectId) {
+        log.debug("SubjectId: {}", subjectId);
+        String adminId = redisService.getValue(RedisKeyUtils.getUserSubjectKey(subjectId), String.class);
+        if (StringUtils.isBlank(adminId)) {
+            Administrator admin = adminService.getBySubjectId(subjectId);
+            if (admin == null) {
+                log.error("Administrator not found");
+                throw new InternalException(ResponseCode.USER_NOT_FOUND);
+            }
+            adminId = admin.getId();
+            redisService.setValue(RedisKeyUtils.getUserSubjectKey(subjectId), adminId);
+            return adminId;
+        }
+        return adminId;
     }
 
 }

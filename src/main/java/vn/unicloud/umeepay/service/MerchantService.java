@@ -135,6 +135,6 @@ public class MerchantService {
         if (userId == null) {
             return null;
         }
-        return merchantRepository.findFirstByUserId(userId);
+        return merchantRepository.findByUserId(userId).orElse(null);
     }
 }

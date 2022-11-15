@@ -52,7 +52,11 @@ public class ContextService {
                 : Optional.empty();
     }
 
-    public Optional<String> getLoggedInUserId() {
+    /**
+     * Get subject ID (Keycloak UserID)
+     * @return
+     */
+    public Optional<String> getLoggedInSubjectId() {
         AccessToken loggedInToken = getLoggedInAccessToken();
         return loggedInToken != null
                 ? Optional.of(loggedInToken.getSubject())

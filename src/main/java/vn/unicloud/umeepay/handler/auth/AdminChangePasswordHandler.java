@@ -29,9 +29,9 @@ public class AdminChangePasswordHandler extends RequestHandler<AdminChangePasswo
             }
 
             // Change password
-            String userId = contextService.getLoggedInUserId().orElse(null);
-            if (userId != null
-                    && keycloakService.setUserPassword(userId, request.getNewPassword())) {
+            String keycloakSubjectId = contextService.getLoggedInSubjectId().orElse(null);
+            if (keycloakSubjectId != null
+                    && keycloakService.setUserPassword(keycloakSubjectId, request.getNewPassword())) {
                 return new StatusResponse(true);
             }
 

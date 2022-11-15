@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldNameConstants;
 import org.hibernate.annotations.GenericGenerator;
+import vn.unicloud.umeepay.enums.PaymentType;
 import vn.unicloud.umeepay.enums.TransactionStatus;
 
 import javax.persistence.*;
@@ -52,6 +53,8 @@ public class Transaction {
 
     private LocalDateTime depositTime;
 
+    private LocalDateTime completeTime;
+
     private String description;
 
     private String accountNo;
@@ -67,5 +70,8 @@ public class Transaction {
     private long timestamp;
 
     private long timeout;
+
+    @Enumerated(EnumType.STRING)
+    private PaymentType paymentType;
 
 }
