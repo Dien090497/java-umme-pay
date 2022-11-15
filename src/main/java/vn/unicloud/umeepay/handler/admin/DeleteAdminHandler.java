@@ -36,7 +36,7 @@ public class DeleteAdminHandler extends RequestHandler<DeleteAdminRequest, Admin
         }
 
         if (adminService.deleteAdmin(deletedAdmin) != null) {
-            keycloakService.deleteUser(deletedAdmin.getId());
+            keycloakService.deleteUser(deletedAdmin.getSubjectId());
             return new AdminResponse(deletedAdmin);
         }
 

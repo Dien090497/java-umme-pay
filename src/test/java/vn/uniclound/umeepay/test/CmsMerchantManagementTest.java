@@ -173,7 +173,7 @@ public class CmsMerchantManagementTest {
                 .setEmail("admin@gmail.com");
 
         Mockito
-                .when(contextService.getLoggedInUserId())
+                .when(contextService.getLoggedInSubjectId())
                 .thenReturn(Optional.of(userId));
 
         Mockito

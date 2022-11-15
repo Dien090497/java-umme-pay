@@ -47,8 +47,8 @@ public class CmsApproveMerchantHandler extends RequestHandler<CmsApproveMerchant
         /**
          * Get current admin
          */
-        String approvedById = contextService.getLoggedInUserId().orElse(null);
-        Administrator approvedBy = adminService.getById(approvedById);
+        String subjectId = contextService.getLoggedInSubjectId().orElse(null);
+        Administrator approvedBy = adminService.getBySubjectId(subjectId);
 
         merchant.setStatus(MerchantStatus.ACTIVE)
                 .setApprovedBy(approvedBy)

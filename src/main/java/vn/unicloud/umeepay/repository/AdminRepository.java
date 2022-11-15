@@ -14,4 +14,7 @@ public interface AdminRepository extends JpaRepository<Administrator, String>, J
 
     Optional<Administrator> findFirstByEmail(String email);
 
+    Optional<Administrator> findFirstBySubjectId(String subjectId);
+
+
 }

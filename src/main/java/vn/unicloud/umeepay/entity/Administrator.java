@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import org.hibernate.annotations.GenericGenerator;
 import vn.unicloud.umeepay.enums.OfficeType;
 import vn.unicloud.umeepay.enums.UserStatus;
 
@@ -23,7 +24,11 @@ public class Administrator extends Auditable<String> {
     public static final String COLLECTION_NAME = "admin";
 
     @Id
-    @Column(unique = true, nullable = false)
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )
     private String id;
 
     private String username;
@@ -53,6 +58,9 @@ public class Administrator extends Auditable<String> {
     private String blockedBy;
 
     private Boolean loggedIn = false;
+
+    @Column(name = "subject_id", unique = true)
+    private String subjectId;
 
     @Override
     public String toString() {
