@@ -21,19 +21,19 @@ public class AdminController extends BaseController implements IAdminController 
 
     @Override
     public ResponseEntity<ResponseBase<AdminResponse>> createAdmin(CreateAdminRequest request) {
-        return this.execute(request, AdminResponse.class);
+        return this.execute(request);
     }
 
     @Override
     public ResponseEntity<ResponseBase<AdminResponse>> updateAdmin(String id, UpdateAdminRequest request) {
         request.setId(id);
-        return this.execute(request, AdminResponse.class);
+        return this.execute(request);
     }
 
     @Override
     public ResponseEntity<ResponseBase<AdminDetailResponse>> getAdminDetail(String id) {
         GetAdminDetailRequest request = new GetAdminDetailRequest(id);
-        return this.execute(request, AdminDetailResponse.class);
+        return this.execute(request);
     }
 
     @Override
@@ -58,22 +58,22 @@ public class AdminController extends BaseController implements IAdminController 
                 .setFullName(fullName)
                 .setPageable(pageable);
 
-        return this.execute(request, (Class) PageResponse.class);
+        return this.execute(request);
     }
 
     @Override
     public ResponseEntity<ResponseBase<AdminResponse>> deleteAdmin(String id) {
-        return this.execute(new DeleteAdminRequest(id), AdminResponse.class);
+        return this.execute(new DeleteAdminRequest(id));
     }
 
     @Override
     public ResponseEntity<ResponseBase<AdminResponse>> blockAdmin(String id) {
-        return this.execute(new BlockAdminRequest(id), AdminResponse.class);
+        return this.execute(new BlockAdminRequest(id));
     }
 
     @Override
     public ResponseEntity<ResponseBase<AdminResponse>> unblockAdmin(String id) {
-        return this.execute(new UnblockAdminRequest(id), AdminResponse.class);
+        return this.execute(new UnblockAdminRequest(id));
     }
 
 }

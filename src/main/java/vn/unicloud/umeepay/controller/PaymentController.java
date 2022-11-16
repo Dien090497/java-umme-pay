@@ -29,7 +29,7 @@ public class PaymentController extends BaseController implements IPaymentControl
         request.setClientId(clientId);
         CreateTransactionRequest createTransactionRequest = securityService.authenticate(request, CreateTransactionRequest.class);
         request.setCredential(createTransactionRequest.getCredential());
-        return securityService.encryptResponse(request ,this.execute(createTransactionRequest, CreateTransactionResponse.class));
+        return securityService.encryptResponse(request, this.execute(createTransactionRequest));
     }
 
     @Override
@@ -40,7 +40,7 @@ public class PaymentController extends BaseController implements IPaymentControl
 
         QueryTransactionRequest queryTransactionRequest = securityService.authenticate(request, QueryTransactionRequest.class);
         request.setCredential(queryTransactionRequest.getCredential());
-        return securityService.encryptResponse(request ,this.execute(queryTransactionRequest, QueryTransactionResponse.class));
+        return securityService.encryptResponse(request ,this.execute(queryTransactionRequest));
 
     }
 
@@ -53,7 +53,7 @@ public class PaymentController extends BaseController implements IPaymentControl
 
         CancelTransactionRequest cancelTransactionRequest = securityService.authenticate(request, CancelTransactionRequest.class);
         request.setCredential(cancelTransactionRequest.getCredential());
-        return securityService.encryptResponse(request ,this.execute(cancelTransactionRequest, CancelTransactionResponse.class));
+        return securityService.encryptResponse(request ,this.execute(cancelTransactionRequest));
 
     }
 
@@ -62,7 +62,7 @@ public class PaymentController extends BaseController implements IPaymentControl
         request.setKeyId(keyId);
         request.setSecretKey(secretKey);
         securityService.simpleAuthenticate(request);
-        return this.execute(request, CreateTransactionResponse.class);
+        return this.execute(request);
     }
 
     @Override
@@ -70,7 +70,7 @@ public class PaymentController extends BaseController implements IPaymentControl
         request.setKeyId(keyId);
         request.setSecretKey(secretKey);
         securityService.simpleAuthenticate(request);
-        return this.execute(request, QueryTransactionResponse.class);
+        return this.execute(request);
     }
 
     @Override
@@ -78,7 +78,7 @@ public class PaymentController extends BaseController implements IPaymentControl
         request.setKeyId(keyId);
         request.setSecretKey(secretKey);
         securityService.simpleAuthenticate(request);
-        return this.execute(request, CancelTransactionResponse.class);
+        return this.execute(request);
     }
 
 }

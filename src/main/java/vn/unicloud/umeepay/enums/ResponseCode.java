@@ -34,45 +34,26 @@ public enum ResponseCode {
 
     // Client
     CREATE_CLIENT_FAIL(301, "Create client failed"),
-
     CLIENT_LOGIN_FAILED(302, "Client login failed"),
-
     TRANSACTION_NOT_FOUND(303, "Transaction not found"),
-
     INVALID_KEY_ID(304, "Invalid key id"),
-
     AUTHORIZATION_FAILED(306, "Authorization failed"),
 
     // Merchant
-
     TRANSACTION_TIMEOUT(401, "Scan QR code timeout"),
-
     INVALID_TRANSACTION_ID(402, "Invalid transactionId"),
-
     INVALID_VIRTUAL_ACCOUNT(403, "Invalid virtual account"),
-
     INVALID_AMOUNT(404, "Invalid amount"),
-
     INVALID_TRANSACTION_STATE(405, "Invalid transaction state"),
-
     TRANSACTION_CANCELED(406, "Canceled transaction"),
-
     TRANSACTION_FAILED(407, "Transaction failed"),
-
     MERCHANT_ALREADY_CREATED(408, "Merchant already created"),
-
     MERCHANT_NOT_FOUND(409, "Merchant not found"),
-
     INVALID_DATA(410, "Invalid data"),
-
     DUPLICATE_REFERENCE_TRANSACTION_ID(411, "Duplicate ref transaction id"),
-
     CALL_WEBHOOK_ERROR(412, "Call webhook error"),
-
     TRANSACTION_EXPIRED(413, "Transaction expired"),
-
     INVALID_MERCHANT_STATUS (414, "Invalid current merchant status"),
-
     INACTIVE_MERCHANT (415, "Merchant is current inactive"),
     INVALID_ENTERPRISE_INFO (416, "Invalid enterprise info"),
     INVALID_PERSONAL_INFO (417, "Invalid personal info"),
@@ -84,24 +65,17 @@ public enum ResponseCode {
     // Json
     CANT_MAPPING_JSON_OBJECT(601, "Can't mapping json object"),
 
-
     // Test API
     HTTP_STATUS_FAILED(701, "Http Status failed"),
-
     RESPONSE_BODY_NULL(702, "Response body null"),
 
 
     // Role
     ROLE_ERROR_EXISTED_CODE(801, "Role with request code existed"),
-
     ROLE_ERROR_ACTION_NOT_FOUND(802, "Role action not found"),
-
     ROLE_ERROR_NOT_FOUND(803, "Role not found"),
-
     ROLE_ERROR_NOT_EMPTY(804, "There is/are user(s) in this role"),
-
     ROLE_ERROR_CLOSED(805, "Role is closed"),
-
     // Auth
     AUTH_ERROR_INCORRECT_PASSWORD(901, "Incorrect password"),
     REFRESH_TOKEN_INVALID(902, "Refresh token failed"),
@@ -109,7 +83,6 @@ public enum ResponseCode {
 
     // Response message
     RESPONSE_MESSAGE_ERROR_EXISTED_CODE(1001, "Existed response code"),
-
     RESPONSE_MESSAGE_ERROR_NOT_FOUND(1002, "Response message not found"),
 
     // System parameter
@@ -119,7 +92,18 @@ public enum ResponseCode {
 
 
     // Storage
-    STORAGE_ERROR_UPLOAD_FAILED(1201, "Upload file to storage failed");
+    STORAGE_ERROR_UPLOAD_FAILED(1201, "Upload file to storage failed"),
+
+    // Bank Account
+    BANK_ACCOUNT_NOT_FOUND(1301, "Bank account not found"),
+
+    // Pay Link
+    CUSTOMER_INVALID(1401, "Customer invalid"),
+    CUSTOMER_GROUP_INVALID(1402, "Customer group invalid"),
+    PAYLINK_NOT_FOUND(1403, "Paylink not found"),
+    PAYLINK_INVALID(1404, "Paylink invalid"),
+    ;
+
 
     private final int code;
     private final String message;

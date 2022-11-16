@@ -19,7 +19,7 @@ public class EkycController extends BaseController implements IEkycController {
     @Override
     public ResponseEntity<ResponseBase<EkycResponse>> detectCard(UploadCardRequest request) {
         request.setUserId(securityService.getUserId(getCurrentSubjectId()));
-        return this.execute(request, EkycResponse.class);
+        return this.execute(request);
     }
 
 }

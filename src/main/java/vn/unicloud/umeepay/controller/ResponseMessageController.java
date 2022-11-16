@@ -14,33 +14,33 @@ public class ResponseMessageController extends BaseController implements IRespon
 
     @Override
     public ResponseEntity<ResponseBase<ListResponseMessageResponse>> getAllResponseMessages() {
-        return this.execute(new GetListResponseMessageRequest(), ListResponseMessageResponse.class);
+        return this.execute(new GetListResponseMessageRequest());
     }
 
     @Override
     public ResponseEntity<ResponseBase<ResponseMessageResponse>> createResponseMessage(CreateResponseMessageRequest request) {
-        return this.execute(request, ResponseMessageResponse.class);
+        return this.execute(request);
     }
 
     @Override
     public ResponseEntity<ResponseBase<ResponseMessageResponse>> getDetailResponseMessage(Long id) {
-        return this.execute(new GetResponseMessageRequest(id), ResponseMessageResponse.class);
+        return this.execute(new GetResponseMessageRequest(id));
     }
 
     @Override
     public ResponseEntity<ResponseBase<ResponseMessageResponse>> getDetailResponseMessage(Integer code) {
-        return this.execute(new GetResMessageByCodeRequest(code), ResponseMessageResponse.class);
+        return this.execute(new GetResMessageByCodeRequest(code));
     }
 
     @Override
     public ResponseEntity<ResponseBase<ResponseMessageResponse>> deleteResponseMessage(Long id) {
-        return this.execute(new DeleteResponseMessageRequest(id), ResponseMessageResponse.class);
+        return this.execute(new DeleteResponseMessageRequest(id));
     }
 
     @Override
     public ResponseEntity<ResponseBase<ResponseMessageResponse>> updateResponseMessage(Long id, UpdateResponseMessageRequest request) {
         request.setId(id);
-        return this.execute(request, ResponseMessageResponse.class);
+        return this.execute(request);
     }
 
 

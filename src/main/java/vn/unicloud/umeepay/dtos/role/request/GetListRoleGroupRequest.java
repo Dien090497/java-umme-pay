@@ -23,7 +23,6 @@ import java.util.Objects;
 @Getter
 @Setter
 @ToString
-@AllArgsConstructor
 @NoArgsConstructor
 @Accessors(chain = true)
 public class GetListRoleGroupRequest extends BaseRequestData implements Specification<RoleGroup> {

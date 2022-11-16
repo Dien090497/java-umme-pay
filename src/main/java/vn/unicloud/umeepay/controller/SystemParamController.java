@@ -30,23 +30,23 @@ public class SystemParamController extends BaseController implements ISystemPara
                 .setGroup(group)
                 .setSort(Sort.by(sortDirection, sortBy));
 
-        return this.execute(request, AllSystemParamResponse.class);
+        return this.execute(request);
     }
 
     @Override
     public ResponseEntity<ResponseBase<SystemParamResponse>> updateParameter(Long id, UpdateSystemParamRequest request) {
         request.setId(id);
-        return this.execute(request, SystemParamResponse.class);
+        return this.execute(request);
     }
 
     @Override
     public ResponseEntity<ResponseBase<SystemParamResponse>> createParameter(CreateSystemParamRequest request) {
-        return this.execute(request, SystemParamResponse.class);
+        return this.execute(request);
     }
 
     @Override
     public ResponseEntity<ResponseBase<SystemParamResponse>> deleteParameter(Long id) {
-        return this.execute(new DeleteSystemParamRequest(id), SystemParamResponse.class);
+        return this.execute(new DeleteSystemParamRequest(id));
     }
 
 }

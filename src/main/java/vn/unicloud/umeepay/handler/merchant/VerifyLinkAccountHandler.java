@@ -48,9 +48,6 @@ public class VerifyLinkAccountHandler extends RequestHandler<VerifyLinkAccountRe
             throw new InternalException(ResponseCode.USER_NOT_FOUND);
         }
         Merchant merchant = merchantService.getMerchantByUserId(request.getUserId());
-        if (merchant == null) {
-            throw new InternalException(ResponseCode.MERCHANT_NOT_FOUND);
-        }
         // TODO: Call to core bank, check otp from bank
         String phoneKey = RedisKeyUtils.getOtpKey(user.getPhone());
 

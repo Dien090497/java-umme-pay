@@ -31,9 +31,6 @@ public class GetListBankAccountHandler extends RequestHandler<GetListBankAccount
     @Override
     public GetListBankAccountResponse handle(GetListBankAccountRequest request) {
         Merchant merchant = merchantService.getMerchantByUserId(request.getUserId());
-        if (merchant == null) {
-            throw new InternalException(ResponseCode.MERCHANT_NOT_FOUND);
-        }
         return new GetListBankAccountResponse(merchant.getBankAccounts());
     }
 }

@@ -48,6 +48,7 @@ public class KeycloakSecurityConfig extends KeycloakWebSecurityConfigurerAdapter
                 "/api/audit/v1/currentVersion/**",
                 "/api/message/v1/getAll/**",
                 "/api/payment/**",
+                "/api/paylink/public/**",
                 "/api/paygate/callback/**",
                 "/api/user/portal/v1/register/**",
                 "/api/user/portal/v1/changePassword/**"

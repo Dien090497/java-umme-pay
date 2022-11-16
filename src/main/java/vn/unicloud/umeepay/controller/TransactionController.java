@@ -31,7 +31,7 @@ public class TransactionController extends BaseController implements ITransactio
                     .fromDate(fromDate)
                     .toDate(toDate)
                     .build();
-            return this.execute(request, GetTransactionsResponse.class);
+            return this.execute(request);
 
         } catch (IllegalArgumentException e) {
             List<Transaction> list = new ArrayList<>();

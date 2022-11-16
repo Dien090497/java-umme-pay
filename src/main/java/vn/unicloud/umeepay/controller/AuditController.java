@@ -14,7 +14,7 @@ public class AuditController extends BaseController implements IAuditController 
 
     @Override
     public ResponseEntity<ResponseBase<AuditVersionResponse>> getCurrentVersion(SystemModule module) {
-        return this.execute(new AuditVersionRequest(module), AuditVersionResponse.class);
+        return this.execute(new AuditVersionRequest(module));
     }
 
 }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldNameConstants;
 import org.hibernate.annotations.GenericGenerator;
+import vn.unicloud.umeepay.enums.Branch;
 import vn.unicloud.umeepay.enums.PaymentType;
 import vn.unicloud.umeepay.enums.TransactionStatus;
 
@@ -40,6 +41,7 @@ public class Transaction {
     @JsonIgnore
     private Merchant merchant;
 
+    @Column(name = "amount", nullable = false)
     private Long amount;
 
     @Column(name = "ref_transaction_id", nullable = false, unique = true)
@@ -57,8 +59,12 @@ public class Transaction {
 
     private String description;
 
+    @Column(name = "account_no", nullable = false)
     private String accountNo;
 
+    private String accountName;
+
+    @Column(name = "virtual_account", nullable = false)
     private String virtualAccount;
 
     private String fromBin;
@@ -73,5 +79,15 @@ public class Transaction {
 
     @Enumerated(EnumType.STRING)
     private PaymentType paymentType;
+
+    private String successUrl;
+
+    private String failUrl;
+
+    private Integer callbackAfter;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "bank_type", nullable = false)
+    private Branch bankType;
 
 }

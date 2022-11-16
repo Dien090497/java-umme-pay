@@ -42,9 +42,6 @@ public class SubmitLinkAccountHandler extends RequestHandler<SubmitLinkAccountRe
             throw new InternalException(ResponseCode.USER_NOT_FOUND);
         }
         Merchant merchant = merchantService.getMerchantByUserId(request.getUserId());
-        if (merchant == null) {
-            throw new InternalException(ResponseCode.MERCHANT_NOT_FOUND);
-        }
         // TODO: Call to core bank, OTP from bank
 
         CheckPhoneResponse response = userService.checkPhone(

@@ -34,7 +34,7 @@ public class PaygateController extends BaseController implements IPaygateControl
     public ResponseEntity<ResponseBase<InquiryCheckingResponse>> inquiryCheckingSimple(String virtualAccount) {
         InquiryCheckingRequest request = new InquiryCheckingRequest();
         request.setVirtualAccount(virtualAccount);
-        return this.execute(request, InquiryCheckingResponse.class);
+        return this.execute(request);
     }
 
     @Override
@@ -42,12 +42,12 @@ public class PaygateController extends BaseController implements IPaygateControl
         DepositCheckingRequest request = new DepositCheckingRequest();
         request.setVirtualAccount(virtualAccount);
         request.setAmount(amount);
-        return this.execute(request, DepositCheckingResponse.class);
+        return this.execute(request);
     }
 
     @Override
     public ResponseEntity<ResponseBase<NotifyTransactionResponse>> notifyTransactionSimple(@Valid @RequestBody NotifyTransactionRequest request) {
-        return this.execute(request, NotifyTransactionResponse.class);
+        return this.execute(request);
     }
 
     /**
@@ -64,7 +64,7 @@ public class PaygateController extends BaseController implements IPaygateControl
         request.setTimestamp(timestamp);
         request.setClientId(clientId);
         InquiryCheckingRequest inquiryCheckingRequest = securityService.paygateAuthenticate(request, InquiryCheckingRequest.class);
-        return securityService.encryptPaygateResponse(this.execute(inquiryCheckingRequest, InquiryCheckingResponse.class));
+        return securityService.encryptPaygateResponse(this.execute(inquiryCheckingRequest));
     }
 
     @Override
@@ -73,7 +73,7 @@ public class PaygateController extends BaseController implements IPaygateControl
         request.setTimestamp(timestamp);
         request.setClientId(clientId);
         DepositCheckingRequest depositCheckingRequest = securityService.paygateAuthenticate(request, DepositCheckingRequest.class);
-        return securityService.encryptPaygateResponse(this.execute(depositCheckingRequest, DepositCheckingResponse.class));
+        return securityService.encryptPaygateResponse(this.execute(depositCheckingRequest));
     }
 
     @Override
@@ -82,7 +82,7 @@ public class PaygateController extends BaseController implements IPaygateControl
         request.setTimestamp(timestamp);
         request.setClientId(clientId);
         NotifyTransactionRequest notifyTransactionRequest = securityService.paygateAuthenticate(request, NotifyTransactionRequest.class);
-        return securityService.encryptPaygateResponse(this.execute(notifyTransactionRequest, NotifyTransactionResponse.class));
+        return securityService.encryptPaygateResponse(this.execute(notifyTransactionRequest));
     }
 
     /**
@@ -94,19 +94,19 @@ public class PaygateController extends BaseController implements IPaygateControl
     @Override
     public ResponseEntity<ResponseBase<InquiryCheckingClientResponse>> inquiryCheckingClient(String clientId, InquiryCheckingClientRequest request) {
         request.setClientId(clientId);
-        return this.execute(request, InquiryCheckingClientResponse.class);
+        return this.execute(request);
     }
 
     @Override
     public ResponseEntity<ResponseBase<DepositCheckingClientResponse>> depositCheckingClient(String clientId, DepositCheckingClientRequest request) {
         request.setClientId(clientId);
-        return this.execute(request, DepositCheckingClientResponse.class);
+        return this.execute(request);
     }
 
     @Override
     public ResponseEntity<ResponseBase<NotifyTransactionClientResponse>> notifyTransactionClient(String clientId, NotifyTransactionClientRequest request) {
         request.setClientId(clientId);
-        return this.execute(request, NotifyTransactionClientResponse.class);
+        return this.execute(request);
     }
 
 }

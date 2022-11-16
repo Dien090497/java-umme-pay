@@ -6,7 +6,9 @@ import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.keycloak.TokenVerifier;
 import org.keycloak.representations.AccessToken;
+import vn.unicloud.umeepay.constant.BaseConstant;
 import vn.unicloud.umeepay.enums.Branch;
+import vn.unicloud.umeepay.enums.PaymentExpireType;
 import vn.unicloud.umeepay.enums.TransactionStatus;
 
 import javax.crypto.Cipher;
@@ -248,5 +250,45 @@ public class CommonUtils {
             return false;
         }
         return true;
+    }
+
+    public static int getTimeoutInSec(PaymentExpireType expireType) {
+        switch (expireType) {
+            case NO_EXPIRE:
+                return -1;
+            case DAY_1:
+                return 60*60*24;
+            case DAY_7:
+                return 60*60*24*7;
+            case DAY_30:
+                return 60*60*24*30;
+            case HOUR_1:
+                return 60*60;
+            case HOUR_12:
+                return 60*60*12;
+            case MINUTE_10:
+                return 60*10;
+        }
+        return -1;
+    }
+
+    public static String getBinByBankType(Branch branch) {
+        if (Branch.KLB.equals(branch)) {
+            return BaseConstant.KLBankBin;
+        }
+        if (Branch.UMEE.equals(branch)) {
+            return BaseConstant.UmeeBankBin;
+        }
+        return "";
+    }
+
+    public static String getBankName(Branch branch) {
+        if (Branch.KLB.equals(branch)) {
+            return BaseConstant.KLBankFullName;
+        }
+        if (Branch.UMEE.equals(branch)) {
+            return BaseConstant.UmeeBankFullName;
+        }
+        return "";
     }
 }
