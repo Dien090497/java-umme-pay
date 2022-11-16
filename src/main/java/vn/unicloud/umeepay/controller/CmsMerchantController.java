@@ -44,23 +44,23 @@ public class CmsMerchantController extends BaseController implements ICmsMerchan
                 .setStatus(status)
                 .setPageable(PageRequest.of(page, pageSize, Sort.by(sortDirection, sortBy)));
 
-        return this.execute(request, (Class) PageResponse.class);
+        return this.execute(request);
     }
 
     @Override
     public ResponseEntity<ResponseBase<MerchantDetailResponse>> getMerchantDetail(String id) {
-        return this.execute(new CmsGetMerchantRequest(id), MerchantDetailResponse.class);
+        return this.execute(new CmsGetMerchantRequest(id));
     }
 
     @Override
     public ResponseEntity<ResponseBase<MerchantResponse>> approveMerchant(String id) {
-        return this.execute(new CmsApproveMerchantRequest(id), MerchantResponse.class);
+        return this.execute(new CmsApproveMerchantRequest(id));
     }
 
     @Override
     public ResponseEntity<ResponseBase<MerchantResponse>> disapproveMerchant(String id, CmsDisapproveMerchantRequest request) {
         request.setId(id);
-        return this.execute(request, MerchantResponse.class);
+        return this.execute(request);
     }
 
     @Override
@@ -77,19 +77,19 @@ public class CmsMerchantController extends BaseController implements ICmsMerchan
                 .setStatus(status)
                 .setPageable(PageRequest.of(page, pageSize, Sort.by(sortDirection, sortBy)));
 
-        return this.execute(request, (Class) PageResponse.class);
+        return this.execute(request);
     }
 
     @Override
     public ResponseEntity<ResponseBase<StatusResponse>> blockMerchantMember(String memberId) {
         CmsBlockMerchantMemberRequest request = new CmsBlockMerchantMemberRequest(memberId);
-        return this.execute(request, StatusResponse.class);
+        return this.execute(request);
     }
 
     @Override
     public ResponseEntity<ResponseBase<StatusResponse>> unblockMerchantMember(String memberId) {
         CmsUnblockMerchantMemberRequest request = new CmsUnblockMerchantMemberRequest(memberId);
-        return this.execute(request, StatusResponse.class);
+        return this.execute(request);
     }
 
 

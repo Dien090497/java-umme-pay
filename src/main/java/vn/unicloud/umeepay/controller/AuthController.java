@@ -23,47 +23,47 @@ public class AuthController extends BaseController implements IAuthController {
 
     @Override
     public ResponseEntity<ResponseBase<AccessTokenResponseCustom>> userLogin(LoginRequest request) {
-        return this.execute(request, AccessTokenResponseCustom.class);
+        return this.execute(request);
     }
 
     @Override
     public ResponseEntity<ResponseBase<AccessTokenResponseCustom>> refreshToken(RefreshTokenRequest request) {
-        return this.execute(request, AccessTokenResponseCustom.class);
+        return this.execute(request);
     }
 
     @Override
     public ResponseEntity<ResponseBase<LogoutResponse>> logout(LogoutRequest request) {
-        return this.execute(request, LogoutResponse.class);
+        return this.execute(request);
     }
 
     @Override
     public ResponseEntity<ResponseBase<AccessTokenResponseCustom>> clientLogin(@Valid @RequestBody ClientLoginRequest request) {
-        return this.execute(request, AccessTokenResponseCustom.class);
+        return this.execute(request);
     }
 
     @Override
     public ResponseEntity<ResponseBase<AccessTokenResponseCustom>> adminLogin(AdminLoginRequest request) {
-        return this.execute(request, AccessTokenResponseCustom.class);
+        return this.execute(request);
     }
 
     @Override
     public ResponseEntity<ResponseBase<AccessTokenResponseCustom>> rootLogin(RootAdminLoginRequest request) {
-        return this.execute(request, AccessTokenResponseCustom.class);
+        return this.execute(request);
     }
 
     @Override
     public ResponseEntity<ResponseBase<AccessTokenResponseCustom>> refreshToken(AdminRefreshTokenRequest request) {
-        return this.execute(request, AccessTokenResponseCustom.class);
+        return this.execute(request);
     }
 
     @Override
     public ResponseEntity<ResponseBase<StatusResponse>> adminChangePassword(AdminChangePasswordRequest request) {
-        return this.execute(request, StatusResponse.class);
+        return this.execute(request);
     }
 
     @Override
     public ResponseEntity<ResponseBase<StatusResponse>> adminLogout(AdminLogoutRequest request) {
-        return this.execute(request, StatusResponse.class);
+        return this.execute(request);
     }
 
 }

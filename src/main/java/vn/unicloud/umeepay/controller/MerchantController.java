@@ -24,19 +24,19 @@ public class MerchantController extends BaseController implements IMerchantContr
     public ResponseEntity<ResponseBase<GetMerchantResponse>> getMerchant() {
         GetMerchantRequest request = new GetMerchantRequest();
         request.setUserId(securityService.getUserId(getCurrentSubjectId()));
-        return this.execute(request, GetMerchantResponse.class);
+        return this.execute(request);
     }
 
     @Override
     public ResponseEntity<ResponseBase<CreateMerchantResponse>> create(CreateMerchantRequest request) {
         request.setUserId(securityService.getUserId(getCurrentSubjectId()));
-        return this.execute(request, CreateMerchantResponse.class);
+        return this.execute(request);
     }
 
     @Override
     public ResponseEntity<ResponseBase<UpdateMerchantResponse>> update(UpdateMerchantRequest request) {
         request.setUserId(securityService.getUserId(getCurrentSubjectId()));
-        return this.execute(request, UpdateMerchantResponse.class);
+        return this.execute(request);
     }
 
     @Override
@@ -52,41 +52,41 @@ public class MerchantController extends BaseController implements IMerchantContr
     @Override
     public ResponseEntity<ResponseBase<SubmitProfileInfoResponse>> submitInfo(SubmitMerchantInfoRequest request) {
         request.setUserId(securityService.getUserId(getCurrentSubjectId()));
-        return this.execute(request, SubmitProfileInfoResponse.class);
+        return this.execute(request);
     }
 
     @Override
     public ResponseEntity<ResponseBase<GetListBankAccountResponse>> getListBankAccount(GetListBankAccountRequest request) {
         request.setUserId(securityService.getUserId(getCurrentSubjectId()));
-        return this.execute(request, GetListBankAccountResponse.class);
+        return this.execute(request);
     }
 
     @Override
     public ResponseEntity<ResponseBase<CheckBankAccountResponse>> checkBankAccount(CheckBankAccountRequest request) {
         request.setUserId(securityService.getUserId(getCurrentSubjectId()));
-        return this.execute(request, CheckBankAccountResponse.class);
+        return this.execute(request);
     }
 
     @Override
     public ResponseEntity<ResponseBase<SubmitLinkAccountResponse>> submitLinkAccount(SubmitLinkAccountRequest request) {
         request.setUserId(securityService.getUserId(getCurrentSubjectId()));
-        return this.execute(request, SubmitLinkAccountResponse.class);
+        return this.execute(request);
     }
 
     @Override
     public ResponseEntity<ResponseBase<VerifyLinkAccountResponse>> checkOTPLinkAccount(VerifyLinkAccountRequest request) {
         request.setUserId(securityService.getUserId(getCurrentSubjectId()));
-        return this.execute(request, VerifyLinkAccountResponse.class);
+        return this.execute(request);
     }
 
     @Override
     public ResponseEntity<ResponseBase<GetMerchantCredentialResponse>> getCredential(GetMerchantCredentialRequest request) {
-        return this.execute(request, GetMerchantCredentialResponse.class);
+        return this.execute(request);
     }
 
     @Override
     public ResponseEntity<ResponseBase<UpdateWebhookResponse>> updateWebhook(UpdateWebhookRequest request) {
         request.setUserId(securityService.getUserId(getCurrentSubjectId()));
-        return this.execute(request, UpdateWebhookResponse.class);
+        return this.execute(request);
     }
 }

@@ -49,7 +49,7 @@ public class MerchantService {
         if (user == null) {
             throw new InternalException(ResponseCode.INVALID_USER_STATUS);
         }
-        Merchant merchant = merchantRepository.findFirstByUserId(user.getId());
+        Merchant merchant = this.findMerchantByUserId(user.getId());
         if (merchant != null) {
             throw new InternalException(ResponseCode.MERCHANT_ALREADY_CREATED);
         }
@@ -69,6 +69,8 @@ public class MerchantService {
             .build();
 
         merchant = merchantRepository.save(merchant);
+        user.setMerchant(merchant);
+
         return new CreateMerchantResponse(true, new MerchantDto(merchant));
     }
 
@@ -132,6 +134,15 @@ public class MerchantService {
     }
 
     public Merchant getMerchantByUserId(String userId) {
+        if (userId == null) {
+            throw new InternalException(ResponseCode.USER_NOT_FOUND);
+        }
+        return merchantRepository.findByUserId(userId).orElseThrow(
+            () -> {throw new InternalException(ResponseCode.MERCHANT_NOT_FOUND);}
+        );
+    }
+
+    public Merchant findMerchantByUserId(String userId) {
         if (userId == null) {
             return null;
         }

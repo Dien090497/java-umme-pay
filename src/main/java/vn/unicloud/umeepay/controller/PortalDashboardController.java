@@ -24,7 +24,7 @@ public class PortalDashboardController extends BaseController implements IPortal
     public ResponseEntity<ResponseBase<PortalTotalTransactionResponse>> getTotalTransaction() {
         PortalTotalTransactionRequest request = new PortalTotalTransactionRequest();
         request.setUserId(securityService.getUserId(getCurrentSubjectId()));
-        return this.execute(request, PortalTotalTransactionResponse.class);
+        return this.execute(request);
     }
 
     @Override
@@ -32,7 +32,7 @@ public class PortalDashboardController extends BaseController implements IPortal
         PortalTotalTransactionRequest request = new PortalTotalTransactionRequest();
         request.setUserId(securityService.getUserId(getCurrentSubjectId()));
         request.setDate(LocalDate.now());
-        return this.execute(request, PortalTotalTransactionResponse.class);
+        return this.execute(request);
     }
 
     @Override
@@ -41,7 +41,7 @@ public class PortalDashboardController extends BaseController implements IPortal
         request.setUserId(securityService.getUserId(getCurrentSubjectId()));
         request.setFrom(from);
         request.setTo(to);
-        return this.execute(request, PortalTransactionStatisticResponse.class);
+        return this.execute(request);
     }
 
     @Override

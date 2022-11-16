@@ -10,7 +10,7 @@ import vn.unicloud.umeepay.exception.InternalException;
 public class SpringBus implements CqrsBus {
     private final Registry registry;
 
-    public <T extends RequestData, I extends ResponseData> I execute(T requestData, Class<I> responseClass) {
+    public <T extends RequestData, I extends ResponseData> I execute(T requestData) {
         Handler handler = this.getHandler(requestData);
         if (handler == null || handler instanceof UnsupportedRequestHandler) {
             throw new InternalException(ResponseCode.UNHANDLE_REQUEST);

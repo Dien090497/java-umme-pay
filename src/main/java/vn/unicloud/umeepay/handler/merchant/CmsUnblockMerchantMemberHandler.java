@@ -41,10 +41,6 @@ public class CmsUnblockMerchantMemberHandler extends RequestHandler<CmsUnblockMe
         }
 
         Merchant merchant = merchantService.getMerchantByUserId(user.getId());
-        if (merchant == null) {
-            log.error("There is no merchant for user: {}", user.getId());
-            throw new InternalException(ResponseCode.FAILED);
-        }
 
         boolean isOwner = user.getId().equals(merchant.getUser().getId());
         if (isOwner) {

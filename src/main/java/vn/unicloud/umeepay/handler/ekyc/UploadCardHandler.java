@@ -35,9 +35,6 @@ public class UploadCardHandler extends RequestHandler<UploadCardRequest, EkycRes
     @Transactional
     public EkycResponse handle(UploadCardRequest request) {
         Merchant merchant = merchantService.getMerchantByUserId(request.getUserId());
-        if (merchant == null) {
-            throw new InternalException(ResponseCode.MERCHANT_NOT_FOUND);
-        }
 
         Ekyc ekycResult = null;
         IdentifyInfo idInfo = null;

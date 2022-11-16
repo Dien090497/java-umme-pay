@@ -23,9 +23,6 @@ public class CheckLinkAccountHandler extends RequestHandler<CheckBankAccountRequ
     @Override
     public CheckBankAccountResponse handle(CheckBankAccountRequest request) {
         Merchant merchant = merchantService.getMerchantByUserId(request.getUserId());
-        if (merchant == null) {
-            throw new InternalException(ResponseCode.MERCHANT_NOT_FOUND);
-        }
         // TODO: Call to core bank
         return new CheckBankAccountResponse(
             request.getBranch(),

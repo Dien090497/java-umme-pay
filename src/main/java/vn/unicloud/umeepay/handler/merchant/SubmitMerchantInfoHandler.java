@@ -35,9 +35,6 @@ public class SubmitMerchantInfoHandler extends RequestHandler<SubmitMerchantInfo
         // Validate các field
         // Update thông tin chung
         Merchant merchant = merchantService.getMerchantByUserId(request.getUserId());
-        if (merchant == null) {
-            throw new InternalException(ResponseCode.MERCHANT_NOT_FOUND);
-        }
         if (!merchant.getStatus().equals(MerchantStatus.CREATED) &&
             !merchant.getStatus().equals(MerchantStatus.LINKED_ACCOUNT)) {
             log.error("Invalid merchant state: {} to submit info", merchant.getStatus());

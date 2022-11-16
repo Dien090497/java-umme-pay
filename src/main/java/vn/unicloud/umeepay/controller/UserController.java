@@ -12,62 +12,60 @@ import vn.unicloud.umeepay.dtos.user.response.CheckOTPResponse;
 import vn.unicloud.umeepay.dtos.user.response.CheckPhoneResponse;
 import vn.unicloud.umeepay.dtos.user.response.UserResponse;
 
-import javax.servlet.http.HttpServletRequest;
-
 @RestController
 @Slf4j
 public class UserController extends BaseController implements IUserController {
 
     @Override
     public ResponseEntity<ResponseBase<CheckPhoneResponse>> checkPhoneRegister(String phone) {
-        return this.execute(new CheckPhoneRegisterRequest(phone), CheckPhoneResponse.class);
+        return this.execute(new CheckPhoneRegisterRequest(phone));
     }
 
     @Override
     public ResponseEntity<ResponseBase<UserResponse>> register(CreateUserRequest request) {
-        return this.execute(request, UserResponse.class);
+        return this.execute(request);
     }
 
     @Override
     public ResponseEntity<ResponseBase<CheckPhoneResponse>> checkPhone(String phone) {
-        return this.execute(new CheckPhoneRequest(phone), CheckPhoneResponse.class);
+        return this.execute(new CheckPhoneRequest(phone));
     }
 
     @Override
     public ResponseEntity<ResponseBase<CheckOTPResponse>> checkOTP(CheckOTPRequest request) {
-        return this.execute(request, CheckOTPResponse.class);
+        return this.execute(request);
     }
 
     @Override
     public ResponseEntity<ResponseBase<StatusResponse>> changePassword(ChangePasswordRequest request) {
-        return this.execute(request, StatusResponse.class);
+        return this.execute(request);
     }
 
     //    @Override
 //    public ResponseEntity<ResponseBase<VerifyEmailResponse>> verifyEmail(HttpServletRequest context, String token, String email) {
 //        VerifyEmailRequest request = new VerifyEmailRequest(token, email);
 //        request.setContext(context);
-//        return this.execute(request, VerifyEmailResponse.class);
+//        return this.execute(request);
 //    }
 //
 //
 //    @Override
 //    public ResponseEntity<ResponseBase<ChangePasswordResponse>> changePassword(Principal principal, HttpServletRequest context, ChangePasswordRequest request) {
 //        request.setContext(context);
-//        return this.execute(request, ChangePasswordResponse.class);
+//        return this.execute(request);
 //    }
 //
 //    @Override
 //    public ResponseEntity<ResponseBase<GetInfoResponse>> getInfo(Principal principal, HttpServletRequest context) {
 //        GetInfoRequest request = new GetInfoRequest();
 //        request.setContext(context);
-//        return this.execute(request, GetInfoResponse.class);
+//        return this.execute(request);
 //    }
 //
 //    @Override
 //    public ResponseEntity<ResponseBase<ChangeInfoResponse>> changeInfo(HttpServletRequest context, ChangeInfoRequest request) {
 //        request.setContext(context);
-//        return this.execute(request, ChangeInfoResponse.class);
+//        return this.execute(request);
 //    }
 
 }
