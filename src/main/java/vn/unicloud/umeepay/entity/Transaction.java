@@ -73,6 +73,7 @@ public class Transaction {
 
     private String txnNumber;
 
+    @Column(name = "timestamp", nullable = false)
     private long timestamp;
 
     private long timeout;
