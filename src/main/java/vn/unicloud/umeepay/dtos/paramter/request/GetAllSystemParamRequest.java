@@ -1,9 +1,9 @@
 package vn.unicloud.umeepay.dtos.paramter.request;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.Accessors;
-import org.springframework.data.domain.Sort;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import vn.unicloud.umeepay.core.BaseRequestData;
 import vn.unicloud.umeepay.entity.SystemParameter;
@@ -31,8 +31,11 @@ public class GetAllSystemParamRequest extends BaseRequestData implements Specifi
 
     private SystemParameterType dataType;
 
-    @JsonIgnore
-    private Sort sort;
+    private String name;
+
+    private String value;
+
+    private Pageable pageable;
 
     @Override
     public Predicate toPredicate(Root<SystemParameter> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
@@ -44,6 +47,14 @@ public class GetAllSystemParamRequest extends BaseRequestData implements Specifi
 
         if (Objects.nonNull(dataType)) {
             predicates.add(builder.equal(root.get(SystemParameter_.DATA_TYPE), dataType));
+        }
+
+        if (StringUtils.isNotBlank(name)) {
+            predicates.add(builder.like(root.get(SystemParameter_.NAME), "%" + name.trim() + "%"));
+        }
+
+        if (StringUtils.isNotBlank(value)) {
+            predicates.add(builder.like(root.get(SystemParameter_.VALUE), "%" + value.trim() + "%"));
         }
 
         return builder.and(predicates.toArray(new Predicate[predicates.size()]));
