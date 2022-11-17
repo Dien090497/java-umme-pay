@@ -18,6 +18,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.security.MessageDigest;
 import java.security.SecureRandom;
+import java.text.Normalizer;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -25,6 +26,7 @@ import java.util.Base64;
 import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.regex.Pattern;
 
 @Log4j2
 public class CommonUtils {
@@ -290,5 +292,11 @@ public class CommonUtils {
             return BaseConstant.UmeeBankFullName;
         }
         return "";
+    }
+
+    public static String deAccent(String str) {
+        String nfdNormalizedString = Normalizer.normalize(str, Normalizer.Form.NFD);
+        Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+        return pattern.matcher(nfdNormalizedString).replaceAll("");
     }
 }

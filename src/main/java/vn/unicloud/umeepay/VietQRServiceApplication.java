@@ -24,6 +24,8 @@ import java.util.List;
 @Slf4j
 public class VietQRServiceApplication implements CommandLineRunner {
 
+    private static String fullPermissionKey = "CMS_FULL_PERMISSIONS";
+
     private final RoleService roleService;
 
     public static void main(String[] args) {
@@ -36,8 +38,7 @@ public class VietQRServiceApplication implements CommandLineRunner {
         createFullPermissionRoleGroup();
     }
 
-    @Transactional
-    void importPermissionGroup() throws IOException {
+    public void importPermissionGroup() throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         log.info(" ===> Start import permission groups");
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
@@ -56,13 +57,12 @@ public class VietQRServiceApplication implements CommandLineRunner {
         log.info(" =====> Stop import permission groups");
     }
 
-    @Transactional
-    void createFullPermissionRoleGroup() {
+    public void createFullPermissionRoleGroup() {
         log.info(" ===> Start import full permissions role group");
-        if (roleService.getRoleByCode("CMS_FULL_PERMISSIONS", RoleType.ADMIN) == null) {
+        if (roleService.getRoleByCode(fullPermissionKey, RoleType.ADMIN) == null) {
             RoleGroup roleGroup = new RoleGroup()
-                    .setName("CMS_FULL_PERMISSIONS")
-                    .setCode("CMS_FULL_PERMISSIONS")
+                    .setName(fullPermissionKey)
+                    .setCode(fullPermissionKey)
                     .setScope(RoleType.ADMIN)
                     .setDescription("Full permission role group")
                     .setStatus(RoleStatus.ACTIVE);
