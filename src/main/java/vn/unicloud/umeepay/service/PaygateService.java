@@ -59,8 +59,8 @@ public class PaygateService {
             log.error("Invalid virtual account: {}", virtualAccount);
             throw new InternalException(ResponseCode.INVALID_VIRTUAL_ACCOUNT);
         }
-        if (transaction.getTimeout() > 0 && CommonUtils.isExpired(transaction.getTimestamp() + transaction.getTimeout() * 1000)) {
-            log.error("Timeout");
+        if (transaction.getTimeout() > 0 && CommonUtils.isExpired(transaction.getTimestamp() + transaction.getTimeout())) {
+            log.error("Timeout: {}", transaction.getTimeout());
             transaction.setStatus(TransactionStatus.TIMEOUT);
             transactionRepository.save(transaction);
             throw new InternalException(ResponseCode.TRANSACTION_TIMEOUT);

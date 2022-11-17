@@ -21,6 +21,7 @@ import vn.unicloud.umeepay.repository.PayLinkRepository;
 import vn.unicloud.umeepay.service.MerchantService;
 import vn.unicloud.umeepay.utils.CommonUtils;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -80,6 +81,7 @@ public class CreatePayLinkHandler extends RequestHandler<CreatePayLinkRequest, P
             .accountName(bankAccount.getAccountName())
             .virtualAccount(CommonUtils.generateVirtualAccount(prefix))
             .timeout(CommonUtils.getTimeoutInSec(request.getExpireType()))
+            .timestamp(Instant.now().getEpochSecond())
             .createDateTime(LocalDateTime.now())
             .description("TT " + payLinkCode)
             .successUrl(request.getSuccessUrl())
