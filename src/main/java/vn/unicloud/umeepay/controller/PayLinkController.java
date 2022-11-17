@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 import vn.unicloud.umeepay.controller.interfaces.IPayLinkController;
 import vn.unicloud.umeepay.core.BaseController;
 import vn.unicloud.umeepay.core.ResponseBase;
+import vn.unicloud.umeepay.dtos.common.StatusResponse;
 import vn.unicloud.umeepay.dtos.paylink.request.*;
 import vn.unicloud.umeepay.dtos.paylink.response.*;
 import vn.unicloud.umeepay.service.SecurityService;
@@ -19,6 +20,11 @@ public class PayLinkController extends BaseController implements IPayLinkControl
     @Override
     public ResponseEntity<ResponseBase<PayLinkResponse>> create(CreatePayLinkRequest request) {
         request.setUserId(securityService.getUserId(getCurrentSubjectId()));
+        return this.execute(request);
+    }
+
+    @Override
+    public ResponseEntity<ResponseBase<StatusResponse>> updateCustomerInfo(UpdateCustomerInfoRequest request) {
         return this.execute(request);
     }
 

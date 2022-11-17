@@ -45,4 +45,8 @@ public class PayLinkService {
         return payLink;
     }
 
+    public PayLink save(PayLink payLink) {
+        return payLinkRepository.save(payLink);
+    }
+
 }

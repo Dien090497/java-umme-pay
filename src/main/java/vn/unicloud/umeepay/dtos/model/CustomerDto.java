@@ -26,6 +26,9 @@ public class CustomerDto {
     private String customerGroupName;
 
     public CustomerDto(Customer customer) {
+        if (customer == null) {
+            return;
+        }
         this.id = customer.getId();
         this.fullName = customer.getName();
         this.email = customer.getEmail();
