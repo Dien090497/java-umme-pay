@@ -19,10 +19,6 @@ public class GetAuditVersionHandler extends RequestHandler<AuditVersionRequest, 
 
     @Override
     public AuditVersionResponse handle(AuditVersionRequest request) {
-        if (request.getModule() == null) {
-            return new AuditVersionResponse(0);
-        }
-
         Integer version = 0;
         switch (request.getModule()) {
             case RESPONSE_MESSAGE:

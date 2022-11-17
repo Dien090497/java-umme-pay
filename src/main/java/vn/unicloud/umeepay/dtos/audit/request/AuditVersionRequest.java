@@ -4,6 +4,8 @@ import lombok.*;
 import vn.unicloud.umeepay.core.BaseRequestData;
 import vn.unicloud.umeepay.enums.SystemModule;
 
+import javax.validation.constraints.NotNull;
+
 @Getter
 @Setter
 @ToString
@@ -11,7 +13,7 @@ import vn.unicloud.umeepay.enums.SystemModule;
 @NoArgsConstructor
 public class AuditVersionRequest extends BaseRequestData {
 
-    @NonNull
+    @NotNull
     private SystemModule module;
 
 }

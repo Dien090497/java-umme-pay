@@ -2,6 +2,7 @@ package vn.unicloud.umeepay.common;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import vn.unicloud.umeepay.entity.Action;
 import vn.unicloud.umeepay.entity.Administrator;
 import vn.unicloud.umeepay.entity.RoleGroup;
 import vn.unicloud.umeepay.enums.RoleType;
@@ -28,7 +29,7 @@ public class CmsAuthorization implements IAuthorization {
 
     private final RoleService roleService;
 
-    private final String FULL_PERMISSION_ROLE_GROUP_CODE = "CMS_FULL_PERMISSIONS";
+    private static final String FULL_PERMISSION_ROLE_GROUP_CODE = "CMS_FULL_PERMISSIONS";
     private final ContextService contextService;
 
     /**
@@ -68,7 +69,7 @@ public class CmsAuthorization implements IAuthorization {
             }
         }
 
-        if (FULL_PERMISSION_ROLE_GROUP_CODE.equals(roleGr.getCode())) {
+        if (roleGr != null && FULL_PERMISSION_ROLE_GROUP_CODE.equals(roleGr.getCode())) {
             return true;
         }
 
@@ -76,7 +77,7 @@ public class CmsAuthorization implements IAuthorization {
                 roleGr.getActions() != null &&
                 roleGr.getActions()
                         .stream()
-                        .map(action -> action.getName())
+                        .map(Action::getName)
                         .anyMatch(Arrays.asList(actions)::contains);
     }
 }
