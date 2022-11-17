@@ -102,6 +102,7 @@ public enum ResponseCode {
     CUSTOMER_GROUP_INVALID(1402, "Customer group invalid"),
     PAYLINK_NOT_FOUND(1403, "Paylink not found"),
     PAYLINK_INVALID(1404, "Paylink invalid"),
+    CUSTOMER_UPDATE_NOT_ALLOW(1405, "Customer not allow to update"),
     ;
 
 

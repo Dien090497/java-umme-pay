@@ -133,7 +133,9 @@ public class CreatePayLinkHandler extends RequestHandler<CreatePayLinkRequest, P
             payLinkUrl,
             qrCode,
             customerDto,
-            transaction.getStatus()
+            transaction.getStatus(),
+            request.getCustomerInfoType(),
+            request.getCustomerInfoForm()
         );
 
     }

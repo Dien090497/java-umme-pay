@@ -8,7 +8,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vn.unicloud.umeepay.config.OpenApiConfig;
 import vn.unicloud.umeepay.core.ResponseBase;
+import vn.unicloud.umeepay.dtos.common.StatusResponse;
 import vn.unicloud.umeepay.dtos.paylink.request.CreatePayLinkRequest;
+import vn.unicloud.umeepay.dtos.paylink.request.UpdateCustomerInfoRequest;
 import vn.unicloud.umeepay.dtos.paylink.response.*;
 
 import javax.validation.Valid;
@@ -21,6 +23,10 @@ public interface IPayLinkController {
     @PostMapping("/v1/create")
     @SecurityRequirement(name = OpenApiConfig.BEARER_SCHEME)
     ResponseEntity<ResponseBase<PayLinkResponse>> create(@Valid @RequestBody CreatePayLinkRequest request);
+
+    @Operation(summary = "Cập nhật thông tin khách hàng thanh toán")
+    @PostMapping("/public/v1/updateCustomerInfo")
+    ResponseEntity<ResponseBase<StatusResponse>> updateCustomerInfo(@Valid @RequestBody UpdateCustomerInfoRequest request);
 
     @Operation(summary = "Lấy thông tin paylink")
     @GetMapping("/public/v1/{payLinkCode}")

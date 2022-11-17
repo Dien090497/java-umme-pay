@@ -53,8 +53,25 @@ public class GetPayLinkHandler extends RequestHandler<GetPayLinkRequest, PayLink
         response.setPayLinkCode(payLink.getCode());
         response.setPayLinkUrl(String.format("%s%s", payLinkFormUrl, payLink.getCode()));
         response.setQrCode(qrCode);
-        response.setCustomerDto(new CustomerDto(payLink.getCustomer()));
+
+        Customer customer = payLink.getCustomer();
+        if (customer != null) {
+            response.setCustomerDto(new CustomerDto(payLink.getCustomer()));
+        }
         response.setStatus(transaction.getStatus());
+        response.setCustomerInfoType(payLink.getCustomerInfoType());
+
+        CustomerInfoForm infoForm = new CustomerInfoForm();
+        infoForm.setFillAddress(payLink.isShowAddress());
+        infoForm.setFillEmail(payLink.isShowEmail());
+        infoForm.setFillName(payLink.isShowName());
+        infoForm.setFillPhone(payLink.isShowPhone());
+
+        if (customer != null) {
+            infoForm.setId(customer.getId());
+        }
+
+        response.setCustomerInfoForm(infoForm);
 
         return response;
     }
