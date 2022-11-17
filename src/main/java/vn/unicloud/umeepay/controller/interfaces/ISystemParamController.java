@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import vn.unicloud.umeepay.config.OpenApiConfig;
 import vn.unicloud.umeepay.constant.BaseConstant;
 import vn.unicloud.umeepay.core.ResponseBase;
+import vn.unicloud.umeepay.dtos.common.PageResponse;
 import vn.unicloud.umeepay.dtos.paramter.request.CreateSystemParamRequest;
 import vn.unicloud.umeepay.dtos.paramter.request.UpdateSystemParamRequest;
 import vn.unicloud.umeepay.dtos.paramter.response.AllSystemParamResponse;
@@ -32,11 +33,25 @@ public interface ISystemParamController {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             })
     @GetMapping("/cms/v1/getAll")
-    ResponseEntity<ResponseBase<AllSystemParamResponse>> getAllParameters(
+    ResponseEntity<ResponseBase<PageResponse<SystemParamResponse>>> getAllParameters(
             @RequestParam(required = false) SystemParameterGroup group,
             @RequestParam(required = false) SystemParameterType dataType,
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String value,
+            @RequestParam(required = false, defaultValue = BaseConstant.DEFAULT_PAGE_NUMBER_STRING) Integer page,
+            @RequestParam(required = false, defaultValue = BaseConstant.DEFAULT_PAGE_SIZE_STRING) Integer pageSize,
             @RequestParam(required = false, defaultValue = BaseConstant.DEFAULT_PAGE_SORT_DIRECTION) Sort.Direction sortDirection,
             @RequestParam(required = false, defaultValue = BaseConstant.DEFAULT_PAGE_SORT_BY) String sortBy);
+
+    @Operation(
+            summary = "Lấy tham số hệ thống theo tên",
+            description = "- Lấy tham số hệ thống theo tên",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Success"),
+                    @ApiResponse(responseCode = "500", description = "Internal Server Error")
+            })
+    @GetMapping("/cms/v1/getByName")
+    ResponseEntity<ResponseBase<SystemParamResponse>> getParameterByName(@RequestParam String name);
 
     @Operation(
             summary = "Chỉnh sửa tham số hệ thống",

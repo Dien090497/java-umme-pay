@@ -2,6 +2,9 @@ package vn.unicloud.umeepay.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -18,11 +21,11 @@ public class SystemParameterService {
 
     private final SystemParameterRepository paramRepository;
 
-    public List<SystemParameter> getAllParam(Specification<SystemParameter> spec, Sort sort) {
-        if (spec == null || sort == null) {
-            return new ArrayList<>();
+    public Page<SystemParameter> getAllParams(Specification<SystemParameter> spec, Pageable pageable) {
+        if (spec == null || pageable == null) {
+            return new PageImpl<>(new ArrayList<>());
         }
-        return paramRepository.findAll(spec, sort);
+        return paramRepository.findAll(spec, pageable);
     }
 
     public SystemParameter saveParam(SystemParameter parameter) {
