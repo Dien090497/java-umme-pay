@@ -49,6 +49,10 @@ public class TestMain {
 
 
     public static void main(String[] args) {
+        String input = "Xin chào Trần Thanh Lộc 123";
+        System.out.println("normalize: " + CommonUtils.deAccent(input));
+
+
         String key = CommonUtils.getEncryptKey(256);
         String data = "hello";
         String encrypted = CommonUtils.encryptAES(data, key);

@@ -49,9 +49,9 @@ public class PaygateService {
 
     @SneakyThrows
     private Transaction getTransaction(String virtualAccount) {
-        String prefix = CommonUtils.getPrefixByAccount(virtualAccount);
-        if (prefix == null || !prefix.equals(this.prefix)) {
-            log.error("Invalid prefix: {}", prefix);
+        String checkPrefix = CommonUtils.getPrefixByAccount(virtualAccount);
+        if (checkPrefix == null || !checkPrefix.equals(this.prefix)) {
+            log.error("Invalid prefix: {}", checkPrefix);
             throw new InternalException(ResponseCode.INVALID_VIRTUAL_ACCOUNT);
         }
         Transaction transaction = transactionRepository.findByVirtualAccount(virtualAccount);
@@ -75,7 +75,15 @@ public class PaygateService {
     @SneakyThrows
     public InquiryCheckingResponse inquiry(InquiryCheckingRequest request) {
         Transaction transaction = this.getTransaction(request.getVirtualAccount());
-        return new InquiryCheckingResponse(transaction.getMerchant().getName(), transaction.getMerchant().getAccountNo());
+        Merchant merchant = transaction.getMerchant();
+        if (merchant == null) {
+            log.error("Merchant invalid");
+            throw new InternalException(ResponseCode.INVALID_VIRTUAL_ACCOUNT);
+        }
+        return new InquiryCheckingResponse(
+            CommonUtils.deAccent(merchant.getName()),
+            transaction.getAccountNo()
+        );
     }
 
     @SneakyThrows
@@ -86,7 +94,12 @@ public class PaygateService {
             throw new InternalException(ResponseCode.INVALID_AMOUNT);
         }
         Merchant merchant = transaction.getMerchant();
-        return new DepositCheckingResponse(merchant.getName(), merchant.getAccountNo(), transaction.getAmount(), true);
+        return new DepositCheckingResponse(
+            CommonUtils.deAccent(merchant.getName()),
+            transaction.getAccountNo(),
+            transaction.getAmount(),
+            true
+        );
     }
 
     @SneakyThrows
@@ -131,31 +144,6 @@ public class PaygateService {
         }
 
         return new NotifyTransactionResponse(true);
-    }
-
-    public String callAccountingToTerminal(String terminalID, String accountNo, long amount) {
-        log.info("accountNo: {}", accountNo);
-//        var stmWithDrawal = new STMWithDrawal();
-//        stmWithDrawal.setTerminalId(terminalID);
-//        stmWithDrawal.setAccountNo(accountNo);
-//        stmWithDrawal.setTransAmount(amount);
-//        stmWithDrawal.setDescText(messageDescription);
-//        try {
-//            log.info("Soap call to : {}", soapUri);
-//            log.info("Soap call withdrawal: body info: {}", stmWithDrawal);
-//            STMWithDrawalResponse response = stmSoapClient.stmWithdrawal(soapUri, stmWithDrawal, withdrawalAction);
-//            log.info("Soap call withdrawal response: {}", response);
-//            if (response.isSuccess()){
-//                log.info("Soap call withdrawal success");
-//                return response.getWthRefNbr();
-//            } else {
-//                return null;
-//            }
-//        } catch (Exception e){
-//            e.printStackTrace();
-////            log.error("Soap call exception: {}", e.getMessage());
-//        }
-        return null;
     }
 
 }
