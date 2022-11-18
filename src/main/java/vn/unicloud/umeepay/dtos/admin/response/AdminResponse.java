@@ -4,6 +4,7 @@ import lombok.*;
 import lombok.experimental.Accessors;
 import vn.unicloud.umeepay.core.BaseResponseData;
 import vn.unicloud.umeepay.entity.Administrator;
+import vn.unicloud.umeepay.enums.OfficeType;
 import vn.unicloud.umeepay.enums.UserStatus;
 
 @Getter
@@ -21,6 +22,11 @@ public class AdminResponse extends BaseResponseData {
     private String phone;
     private Boolean loggedIn;
     private String staffId;
+    private OfficeType office;
+    private String description;
+    private String roleGroupName;
+    private Long roleGroupId;
+
 
     public AdminResponse(Administrator admin) {
         if (admin == null) {
@@ -34,5 +40,12 @@ public class AdminResponse extends BaseResponseData {
         this.status = admin.getStatus();
         this.loggedIn = admin.getLoggedIn();
         this.staffId = admin.getStaffId();
+        this.office = admin.getOffice();
+        this.description = admin.getDescription();
+
+        if (admin.getRoleGroup() != null) {
+            this.roleGroupId = admin.getRoleGroup().getId();
+            this.roleGroupName = admin.getRoleGroup().getName();
+        }
     }
 }

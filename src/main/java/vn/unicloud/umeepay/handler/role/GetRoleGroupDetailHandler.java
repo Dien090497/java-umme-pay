@@ -25,6 +25,15 @@ public class GetRoleGroupDetailHandler extends RequestHandler<GetRoleGroupDetail
             throw new InternalException(ResponseCode.ROLE_ERROR_NOT_FOUND);
         }
 
-        return new RoleGroupDetailResponse(role);
+       try {
+           RoleGroupDetailResponse response = new RoleGroupDetailResponse(role);
+           boolean isCurrentUsed = !role.getUsers().isEmpty() || !role.getAdmins().isEmpty();
+           response.setCurrentUsed(isCurrentUsed);
+           return response;
+       } catch (Exception ex) {
+           log.error("Get role group detailed failed {}", ex.getMessage());
+       }
+
+       throw new InternalException(ResponseCode.FAILED);
     }
 }

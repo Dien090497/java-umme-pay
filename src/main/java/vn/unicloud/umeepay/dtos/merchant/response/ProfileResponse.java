@@ -40,6 +40,8 @@ public class ProfileResponse extends BaseResponseData {
 
     private String companyPhone;
 
+    private String contactEmail;
+
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private IdentifyInfo repIdInfo;
 
@@ -72,6 +74,7 @@ public class ProfileResponse extends BaseResponseData {
         this.repIdInfo = profile.getRepresentativeInfo();
         this.ownerIdInfo = profile.getOwnerInfo();
         this.documents = profile.getDocuments();
+        this.contactEmail = profile.getContactEmail();
 
     }
 

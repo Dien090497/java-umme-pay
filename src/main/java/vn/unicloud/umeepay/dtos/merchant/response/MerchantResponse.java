@@ -35,6 +35,8 @@ public class MerchantResponse extends BaseResponseData {
 
     private LocalDateTime requestAt;
 
+    private String username;
+
     private String name;
 
     private LocalDateTime createdAt;
@@ -85,6 +87,10 @@ public class MerchantResponse extends BaseResponseData {
 
         if (merchant.getApprovedBy() != null) {
             this.approvedBy = new AdminResponse(merchant.getApprovedBy());
+        }
+
+        if (merchant.getUser() != null) {
+            this.username = merchant.getUser().getUsername();
         }
     }
 

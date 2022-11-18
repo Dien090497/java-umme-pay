@@ -1,4 +1,4 @@
-package vn.unicloud.umeepay.dtos.role.response;
+ package vn.unicloud.umeepay.dtos.role.response;
 
 import lombok.*;
 import vn.unicloud.umeepay.core.BaseResponseData;
